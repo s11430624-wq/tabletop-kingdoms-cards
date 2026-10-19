@@ -75,7 +75,7 @@ select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
 .band svg{width:38px;height:38px;color:rgba(255,255,255,.88);filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));position:relative;z-index:1}
 .gem{position:absolute;left:8px;top:8px;z-index:2;width:32px;height:36px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;
   background:radial-gradient(circle at 35% 30%,var(--gem2),var(--gem) 60%);clip-path:path("M16 0 C16 0 32 16 32 24 A16 12 0 0 1 0 24 C0 16 16 0 16 0Z");text-shadow:0 1px 2px rgba(0,0,0,.5)}
-.badges{position:absolute;left:46px;top:9px;z-index:2;display:flex;gap:4px;flex-wrap:wrap}
+.badges{position:absolute;left:46px;right:44px;top:9px;z-index:2;display:flex;gap:4px;flex-wrap:wrap}
 .badge{font-size:11px;padding:1px 6px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;white-space:nowrap}
 .tbody{padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px;flex:1}
 .tile h3{font-size:16px}
@@ -512,7 +512,7 @@ function renderCmp(){
   const cs=S.cmp.map(id=>byId[id]);
   $("#compare").hidden=!cs.length;if(!cs.length)return;
   const head=`<thead><tr><th>數值</th>${cs.map(c=>`<th>${esc(c.name)}<br><button class="cx" type="button" data-cx="${c.id}" aria-label="移出比較 ${esc(c.name)}">移除</button></th>`).join("")}</tr></thead>`;
-  const rows=[`<tr><td>類型</td>${cs.map(c=>`<td>${KIND[c.kind]}</td>`).join("")}</tr>`,`<tr><td>對空</td>${cs.map(c=>`<td>${c.fly?"飛行":c.aa?"可以":"不行"}</td>`).join("")}</tr>`];
+  const rows=[`<tr><td>類型</td>${cs.map(c=>`<td>${KIND[c.kind]}</td>`).join("")}</tr>`,`<tr><td>飛行</td>${cs.map(c=>`<td>${c.fly?"是":"否"}</td>`).join("")}</tr>`,`<tr><td>可對空</td>${cs.map(c=>`<td>${c.aa?"可以":"不行"}</td>`).join("")}</tr>`];
   for(const s of STATS){
     const vs=cs.map(c=>val(c,s.k));if(vs.every(v=>!v))continue;
     const real=vs.filter(v=>v>0),best=cs.length>1&&real.length>1?(s.low?Math.min(...real):Math.max(...real)):null;

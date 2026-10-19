@@ -6,4 +6,6 @@
 - 規格書：[SPEC.md](SPEC.md)
 - 程式：[index.html](index.html)（CSS、JavaScript、卡牌資料全部內嵌）
 
+![卡牌圖鑑與牌組工坊](screenshots/1-library.png)
+
 功能：40 張卡的搜尋／篩選／排序、各形態數值與差異、最多 3 張卡並排比較、8 張牌組的拖曳組牌與自動分析、網址分享、瀏覽器存檔、淺色／深色主題、手機版。
