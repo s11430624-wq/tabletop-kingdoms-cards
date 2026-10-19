@@ -160,13 +160,17 @@ section{margin-bottom:38px}
 .card.flip .in{transform:rotateY(180deg)}
 .card .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12)}
 .card .front{background:linear-gradient(160deg,var(--c),color-mix(in srgb,var(--c) 40%,#000));display:flex;flex-direction:column;justify-content:flex-end;padding:8px}
-.card .front::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 6px,transparent 6px 12px)}
-.card .cost{position:absolute;left:7px;top:7px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c9a0f5,#7b3fbf 65%);color:#fff;font-weight:900;display:grid;place-items:center;font-size:14px;z-index:1;box-shadow:0 1px 3px #000}
-.card .kind{position:absolute;right:7px;top:8px;font-size:11px;background:rgba(0,0,0,.45);color:#fff;padding:0 6px;border-radius:8px;z-index:1}
-.card .front b{position:relative;z-index:1;color:#fff;font-size:15px;text-shadow:0 1px 3px #000}
-.card .front small{position:relative;z-index:1;color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 2px #000;line-height:1.35}
+.card .front::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.28),transparent 58%),repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 6px,transparent 6px 12px)}
+.card .front::before{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(transparent,rgba(0,0,0,.72));z-index:2}
+.card .art{position:absolute;left:10%;top:9%;width:80%;aspect-ratio:1;object-fit:contain;z-index:1;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45));transition:transform .25s}
+.card:hover .art{transform:scale(1.07) translateY(-3px)}
+.card .cost{position:absolute;left:7px;top:7px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c9a0f5,#7b3fbf 65%);color:#fff;font-weight:900;display:grid;place-items:center;font-size:14px;z-index:3;box-shadow:0 1px 3px #000}
+.card .kind{position:absolute;right:7px;top:8px;font-size:11px;background:rgba(0,0,0,.45);color:#fff;padding:0 6px;border-radius:8px;z-index:3}
+.card .front b{position:relative;z-index:3;color:#fff;font-size:15px;text-shadow:0 1px 3px #000}
+.card .front small{position:relative;z-index:3;color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 2px #000;line-height:1.35}
 .card .back{transform:rotateY(180deg);background:var(--panel2);padding:9px;font-size:12px;display:flex;flex-direction:column;gap:2px}
 .card .back b{color:var(--bright);font-size:13px;margin-bottom:2px}
+.card .back .mini-art{position:absolute;right:6px;top:4px;width:34px;height:34px;object-fit:contain;opacity:.9}
 .card .back .row{display:flex;justify-content:space-between;color:var(--muted)}
 .card .back .row i{font-style:normal;color:var(--bright)}
 .card .back .fm{margin-top:auto;color:var(--gold);font-size:11px;line-height:1.35}
@@ -504,8 +508,8 @@ function renderCards(){
       :[["生命",c.hp+(c.cnt>1?" ×"+c.cnt:"")],["傷害",c.dmg||"—"],["射程",c.rng?c.rng+" 格":"—"]];
     rows.push(["對空",c.fly?"飛行":c.aa?"可以":"不行"]);
     return `<button type="button" class="card" style="--c:${c.c}" aria-label="${esc(c.n)}，點擊翻面">
-      <div class="in"><div class="face front"><span class="cost">${c.cost}</span><span class="kind">${KIND[c.k]}</span><b>${esc(c.n)}</b><small>${esc(c.s)}</small></div>
-      <div class="face back"><b>${esc(c.n)}</b>${rows.map(r=>`<div class="row">${r[0]}<i>${r[1]}</i></div>`).join("")}<div class="fm">${c.fm.length?"升級："+c.fm.map(esc).join("、"):""}</div></div></div></button>`}).join("");
+      <div class="in"><div class="face front"><img class="art" src="images/cards/${c.id}.webp" alt="" loading="lazy"><span class="cost">${c.cost}</span><span class="kind">${KIND[c.k]}</span><b>${esc(c.n)}</b><small>${esc(c.s)}</small></div>
+      <div class="face back"><b>${esc(c.n)}</b><img class="mini-art" src="images/cards/${c.id}.webp" alt="" loading="lazy">${rows.map(r=>`<div class="row">${r[0]}<i>${r[1]}</i></div>`).join("")}<div class="fm">${c.fm.length?"升級："+c.fm.map(esc).join("、"):""}</div></div></div></button>`}).join("");
   $("#cardCount").textContent=`${list.length} 張`;
 }
 $("#cardFilters").addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;ck=b.dataset.k;$("#cardFilters").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderCards()});
