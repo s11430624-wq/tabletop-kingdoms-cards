@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabletop Kingdoms 卡牌工坊</title>
+<meta name="description" content="Tabletop Kingdoms 的卡牌圖鑑、形態數值、卡牌比較與牌組工坊。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#efe4cf;--bg2:#e6d6b8;--panel:#fbf5e8;--panel2:#f4ead6;--ink:#2d241a;--muted:#7a6a55;--line:#d6c4a2;
+  --wood:#6e4626;--wood2:#8a5a33;--accent:#b5651d;--gem:#7b3fbf;--gem2:#b07be8;--good:#2e7d4f;--bad:#b23a2a;
+  --shadow:0 1px 2px rgba(60,40,15,.12),0 4px 14px rgba(60,40,15,.10);--radius:12px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1c1712;--bg2:#241d16;--panel:#2a231c;--panel2:#332a21;--ink:#f1e6d2;--muted:#b3a38a;--line:#4a3d2f;
+  --wood:#3a2716;--wood2:#5a3c22;--accent:#e0954a;--gem:#9b5fe0;--gem2:#c9a0f5;--good:#5fbf86;--bad:#e8806e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1c1712;--bg2:#241d16;--panel:#2a231c;--panel2:#332a21;--ink:#f1e6d2;--muted:#b3a38a;--line:#4a3d2f;
+  --wood:#3a2716;--wood2:#5a3c22;--accent:#e0954a;--gem:#9b5fe0;--gem2:#c9a0f5;--good:#5fbf86;--bad:#e8806e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Noto Sans TC",system-ui,-apple-system,"Microsoft JhengHei",sans-serif;
+  background-image:radial-gradient(circle at 20% 0%,rgba(255,255,255,.18),transparent 40%),repeating-linear-gradient(0deg,transparent 0 22px,rgba(120,90,50,.035) 22px 23px)}
+h1,h2,h3{font-family:"Noto Serif TC",serif;margin:0;line-height:1.25}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* header */
+header{background:linear-gradient(180deg,var(--wood2),var(--wood));color:#f7ead2;border-bottom:4px solid #3b2512;box-shadow:var(--shadow)}
+.hwrap{max-width:1360px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.logo{width:42px;height:42px;flex:none}
+header h1{font-size:clamp(17px,3vw,26px);font-weight:900;letter-spacing:.02em}
+header p{margin:0;font-size:13px;opacity:.82}
+.hspacer{flex:1}
+.iconbtn{border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.15);color:#f7ead2;border-radius:999px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.iconbtn:hover{background:rgba(0,0,0,.28)}
+
+/* layout */
+.app{max-width:1360px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+@media (min-width:960px){.app{grid-template-columns:minmax(0,1fr) 340px}}
+
+/* toolbar */
+.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:grid;gap:10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:0 10px}
+.search input{flex:1;border:0;background:transparent;padding:9px 0;outline:none;min-width:0}
+.search kbd{font-size:12px;border:1px solid var(--line);border-radius:5px;padding:0 6px;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.seg button{border:0;background:transparent;padding:7px 12px;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.chip{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:5px 11px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--gem);border-color:var(--gem);color:#fff}
+.chip.cost{min-width:36px;font-weight:700}
+.label{font-size:13px;color:var(--muted)}
+select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;margin-top:16px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.tile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
+.tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(60,40,15,.2)}
+.tile.indeck{outline:2px solid var(--good);outline-offset:-2px}
+.band{height:74px;position:relative;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));display:flex;align-items:flex-end;justify-content:flex-end;padding:8px}
+.band::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 6px,transparent 6px 12px)}
+.band svg{width:38px;height:38px;color:rgba(255,255,255,.88);filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));position:relative;z-index:1}
+.gem{position:absolute;left:8px;top:8px;z-index:2;width:32px;height:36px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;
+  background:radial-gradient(circle at 35% 30%,var(--gem2),var(--gem) 60%);clip-path:path("M16 0 C16 0 32 16 32 24 A16 12 0 0 1 0 24 C0 16 16 0 16 0Z");text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.badges{position:absolute;left:46px;top:9px;z-index:2;display:flex;gap:4px;flex-wrap:wrap}
+.badge{font-size:11px;padding:1px 6px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;white-space:nowrap}
+.tbody{padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px;flex:1}
+.tile h3{font-size:16px}
+.tile .sub{margin:0;font-size:12.5px;color:var(--muted)}
+.mini{margin-top:auto;padding-top:6px;display:flex;gap:10px;font-size:12.5px;color:var(--muted)}
+.mini b{color:var(--ink);font-weight:700}
+.add{position:absolute;right:8px;top:8px;z-index:3;width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.35);color:#fff;font-size:18px;line-height:1;display:grid;place-items:center}
+.add:hover{background:var(--good)}
+.tile.indeck .add{background:var(--good)}
+.empty{grid-column:1/-1;text-align:center;padding:40px 10px;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 12px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.danger{color:var(--bad)}
+
+/* compare */
+.compare{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+.compare h2{font-size:18px}
+.ctable{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.ctable th,.ctable td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
+.ctable th:first-child,.ctable td:first-child{text-align:left;color:var(--muted);font-weight:500;white-space:nowrap}
+.ctable thead th{font-family:"Noto Serif TC",serif;font-size:15px;color:var(--ink)}
+.ctable td.best{color:var(--good);font-weight:700;background:color-mix(in srgb,var(--good) 10%,transparent)}
+.cx{border:0;background:none;color:var(--muted);font-size:13px;padding:0 4px}
+.cwrap{overflow-x:auto}
+
+/* deck panel */
+.deck{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:12px}
+@media (min-width:960px){.deck{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto}}
+.deck.drop{outline:3px dashed var(--accent);outline-offset:-6px}
+.deck h2{font-size:19px;display:flex;align-items:center;gap:8px}
+.deck h2 small{font-family:"Noto Sans TC",sans-serif;font-size:13px;color:var(--muted);font-weight:500}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.slot{aspect-ratio:3/4;border:2px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--muted);font-size:12px;background:var(--panel2);position:relative;overflow:hidden;padding:0}
+.slot.filled{border:0;background:linear-gradient(160deg,var(--c),color-mix(in srgb,var(--c) 50%,#000));color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.2)}
+.slot .sgem{position:absolute;left:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--gem);font-size:12px;font-weight:900;display:grid;place-items:center}
+.slot .sname{position:absolute;left:0;right:0;bottom:0;padding:3px 2px;font-size:11.5px;background:rgba(0,0,0,.45);text-align:center;line-height:1.25}
+.slot svg{width:26px;height:26px;opacity:.85;margin-top:-10px}
+.slot.filled:hover::after{content:"移除";position:absolute;inset:0;background:rgba(178,58,42,.75);display:grid;place-items:center;font-weight:700;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
+.stat span{display:block;font-size:11.5px;color:var(--muted)}
+.stat b{font-size:18px;font-family:"Noto Serif TC",serif}
+.curve{display:flex;align-items:flex-end;gap:5px;height:70px;padding:0 2px}
+.curve div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--muted)}
+.curve i{display:block;flex:none;width:100%;background:linear-gradient(180deg,var(--gem2),var(--gem));border-radius:4px 4px 0 0;min-height:2px;transition:height .25s}
+.curve em{font-style:normal;font-size:11px;color:var(--ink);font-weight:700}
+.hints{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.hints li{font-size:13.5px;padding:7px 10px;border-radius:8px;border-left:4px solid var(--bad);background:color-mix(in srgb,var(--bad) 9%,transparent)}
+.hints li.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,transparent)}
+.hints li.info{border-color:var(--muted);background:var(--panel2)}
+.sect{font-size:13px;color:var(--muted);font-weight:700;margin:2px 0 -4px}
+.saverow{display:flex;gap:6px}
+.saverow input{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.saved{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.saved li{display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:13.5px}
+.saved li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.saved li small{color:var(--muted)}
+.deck-toggle{display:none}
+@media (max-width:600px){.hwrap{gap:10px}.logo{width:34px;height:34px}header p{font-size:12px}}
+@media (max-width:959px){
+  .deck{position:fixed;left:0;right:0;bottom:0;z-index:20;border-radius:16px 16px 0 0;max-height:82vh;overflow:auto;transform:translateY(calc(100% - 58px));transition:transform .25s;padding-top:0}
+  .deck.open{transform:none}
+  .deck-toggle{display:flex;flex:none;position:sticky;top:0;z-index:2;margin:0 -14px;padding:0 14px;height:58px;align-items:center;gap:10px;border:0;background:var(--panel);border-bottom:1px solid var(--line);width:calc(100% + 28px);text-align:left;font-weight:700}
+  .deck-toggle::before{content:"";width:36px;height:4px;border-radius:2px;background:var(--line);position:absolute;top:6px;left:50%;margin-left:-18px}
+  .deck-toggle span{flex:1}
+  body{padding-bottom:70px}
+}
+
+/* dialog */
+dialog{border:0;padding:0;border-radius:16px;background:var(--panel);color:var(--ink);width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 40px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(20,12,4,.55);backdrop-filter:blur(2px)}
+.dhead{padding:18px 20px 14px;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 45%,#000));color:#fff;position:relative}
+.dhead h2{font-size:26px;text-shadow:0 2px 4px rgba(0,0,0,.4)}
+.dhead p{margin:2px 0 0;opacity:.9;font-size:14px}
+.dhead .gem{position:static;margin-bottom:6px}
+.dclose{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.35);color:#fff;font-size:20px}
+.dbody{padding:16px 20px 20px;display:grid;gap:14px}
+.desc{margin:0}
+.air{margin:0;font-size:13.5px;color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:5px 12px;font-size:14px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.srows{display:grid;gap:8px}
+.srow{display:grid;grid-template-columns:78px 1fr 92px;align-items:center;gap:10px;font-size:14px}
+.srow .bar{height:10px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
+.srow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#fff));transition:width .3s}
+.srow .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.up{color:var(--good);font-size:12px;margin-left:3px}.down{color:var(--bad);font-size:12px;margin-left:3px}
+.kv{display:flex;flex-wrap:wrap;gap:6px}
+.kv span{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:13.5px}
+.dact{display:flex;gap:8px;flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50;font-size:14px;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:959px){.toast{bottom:80px}}
+footer{max-width:1360px;margin:10px auto 30px;padding:0 16px;font-size:12.5px;color:var(--muted)}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-unit" viewBox="0 0 24 24"><path fill="currentColor" d="M14.5 2l7.5 0 0 7.5-9.2 9.2 1.6 1.6-1.4 1.4-2.3-2.3-3.2 3.2a1.5 1.5 0 0 1-2.1-2.1l3.2-3.2-2.3-2.3 1.4-1.4 1.6 1.6zm1 2-8.5 8.5 1.5 1.5L17 5.5V4z"/></symbol>
+  <symbol id="i-ranged" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 3c9 3 13 7 16 16M5 3 4 9M5 3l6 1M3 21 17 7M17 7h-4M17 7v4"/></symbol>
+  <symbol id="i-fly" viewBox="0 0 24 24"><path fill="currentColor" d="M12 7c-2-3-6-4-10-3 1 3 3 5 6 6-2 1-3 3-3 5 3-1 5-2 7-5 2 3 4 4 7 5 0-2-1-4-3-5 3-1 5-3 6-6-4-1-8 0-10 3z"/></symbol>
+  <symbol id="i-spell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.9L22 9l-5.6 4.7L18 21l-6-3.9L6 21l1.6-7.3L2 9l7.4-1.1z"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h3v2h2V3h2v2h2V3h2v2h2V3h3v6l-2 2v9h2v2H3v-2h2v-9L3 9V3h1zm6 11v6h4v-6a2 2 0 0 0-4 0z"/></symbol>
+</svg>
+
+<header>
+  <div class="hwrap">
+    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="40" height="30" rx="5" fill="#c58a4a" stroke="#3b2512" stroke-width="2.5"/><path d="M10 26h28" stroke="#3b2512" stroke-width="2" stroke-dasharray="3 3"/><path d="M12 22v-8l3 2 3-2v8z M30 22v-8l3 2 3-2v8z" fill="#f7ead2" stroke="#3b2512" stroke-width="1.5"/><circle cx="24" cy="33" r="3.5" fill="#7b3fbf"/></svg>
+    <div>
+      <h1>Tabletop Kingdoms 卡牌工坊</h1>
+      <p id="subtitle">卡牌圖鑑 · 形態數值 · 卡牌比較 · 牌組分析</p>
+    </div>
+    <div class="hspacer"></div>
+    <button class="iconbtn" id="themeBtn" type="button" aria-label="切換淺色或深色主題">切換主題</button>
+  </div>
+</header>
+
+<div class="app">
+  <main>
+    <section class="toolbar" aria-label="搜尋與篩選">
+      <div class="row">
+        <label class="search"><span class="sr">搜尋卡牌</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="搜尋名稱、形態或定位，例如「騎」「對空」「攻城」" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+        <div class="seg" role="group" aria-label="類型" id="kindSeg">
+          <button type="button" data-kind="all" aria-pressed="true">全部</button>
+          <button type="button" data-kind="unit" aria-pressed="false">單位</button>
+          <button type="button" data-kind="spell" aria-pressed="false">法術</button>
+          <button type="button" data-kind="building" aria-pressed="false">建築</button>
+        </div>
+      </div>
+      <div class="row">
+        <span class="label">費用</span>
+        <div class="row" id="costChips" role="group" aria-label="費用篩選"></div>
+        <button type="button" class="chip" id="flyChip" aria-pressed="false">只看飛行</button>
+        <button type="button" class="chip" id="aaChip" aria-pressed="false">只看可對空</button>
+      </div>
+      <div class="row">
+        <label class="label" for="sortSel">排序</label>
+        <select id="sortSel">
+          <option value="cost">費用</option><option value="name">名稱</option><option value="hp">生命</option>
+          <option value="damage">傷害</option><option value="dps">每秒傷害</option><option value="range">射程</option>
+        </select>
+        <button type="button" class="btn" id="dirBtn" aria-label="切換升冪或降冪">↑ 由低到高</button>
+        <button type="button" class="btn" id="resetBtn">清除篩選</button>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="grid" id="grid" aria-label="卡牌列表"></section>
+
+    <section class="compare" id="compare" hidden aria-label="卡牌比較">
+      <div class="row"><h2>卡牌比較</h2><span class="label">最多 3 張，綠色為該列最佳</span><span class="hspacer" style="flex:1"></span><button class="btn" type="button" id="cmpClear">清空比較</button></div>
+      <div class="cwrap"><table class="ctable" id="ctable"></table></div>
+    </section>
+  </main>
+
+  <aside class="deck" id="deck" aria-label="牌組工坊">
+    <button type="button" class="deck-toggle" id="deckToggle" aria-expanded="false"><span id="deckToggleText">牌組 0/8</span><small>點我展開</small></button>
+    <h2>牌組工坊 <small id="deckCount">0 / 8</small></h2>
+    <div class="slots" id="slots"></div>
+    <div class="row">
+      <button type="button" class="btn" id="randBtn">隨機牌組</button>
+      <button type="button" class="btn" id="shareBtn">複製分享連結</button>
+      <button type="button" class="btn danger" id="clearBtn">清空</button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <p class="sect">費用分布</p>
+    <div class="curve" id="curve" aria-label="費用分布長條圖"></div>
+    <p class="sect">自動建議</p>
+    <ul class="hints" id="hints"></ul>
+    <p class="sect">我的牌組存檔</p>
+    <div class="saverow"><label class="sr" for="saveName">存檔名稱</label><input id="saveName" maxlength="20" placeholder="替牌組取個名字"><button type="button" class="btn primary" id="saveBtn">儲存</button></div>
+    <ul class="saved" id="saved"></ul>
+  </aside>
+</div>
+
+<footer>資料取自遊戲開發版卡牌設定（2026-10-19 快照），數值仍在調整。每秒傷害 = 傷害 × 數量 ÷ 攻擊間隔。</footer>
+
+<dialog id="dlg" aria-labelledby="dTitle"></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const CARDS = [{"id":"knight","name":"騎士","kind":"unit","sub":"近戰 · 承傷","desc":"低費承傷前排，舉盾有 25% 機率格擋投射物；攔截單兵、替後排爭取輸出時間。","color":"#c1ccd0","style":"blade","forms":[{"n":"騎士","cost":3,"count":1,"hp":500,"damage":35,"interval":1,"range":1,"speed":1.5,"radius":0},{"n":"盾衛騎士","cost":3,"count":1,"hp":500,"damage":35,"interval":1.2,"range":1,"speed":1.5,"radius":0},{"n":"雙刃劍士","cost":3,"count":1,"hp":450,"damage":35,"interval":0.75,"range":1,"speed":1.5,"radius":0},{"n":"獅心騎士","cost":3,"count":1,"hp":500,"damage":38,"interval":1,"range":1,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"archer","name":"弓手","kind":"unit","sub":"遠程 · 持續火力","desc":"在友軍後方持續射擊；小隊同時輸出，須留意範圍攻擊。","color":"#78a263","style":"arrow","forms":[{"n":"弓手","cost":3,"count":2,"hp":100,"damage":25,"interval":0.83,"range":5.5,"speed":1.25,"radius":0},{"n":"烈焰弓箭手","cost":3,"count":2,"hp":100,"damage":25,"interval":1.2,"range":5.5,"speed":1.25,"radius":0},{"n":"精靈弓箭手","cost":3,"count":2,"hp":100,"damage":32.5,"interval":1.35,"range":7,"speed":1.25,"radius":0},{"n":"皇家神射手","cost":3,"count":2,"hp":200,"damage":25,"interval":1.2,"range":6,"speed":1.25,"radius":0}],"fly":false,"aa":true},{"id":"goblin","name":"哥布林","kind":"unit","sub":"近戰 · 圍攻","desc":"快速接近被前排纏住的敵人，圍攻並補上輸出。","color":"#9fb958","style":"blade","forms":[{"n":"哥布林","cost":2,"count":2,"hp":110,"damage":45,"interval":1.25,"range":1.04,"speed":2.5,"radius":0},{"n":"毒刃哥布林","cost":2,"count":2,"hp":110,"damage":48,"interval":0.8,"range":1.04,"speed":2.5,"radius":0},{"n":"投矛哥布林","cost":2,"count":2,"hp":100,"damage":65,"interval":1.35,"range":5,"speed":2.5,"radius":0},{"n":"哥布林首領","cost":3,"count":1,"hp":460,"damage":64,"interval":1,"range":1.5,"speed":2.5,"radius":0}],"fly":false,"aa":false},{"id":"skeleton","name":"骷髏","kind":"unit","sub":"近戰 · 牽制","desc":"以數量牽制單體攻擊，替防禦塔與後排爭取時間。","color":"#e2d8b5","style":"blade","forms":[{"n":"骷髏","cost":1,"count":3,"hp":55,"damage":18,"interval":1,"range":1,"speed":1.5,"radius":0},{"n":"骷髏盾兵","cost":1,"count":3,"hp":55,"damage":17,"interval":1,"range":1,"speed":1.5,"radius":0},{"n":"骷髏弓手","cost":1,"count":3,"hp":52,"damage":16,"interval":1,"range":5,"speed":1.5,"radius":0},{"n":"骸骨將軍","cost":1,"count":3,"hp":650,"damage":56,"interval":1.2,"range":2.1,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"musket","name":"火槍手","kind":"unit","sub":"遠程 · 重擊","desc":"從遠處集中重擊單一目標，靠射程與單發傷害支援前排。","color":"#7183a5","style":"bullet","forms":[{"n":"火槍手","cost":4,"count":1,"hp":200,"damage":90,"interval":1.33,"range":7,"speed":1,"radius":0},{"n":"狙擊手","cost":4,"count":1,"hp":200,"damage":130,"interval":2,"range":8,"speed":1,"radius":0},{"n":"霰彈槍手","cost":4,"count":1,"hp":240,"damage":85,"interval":1.11,"range":4,"speed":1.3,"radius":0},{"n":"槍械師","cost":4,"count":1,"hp":230,"damage":90,"interval":1.33,"range":7,"speed":1,"radius":0}],"fly":false,"aa":true},{"id":"pekka","name":"鐵衛","kind":"unit","sub":"近戰 · 重擊","desc":"重擊厚血前排或城塔；一次只攻擊一個目標，仍會被小兵牽制。","color":"#596275","style":"heavy","forms":[{"n":"鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0},{"n":"破甲鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0},{"n":"處刑鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0},{"n":"鋼鐵霸主","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"hog","name":"野豬","kind":"unit","sub":"攻城 · 突襲","desc":"趁防線空缺快速攻塔；優先攻擊警戒範圍內的敵方建築，仍忽略敵兵。","color":"#a27b56","style":"ram","forms":[{"n":"野豬","cost":3,"count":1,"hp":450,"damage":60,"interval":1.25,"range":1,"speed":1.8,"radius":0},{"n":"披甲戰豬","cost":3,"count":1,"hp":500,"damage":60,"interval":1.25,"range":1,"speed":1.5,"radius":0},{"n":"狂暴戰豬","cost":3,"count":1,"hp":450,"damage":60,"interval":1.25,"range":1,"speed":2,"radius":0},{"n":"攻城巨豬","cost":3,"count":1,"hp":480,"damage":60,"interval":1.25,"range":1,"speed":1.6,"radius":0}],"fly":false,"aa":false},{"id":"wizard","name":"法師","kind":"unit","sub":"群傷 · 緩速","desc":"魔法命中周圍 2 格敵人，造成 44 傷害；敵兵移速與攻速減半 1.5 秒。","color":"#878eb0","style":"magic","forms":[{"n":"法師","cost":4,"count":1,"hp":210,"damage":48,"interval":1.18,"range":6,"speed":1.25,"radius":0},{"n":"冰霜法師","cost":4,"count":1,"hp":220,"damage":52,"interval":1.18,"range":6,"speed":1.25,"radius":0},{"n":"雷霆法師","cost":4,"count":1,"hp":210,"damage":46,"interval":1.25,"range":6,"speed":1.25,"radius":0},{"n":"奧術大法師","cost":4,"count":1,"hp":250,"damage":52,"interval":1.11,"range":6,"speed":1.25,"radius":0}],"fly":false,"aa":true},{"id":"healer","name":"治療師","kind":"unit","sub":"支援 · 治療","desc":"每秒為射程內最需治療的友軍恢復 50 HP；不治療自己或城塔。","color":"#e2d2a5","style":"blade","forms":[{"n":"治療師","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0},{"n":"守護祭司","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0},{"n":"生命德魯伊","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0},{"n":"聖光大祭司","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0}],"fly":false,"aa":false},{"id":"valkyrie","name":"女武神","kind":"unit","sub":"近戰 · 旋斧","desc":"以自身為中心揮斧一圈，清除包圍自己的敵兵。","color":"#c98049","style":"spin","forms":[{"n":"女武神","cost":5,"count":1,"hp":600,"damage":55,"interval":0.8,"range":1.8,"speed":1.5,"radius":0},{"n":"血斧女武神","cost":5,"count":1,"hp":580,"damage":55,"interval":0.8,"range":2.3,"speed":1.5,"radius":0},{"n":"裂甲女武神","cost":5,"count":1,"hp":620,"damage":55,"interval":0.8,"range":2.3,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"arrows","name":"箭雨","kind":"spell","sub":"法術 · 連射","desc":"主堡向指令圈內的敵兵持續拋射箭矢。","color":"#d5bc7d","style":"blade","forms":[{"n":"箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3},{"n":"烈焰箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3},{"n":"冰霜箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3}],"fly":false,"aa":true},{"id":"meteor","name":"流星","kind":"spell","sub":"法術 · 爆破","desc":"流星落下，傷害範圍內的敵人。","color":"#e78647","style":"blade","forms":[{"n":"流星","cost":6,"count":1,"hp":0,"damage":450,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"熔岩流星","cost":6,"count":1,"hp":0,"damage":500,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"引力流星","cost":6,"count":1,"hp":0,"damage":550,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"天穹崩落","cost":6,"count":1,"hp":0,"damage":600,"interval":1,"range":0,"speed":0,"radius":3.5}],"fly":false,"aa":true},{"id":"arrowtwr","name":"箭塔","kind":"building","sub":"建築 · 攔截","desc":"射程很長的守路箭塔，地空都打，攔截接近的敵兵。","color":"#ab9774","style":"arrow","forms":[{"n":"箭塔","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0},{"n":"獵首長弓","cost":4,"count":1,"hp":750,"damage":42,"interval":1.2,"range":10,"speed":0,"radius":0},{"n":"標記箭","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0},{"n":"高低雙哨","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0}],"fly":false,"aa":true},{"id":"bombtwr","name":"炸彈塔","kind":"building","sub":"建築 · 清群","desc":"拋出炸彈造成範圍傷害，擅長清除成群的小兵。","color":"#ab9774","style":"bomb","forms":[{"n":"炸彈塔","cost":4,"count":1,"hp":800,"damage":90,"interval":2,"range":7,"speed":0,"radius":0},{"n":"燃油炸彈塔","cost":4,"count":1,"hp":800,"damage":90,"interval":1.5,"range":7,"speed":0,"radius":0},{"n":"震盪炸彈塔","cost":4,"count":1,"hp":800,"damage":100,"interval":1.5,"range":7,"speed":0,"radius":0},{"n":"皇家迫擊砲","cost":4,"count":1,"hp":800,"damage":150,"interval":3,"range":12,"speed":0,"radius":0}],"fly":false,"aa":true},{"id":"catapult","name":"投石車","kind":"building","sub":"建築 · 攻城","desc":"射程超長的攻城建築，落點爆炸，從遠處砸敵方城塔。","color":"#ab9774","style":"boulder","forms":[{"n":"投石車","cost":6,"count":1,"hp":210,"damage":200,"interval":4,"range":16,"speed":0,"radius":0},{"n":"破城投石車","cost":6,"count":1,"hp":210,"damage":180,"interval":5,"range":16,"speed":0,"radius":0},{"n":"碎石投石車","cost":6,"count":1,"hp":210,"damage":190,"interval":4,"range":16,"speed":0,"radius":0},{"n":"皇家攻城砲","cost":6,"count":1,"hp":210,"damage":200,"interval":4,"range":16,"speed":0,"radius":0}],"fly":false,"aa":false},{"id":"cavalry","name":"輕騎兵","kind":"unit","sub":"騎兵 · 單體衝鋒","desc":"高速地面騎兵；可升級為重裝騎士、突擊騎兵或皇家騎士。","color":"#c1ccd0","style":"blade","forms":[{"n":"輕騎兵","cost":4,"count":1,"hp":480,"damage":55,"interval":1.2,"range":1.05,"speed":2.5,"radius":0},{"n":"重裝騎士","cost":4,"count":1,"hp":480,"damage":55,"interval":1.2,"range":1.05,"speed":2.5,"radius":0},{"n":"突擊騎兵","cost":4,"count":1,"hp":480,"damage":55,"interval":1.2,"range":1.05,"speed":2.5,"radius":0},{"n":"皇家騎士","cost":4,"count":1,"hp":480,"damage":55,"interval":1.2,"range":1.05,"speed":2.5,"radius":0}],"fly":false,"aa":false},{"id":"spearman","name":"長槍兵","kind":"unit","sub":"近戰支援 · 反騎兵","desc":"隔著前排友軍刺擊，對野豬及全部騎兵造成額外傷害。","color":"#c1ccd0","style":"spear","forms":[{"n":"長槍兵","cost":3,"count":1,"hp":450,"damage":45,"interval":0.91,"range":2.5,"speed":1.5,"radius":0},{"n":"長戟兵","cost":3,"count":1,"hp":450,"damage":55,"interval":0.91,"range":2.5,"speed":1.5,"radius":0},{"n":"獵騎槍兵","cost":3,"count":1,"hp":450,"damage":48,"interval":0.83,"range":2.5,"speed":1.5,"radius":0},{"n":"皇家戟衛","cost":3,"count":1,"hp":450,"damage":55,"interval":1,"range":2.5,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"troll","name":"巨魔","kind":"unit","sub":"重型前排 · 扇形攻擊","desc":"肩扛巨棒的重型前排，前方扇形攻擊，對建築與城塔額外傷害。","color":"#c1ccd0","style":"heavy","forms":[{"n":"巨魔","cost":7,"count":1,"hp":800,"damage":65,"interval":2,"range":2.5,"speed":1,"radius":0},{"n":"碎骨巨魔","cost":7,"count":1,"hp":780,"damage":75,"interval":2,"range":2.5,"speed":1,"radius":0},{"n":"鐵皮巨魔","cost":7,"count":1,"hp":800,"damage":60,"interval":2,"range":2.5,"speed":1,"radius":0},{"n":"巨魔王","cost":7,"count":1,"hp":880,"damage":70,"interval":2,"range":2.5,"speed":1,"radius":0}],"fly":false,"aa":false},{"id":"wyvern","name":"小飛龍","kind":"unit","sub":"空中 · 範圍火球","desc":"中等生命的空中範圍支援，飛越河流與部隊，吐出命中後爆炸的火球。","color":"#c96a3b","style":"fireball","forms":[{"n":"小飛龍","cost":4,"count":1,"hp":300,"damage":60,"interval":1.2,"range":5,"speed":2,"radius":0},{"n":"烈焰飛龍","cost":4,"count":1,"hp":300,"damage":60,"interval":1.2,"range":5.5,"speed":2,"radius":0},{"n":"冰霜飛龍","cost":4,"count":1,"hp":300,"damage":60,"interval":1.2,"range":5.5,"speed":2,"radius":0}],"fly":true,"aa":true},{"id":"griffin","name":"獅鷲騎士","kind":"unit","sub":"空中遠程 · 標槍","desc":"騎士在獅鷲背上投擲標槍，單體遠程，可攻擊地面、空中、建築與主堡。","color":"#b08a52","style":"javelin","forms":[{"n":"獅鷲騎士","cost":4,"count":1,"hp":340,"damage":75,"interval":1.35,"range":6,"speed":2,"radius":0},{"n":"獵手獅鷲騎士","cost":5,"count":1,"hp":340,"damage":75,"interval":1.2,"range":6,"speed":2,"radius":0},{"n":"鐵翼獅鷲騎士","cost":5,"count":1,"hp":380,"damage":60,"interval":1.5,"range":6,"speed":2,"radius":0}],"fly":true,"aa":true},{"id":"barracks","name":"兵營","kind":"building","sub":"建築 · 持續產兵","desc":"完工立即出兵，定時產出基礎部隊；本體不攻擊。","color":"#b38d55","style":"barracks","forms":[{"n":"兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"警戒兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"前線兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"聯軍兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0}],"fly":false,"aa":false},{"id":"spike_trap","name":"地刺陷阱","kind":"spell","sub":"法術 · 布置陷阱","desc":"只觸發敵方地面部隊，首次觸發後顯形，不阻擋移動。","color":"#b38d55","style":"spike","forms":[{"n":"地刺陷阱","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5},{"n":"機關地刺","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5},{"n":"連鎖地刺","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5},{"n":"震地刺陣","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5}],"fly":false,"aa":false},{"id":"siege_ram","name":"攻城衝車","kind":"unit","sub":"攻城 · 衝車","desc":"地面攻城衝車，只攻擊建築、前塔與主堡；車體沉重，免疫擊飛，頂棚減免投射物傷害。","color":"#8a6a47","style":"ram","forms":[{"n":"攻城衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2.5,"range":1.5,"speed":0.8,"radius":0},{"n":"鐵甲衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2.5,"range":1.5,"speed":0.7,"radius":0},{"n":"破城衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2,"range":1.5,"speed":0.9,"radius":0}],"fly":false,"aa":false},{"id":"thunder","name":"震雷","kind":"spell","sub":"低費打斷","desc":"固定落點的雷擊，傷害並短暫暈眩地空部隊。","color":"#8acfff","style":"thunder","forms":[{"n":"震雷","cost":2,"count":1,"hp":0,"damage":80,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"連鎖震雷","cost":2,"count":1,"hp":0,"damage":80,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"蓄能震雷","cost":2,"count":1,"hp":0,"damage":80,"interval":1,"range":0,"speed":0,"radius":2.5}],"fly":false,"aa":true},{"id":"tombstone","name":"亡骨墓碑","kind":"building","sub":"建築 · 收割產兵","desc":"定時爬出骷髏，附近敵我部隊死亡時收割出兵；本體不攻擊。","color":"#777d79","style":"tombstone","forms":[{"n":"亡骨墓碑","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"瘟疫墓碑","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"骸骨祭壇","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0}],"fly":false,"aa":false},{"id":"night_bats","name":"夜翼蝙蝠","kind":"unit","sub":"飛行 · 吸血蝠群","desc":"成群飛行的近戰蝙蝠，可攻擊地面與空中，命中吸取實際生命傷害。","color":"#39234d","style":"bite","forms":[{"n":"夜翼蝙蝠","cost":3,"count":3,"hp":60,"damage":24,"interval":1.25,"range":0.8,"speed":2.6,"radius":0},{"n":"吸血蝠群","cost":3,"count":3,"hp":60,"damage":26,"interval":1.2,"range":0.8,"speed":2.6,"radius":0},{"n":"瘟疫蝠","cost":3,"count":3,"hp":60,"damage":24,"interval":1.15,"range":0.8,"speed":2.6,"radius":0}],"fly":true,"aa":true},{"id":"red_captain","name":"赤帆船長","kind":"unit","sub":"槍刀 · 適應","desc":"槍刀依敵人距離切換，對空一律用槍。","color":"#a94145","style":"bullet","forms":[{"n":"赤帆船長","cost":4,"count":1,"hp":450,"damage":50,"interval":1.11,"range":5,"speed":1.6,"radius":0},{"n":"神射•赤帆船長","cost":4,"count":1,"hp":450,"damage":60,"interval":1.11,"range":6,"speed":1.6,"radius":0},{"n":"決鬥•赤帆船長","cost":4,"count":1,"hp":550,"damage":50,"interval":1.11,"range":5,"speed":1.6,"radius":0}],"fly":false,"aa":true},{"id":"fishing_net","name":"漁網","kind":"spell","sub":"拉下飛行 · 定身","desc":"主堡投出漁網，定身敵方部隊並把飛行單位暫時拉到地面。","color":"#94754b","style":"net","forms":[{"n":"漁網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"鉤刺網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"拖網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":3.5}],"fly":false,"aa":true},{"id":"gargoyle","name":"石像守衛","kind":"unit","sub":"地面 · 石像守望","desc":"石像減傷與回血，敵人靠近甦醒並以巨劍近戰；無敵人時走回原部署位置。","color":"#75787d","style":"heavy","forms":[{"n":"石像守衛","cost":4,"count":1,"hp":650,"damage":55,"interval":1,"range":0.8,"speed":2,"radius":0},{"n":"苔蘚古守衛","cost":4,"count":1,"hp":800,"damage":50,"interval":1,"range":0.8,"speed":2,"radius":0},{"n":"巨劍守衛","cost":4,"count":1,"hp":700,"damage":75,"interval":1,"range":0.8,"speed":2,"radius":0}],"fly":false,"aa":false},{"id":"wind_barrier","name":"風之結界","kind":"spell","sub":"加速 · 吹偏投射物","desc":"直接建立風之結界，加速我方部隊並有機率吹偏飛入的敵方投射物。","color":"#8ccbd2","style":"wind","forms":[{"n":"風之結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"順風結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"逆風結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":3}],"fly":false,"aa":false},{"id":"ink_taoist","name":"墨筆道士","kind":"unit","sub":"遠程支援 · 畫符","desc":"每第三次出手替最近友軍畫符，護盾與下一擊墨跡減速。","color":"#30343b","style":"magic","forms":[{"n":"墨筆道士","cost":4,"count":1,"hp":400,"damage":48,"interval":1.4,"range":5,"speed":1.3,"radius":0},{"n":"雷符道士","cost":4,"count":1,"hp":400,"damage":48,"interval":0.9,"range":5,"speed":1.3,"radius":0},{"n":"封印道士","cost":4,"count":1,"hp":400,"damage":45,"interval":1,"range":5,"speed":1.3,"radius":0},{"n":"畫龍道士","cost":4,"count":1,"hp":400,"damage":42,"interval":1.1,"range":5,"speed":1.3,"radius":0}],"fly":false,"aa":true},{"id":"yin_yang_array","name":"陰陽法陣","kind":"spell","sub":"持續法術 · 陰陽輪替","desc":"先陽後陰，每秒交替治療友軍與傷害敵軍。","color":"#30343b","style":"yin_yang","forms":[{"n":"陰陽法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3},{"n":"太極法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3},{"n":"兩儀法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3},{"n":"八卦法陣","cost":3,"count":1,"hp":0,"damage":35,"interval":1,"range":0,"speed":0,"radius":4}],"fly":false,"aa":true},{"id":"ink_assassin","name":"墨影刺客","kind":"unit","sub":"地面刺客 · 隱身","desc":"部署後隱身至第一擊，優先遠程與支援；現身第一擊雙倍，受範圍傷害會現身。","color":"#30343b","style":"blade","forms":[{"n":"墨影刺客","cost":4,"count":1,"hp":350,"damage":85,"interval":1.1,"range":1,"speed":1.8,"radius":0},{"n":"雙刃影","cost":4,"count":1,"hp":350,"damage":60,"interval":0.83,"range":1,"speed":1.3,"radius":0},{"n":"毒墨影","cost":4,"count":1,"hp":400,"damage":74.3,"interval":1.1,"range":1,"speed":1.8,"radius":0},{"n":"分身影","cost":4,"count":1,"hp":350,"damage":71.1,"interval":1.1,"range":1,"speed":1.8,"radius":0}],"fly":false,"aa":false},{"id":"repeating_ballista","name":"連弩車","kind":"building","sub":"建築 · 貫穿連射","desc":"一般守路建築，地空都打；每輪連射弩箭，沿直線貫穿多名地面敵人。","color":"#30343b","style":"bolt","forms":[{"n":"連弩車","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0},{"n":"蓄能裝填","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0},{"n":"裂陣重床弩","cost":3,"count":1,"hp":750,"damage":115.2,"interval":2.2,"range":7.5,"speed":0,"radius":0},{"n":"爆釘連弩","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0}],"fly":false,"aa":true},{"id":"wall","name":"木柵牆","kind":"building","sub":"建築 · 阻擋","desc":"每方最多一道長方形牆；敵方地面兵被擋時打牆，我方繞行，飛行忽略。","color":"#ac8752","style":"none","forms":[{"n":"木柵牆","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"拒馬","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"石垣","cost":4,"count":1,"hp":1300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"盾牆","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0}],"fly":false,"aa":false},{"id":"empower","name":"強化術","kind":"spell","sub":"法術 · 單體強化","desc":"吸附點擊處 1.5 格內最近的我方地空部隊，立即強化；同目標新效果取代舊效果。","color":"#ac8752","style":"none","forms":[{"n":"強化術","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"狂暴","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"鐵壁","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"巨化","cost":3,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0}],"fly":false,"aa":false},{"id":"clockwork_drummer","name":"發條小鼓手","kind":"unit","sub":"地面近戰 · 鼓舞","desc":"邊走邊敲鼓，鼓點讓周圍友軍加攻速與移速；陣亡掉下發條鑰匙，第一個踩到的友軍得護盾。","color":"#c8352e","style":"blade","forms":[{"n":"發條小鼓手","cost":3,"count":1,"hp":430,"damage":40,"interval":1.1,"range":0.9,"speed":1.3,"radius":0},{"n":"疾行進軍鼓","cost":3,"count":1,"hp":430,"damage":40,"interval":1.1,"range":0.9,"speed":1.5,"radius":0},{"n":"戰陣重音鼓","cost":3,"count":1,"hp":430,"damage":48,"interval":1.1,"range":0.9,"speed":1.3,"radius":0},{"n":"餘音共鳴鼓","cost":3,"count":1,"hp":480,"damage":40,"interval":1.1,"range":0.9,"speed":1.3,"radius":0}],"fly":false,"aa":false},{"id":"tin_duck","name":"誘敵鐵皮鴨","kind":"unit","sub":"地面誘餌 · 吸引","desc":"不攻擊的鐵皮鴨，定時把附近敵軍與城塔的仇恨拉到自己身上，時間到就自毀。","color":"#d9a41f","style":"none","forms":[{"n":"誘敵鐵皮鴨","cost":2,"count":1,"hp":1100,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0},{"n":"充氣耐撞鴨","cost":2,"count":1,"hp":1100,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0},{"n":"火花短路鴨","cost":2,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0},{"n":"號角發條鴨","cost":2,"count":1,"hp":900,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0}],"fly":false,"aa":false},{"id":"tin_patrol","name":"錫皮巡邏小隊","kind":"unit","sub":"地面小隊 · 齊射","desc":"一名盾兵帶兩名火槍手；三人靠在一起時，火槍手定時合併齊射並讓目標減速。","color":"#2f62c4","style":"bullet","forms":[{"n":"錫皮巡邏小隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.1,"radius":0},{"n":"重裝壁壘隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.1,"radius":0},{"n":"三聯發排隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":5.6,"speed":1.1,"radius":0},{"n":"哨兵警備隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.32,"radius":0}],"fly":false,"aa":false},{"id":"clockwork_cuckoo","name":"發條布穀鳥","kind":"unit","sub":"飛行 · 自爆攻城","desc":"飛向建築與城塔，撞上就自爆並讓建築短暫癱瘓；半路被打下只有一半威力。","color":"#7a4a2c","style":"ram","forms":[{"n":"發條布穀鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0},{"n":"重錘布穀鳥","cost":3,"count":1,"hp":333,"damage":500,"interval":1,"range":0.6,"speed":1.7,"radius":0},{"n":"音叉共振鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0},{"n":"雙聯子母鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0}],"fly":true,"aa":false}];
+
+const KIND = {unit:"單位",spell:"法術",building:"建築"};
+const SIEGE = ["hog","siege_ram","clockwork_cuckoo","catapult","troll","pekka"];
+const STATS = [
+  {k:"cost",l:"費用",low:true},{k:"count",l:"數量"},{k:"hp",l:"生命"},{k:"damage",l:"傷害"},
+  {k:"dps",l:"每秒傷害"},{k:"interval",l:"攻擊間隔",low:true,u:" 秒"},{k:"range",l:"射程",u:" 格"},
+  {k:"speed",l:"移速"},{k:"radius",l:"範圍",u:" 格"}];
+const BARS = ["hp","damage","dps","range","speed"];
+const byId = Object.fromEntries(CARDS.map(c=>[c.id,c]));
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+/* storage that never throws (private mode, blocked storage) */
+const store = {
+  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+};
+
+function dps(c,f){f=f||c.forms[0];return c.kind!=="spell"&&f.damage>0&&f.interval>0?f.damage*f.count/f.interval:0}
+function val(c,k,f){f=f||c.forms[0];if(k==="dps")return dps(c,f);if(c.kind==="spell"&&(k==="interval"||k==="speed"))return 0;return f[k]||0}
+function fmt(v,k){if(!v)return "—";if(k==="dps")return Math.round(v).toString();return (Math.round(v*100)/100).toString()}
+function subLine(c){return esc(c.sub.startsWith(KIND[c.kind])?c.sub:`${KIND[c.kind]} · ${c.sub}`)}
+function icon(c){const id=c.kind==="spell"?"i-spell":c.kind==="building"?"i-building":c.fly?"i-fly":c.forms[0].range>=3?"i-ranged":"i-unit";return `<svg aria-hidden="true"><use href="#${id}"/></svg>`}
+const MAX = {};
+for(const k of BARS) MAX[k]=Math.max(...CARDS.flatMap(c=>c.forms.map(f=>val(c,k,f))));
+
+/* state */
+const S = {
+  q:"",kind:"all",costs:new Set(),fly:false,aa:false,sort:"cost",asc:true,
+  deck:[],cmp:store.get("tk.cmp",[]).filter(id=>byId[id]),saved:store.get("tk.saved",[])
+};
+(function initDeck(){
+  const m=location.hash.match(/deck=([\w,]+)/);
+  const ids=m?m[1].split(","):store.get("tk.deck",[]);
+  S.deck=[...new Set(ids.filter(id=>byId[id]))].slice(0,8);
+  if(S.deck.length&&!m)history.replaceState(null,"",`#deck=${S.deck.join(",")}`);
+})();
+
+/* toolbar */
+const costChips=$("#costChips");
+for(let i=1;i<=7;i++){const b=document.createElement("button");b.type="button";b.className="chip cost";b.textContent=i;b.dataset.cost=i;b.setAttribute("aria-pressed","false");b.setAttribute("aria-label",i+" 費");costChips.append(b)}
+costChips.addEventListener("click",e=>{const b=e.target.closest("[data-cost]");if(!b)return;const n=+b.dataset.cost;S.costs.has(n)?S.costs.delete(n):S.costs.add(n);b.setAttribute("aria-pressed",S.costs.has(n));renderGrid()});
+$("#kindSeg").addEventListener("click",e=>{const b=e.target.closest("[data-kind]");if(!b)return;S.kind=b.dataset.kind;document.querySelectorAll("#kindSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderGrid()});
+$("#q").addEventListener("input",e=>{S.q=e.target.value.trim();renderGrid()});
+$("#flyChip").addEventListener("click",e=>{S.fly=!S.fly;e.currentTarget.setAttribute("aria-pressed",S.fly);renderGrid()});
+$("#aaChip").addEventListener("click",e=>{S.aa=!S.aa;e.currentTarget.setAttribute("aria-pressed",S.aa);renderGrid()});
+$("#sortSel").addEventListener("change",e=>{S.sort=e.target.value;S.asc=S.sort==="cost"||S.sort==="name";syncDir();renderGrid()});
+$("#dirBtn").addEventListener("click",()=>{S.asc=!S.asc;syncDir();renderGrid()});
+function syncDir(){$("#dirBtn").textContent=S.asc?"↑ 由低到高":"↓ 由高到低"}
+function resetFilters(){
+  S.q="";S.kind="all";S.costs.clear();S.fly=false;S.aa=false;$("#q").value="";
+  document.querySelectorAll("#kindSeg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.kind==="all"));
+  document.querySelectorAll("#costChips button,#flyChip,#aaChip").forEach(x=>x.setAttribute("aria-pressed","false"));
+  renderGrid();
+}
+$("#resetBtn").addEventListener("click",resetFilters);
+
+function matches(c){
+  if(S.kind!=="all"&&c.kind!==S.kind)return false;
+  if(S.costs.size&&!S.costs.has(c.forms[0].cost))return false;
+  if(S.fly&&!c.fly)return false;
+  if(S.aa&&!c.aa)return false;
+  if(S.q){
+    const q=S.q.toLowerCase();
+    const hay=[c.name,c.sub,c.id,KIND[c.kind],...c.forms.map(f=>f.n),c.fly?"飛行 空中":"",c.aa?"對空":""].join(" ").toLowerCase();
+    if(!hay.includes(q))return false;
+  }
+  return true;
+}
+function sorted(list){
+  const k=S.sort,dir=S.asc?1:-1;
+  return list.sort((a,b)=>{
+    const d=k==="name"?a.name.localeCompare(b.name,"zh-Hant"):val(a,k)-val(b,k);
+    return d*dir||a.forms[0].cost-b.forms[0].cost||a.name.localeCompare(b.name,"zh-Hant");
+  });
+}
+
+/* grid */
+function tileHTML(c){
+  const f=c.forms[0],inDeck=S.deck.includes(c.id);
+  const badges=[c.fly?"飛行":"",c.aa?"對空":"",c.forms.length>1?`${c.forms.length} 形態`:""].filter(Boolean).map(b=>`<span class="badge">${b}</span>`).join("");
+  const mini=c.kind==="spell"
+    ?`<span>傷害 <b>${fmt(f.damage)}</b></span><span>範圍 <b>${fmt(f.radius)}</b></span>`
+    :`<span>生命 <b>${fmt(f.hp*f.count)}</b></span><span>${dps(c)?`秒傷 <b>${fmt(dps(c),"dps")}</b>`:`傷害 <b>${fmt(f.damage)}</b>`}</span>`;
+  return `<article class="tile${inDeck?" indeck":""}" style="--c:${c.color}" draggable="true" tabindex="0" data-id="${c.id}" aria-label="${esc(c.name)}，${f.cost} 費，${KIND[c.kind]}">
+    <div class="band"><span class="gem">${f.cost}</span><span class="badges">${badges}</span>${icon(c)}</div>
+    <button type="button" class="add" data-add="${c.id}" aria-label="${inDeck?"從牌組移除":"加入牌組"}：${esc(c.name)}">${inDeck?"✓":"＋"}</button>
+    <div class="tbody"><h3>${esc(c.name)}</h3><p class="sub">${subLine(c)}</p><div class="mini">${mini}</div></div>
+  </article>`;
+}
+function renderGrid(){
+  const list=sorted(CARDS.filter(matches));
+  $("#grid").innerHTML=list.length?list.map(tileHTML).join(""):`<div class="empty"><p>找不到符合的卡牌。</p><button class="btn" type="button" onclick="resetFilters()">清除篩選</button></div>`;
+  $("#count").textContent=`顯示 ${list.length} / ${CARDS.length} 張`;
+}
+$("#grid").addEventListener("click",e=>{
+  const add=e.target.closest("[data-add]");
+  if(add){e.stopPropagation();toggleDeck(add.dataset.add);return}
+  const t=e.target.closest(".tile");if(t)openDetail(t.dataset.id);
+});
+$("#grid").addEventListener("keydown",e=>{const t=e.target.closest(".tile");if(t&&e.target===t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openDetail(t.dataset.id)}});
+$("#grid").addEventListener("dragstart",e=>{const t=e.target.closest(".tile");if(t){e.dataTransfer.setData("text/plain",t.dataset.id);e.dataTransfer.effectAllowed="copy"}});
+
+/* detail dialog */
+const dlg=$("#dlg");
+function openDetail(id,formIdx=0){
+  const c=byId[id],f=c.forms[formIdx],base=c.forms[0];
+  const diff=k=>{if(formIdx===0)return "";const a=val(c,k,f),b=val(c,k,base);if(Math.abs(a-b)<1e-6)return "";const better=(STATS.find(s=>s.k===k)||{}).low?a<b:a>b;return `<span class="${better?"up":"down"}">${a>b?"▲":"▼"}</span>`};
+  const bars=BARS.filter(k=>val(c,k,f)>0).map(k=>{const s=STATS.find(x=>x.k===k);const v=val(c,k,f);
+    return `<div class="srow"><span>${s.l}</span><div class="bar"><i style="width:${Math.max(3,v/MAX[k]*100)}%"></i></div><span class="v">${fmt(v,k)}${s.u||""}${diff(k)}</span></div>`}).join("");
+  const kv=STATS.filter(s=>!BARS.includes(s.k)&&val(c,s.k,f)>0).map(s=>`<span>${s.l} <b>${fmt(val(c,s.k,f),s.k)}${s.u||""}</b>${diff(s.k)}</span>`).join("");
+  const air=c.fly?"飛行單位：越過河流與部隊，只有對空攻擊能打到。":c.aa?"可以攻擊空中目標。":c.kind==="spell"&&!f.damage?"輔助法術，不造成傷害。":"無法攻擊空中目標。";
+  const inDeck=S.deck.includes(id),inCmp=S.cmp.includes(id);
+  dlg.innerHTML=`<div class="dhead" style="--c:${c.color}"><span class="gem">${f.cost}</span><h2 id="dTitle">${esc(f.n)}</h2><p>${subLine(c)}${formIdx?` · 由「${esc(c.name)}」升級`:""}</p><button class="dclose" type="button" aria-label="關閉">×</button></div>
+  <div class="dbody">
+    ${c.forms.length>1?`<div class="tabs" role="tablist" aria-label="形態">${c.forms.map((x,i)=>`<button type="button" role="tab" aria-selected="${i===formIdx}" data-form="${i}">${i?"":"基礎・"}${esc(x.n)}</button>`).join("")}</div>`:""}
+    <p class="desc">${esc(c.desc)}</p>
+    <p class="air">${air}</p>
+    ${bars?`<div class="srows">${bars}</div>`:""}
+    ${kv?`<div class="kv">${kv}</div>`:""}
+    ${formIdx?`<p class="air">▲ 綠色：比基礎形態好　▼ 紅色：比基礎形態差</p>`:""}
+    <div class="dact">
+      <button type="button" class="btn primary" data-act="deck">${inDeck?"從牌組移除":"加入牌組"}</button>
+      <button type="button" class="btn" data-act="cmp">${inCmp?"移出比較":"加入比較"}</button>
+    </div>
+  </div>`;
+  dlg.dataset.card=id;dlg.dataset.cur=formIdx;
+  if(!dlg.open)dlg.showModal();
+  const sel=dlg.querySelector(`[data-form="${formIdx}"]`);(sel||dlg.querySelector(".dclose")).focus();
+}
+dlg.addEventListener("click",e=>{
+  if(e.target===dlg||e.target.closest(".dclose")){dlg.close();return}
+  const t=e.target.closest("button[data-form]");if(t){openDetail(dlg.dataset.card,+t.dataset.form);return}
+  const a=e.target.closest("[data-act]");if(!a)return;
+  const id=dlg.dataset.card;
+  if(a.dataset.act==="deck")toggleDeck(id);else toggleCmp(id);
+  openDetail(id,+dlg.dataset.cur);
+});
+
+/* deck */
+function toggleDeck(id){
+  if(S.deck.includes(id)){S.deck=S.deck.filter(x=>x!==id);toast(`已移除「${byId[id].name}」`)}
+  else if(S.deck.length>=8){toast("牌組已滿（8 張），先移除一張再加入");return}
+  else{S.deck.push(id);toast(`已加入「${byId[id].name}」（${S.deck.length}/8）`)}
+  deckChanged();
+}
+function deckChanged(){
+  store.set("tk.deck",S.deck);
+  history.replaceState(null,"",S.deck.length?`#deck=${S.deck.join(",")}`:location.pathname+location.search);
+  renderDeck();renderGrid();
+}
+function renderDeck(){
+  const cards=S.deck.map(id=>byId[id]);
+  $("#slots").innerHTML=Array.from({length:8},(_,i)=>{const c=cards[i];
+    return c?`<button type="button" class="slot filled" style="--c:${c.color}" data-rm="${c.id}" aria-label="移除 ${esc(c.name)}"><span class="sgem">${c.forms[0].cost}</span>${icon(c)}<span class="sname">${esc(c.name)}</span></button>`
+            :`<div class="slot">空位</div>`}).join("");
+  const n=cards.length,costs=cards.map(c=>c.forms[0].cost);
+  const avg=n?costs.reduce((a,b)=>a+b,0)/n:0;
+  const cycle=n>=4?[...costs].sort((a,b)=>a-b).slice(0,4).reduce((a,b)=>a+b,0):0;
+  const cnt=k=>cards.filter(c=>c.kind===k).length;
+  const aa=cards.filter(c=>c.aa).length,fly=cards.filter(c=>c.fly).length;
+  const tdps=cards.reduce((a,c)=>a+dps(c),0);
+  $("#stats").innerHTML=[["平均費用",n?avg.toFixed(1):"—"],["最快循環",cycle||"—"],["總秒傷",n?Math.round(tdps):"—"],
+    ["單位",cnt("unit")],["法術",cnt("spell")],["建築",cnt("building")],["可對空",aa],["飛行",fly],["總生命",n?Math.round(cards.reduce((a,c)=>a+(c.kind==="spell"?0:c.forms[0].hp*c.forms[0].count),0)):"—"]]
+    .map(([l,v])=>`<div class="stat"><span>${l}</span><b>${v}</b></div>`).join("");
+  const bins=[1,2,3,4,5,6,7].map(i=>costs.filter(c=>i===7?c>=7:c===i).length),mx=Math.max(1,...bins);
+  $("#curve").innerHTML=bins.map((b,i)=>`<div><em>${b||""}</em><i style="height:${b/mx*44}px"></i>${i===6?"7+":i+1}</div>`).join("");
+  const h=[];
+  if(!n)h.push(["info","從左邊點「＋」或把卡片拖到這裡開始組牌。"]);
+  else{
+    if(!aa)h.push(["bad","缺少對空，飛行單位會長驅直入。"]);
+    else if(aa===1&&n>=6)h.push(["bad","只有 1 張能對空，被針對時很吃緊。"]);
+    if(n>=4&&avg>4.5)h.push(["bad",`平均 ${avg.toFixed(1)} 費偏重，前期容易被搶攻。`]);
+    if(n>=4&&avg<2.8)h.push(["bad",`平均 ${avg.toFixed(1)} 費偏輕，後期打不過厚血前排。`]);
+    if(n>=6&&!cnt("spell"))h.push(["bad","沒有法術，難處理成群小兵。"]);
+    if(n>=6&&!cards.some(c=>SIEGE.includes(c.id)))h.push(["bad","缺少攻城主力（例如野豬、攻城衝車、巨魔）。"]);
+    if(n<8)h.push(["info",`還差 ${8-n} 張就能組滿。`]);
+    else if(!h.length)h.push(["ok","組合均衡：有對空、有法術、有攻城，費用適中。"]);
+  }
+  $("#hints").innerHTML=h.map(([t,s])=>`<li class="${t==="bad"?"":t}">${s}</li>`).join("");
+  $("#deckCount").textContent=`${n} / 8`;
+  $("#deckToggleText").textContent=`牌組 ${n}/8${n?` · 平均 ${avg.toFixed(1)} 費`:""}`;
+}
+$("#slots").addEventListener("click",e=>{const b=e.target.closest("[data-rm]");if(b)toggleDeck(b.dataset.rm)});
+$("#clearBtn").addEventListener("click",()=>{if(!S.deck.length)return;S.deck=[];deckChanged();toast("已清空牌組")});
+$("#randBtn").addEventListener("click",()=>{
+  for(let t=0;t<500;t++){
+    const pick=[...CARDS].sort(()=>Math.random()-.5).slice(0,8);
+    if(pick.some(c=>c.kind==="spell")&&pick.filter(c=>c.aa).length>=2){S.deck=pick.map(c=>c.id);break}
+  }
+  deckChanged();toast("已隨機組出一副牌組");
+});
+$("#shareBtn").addEventListener("click",async()=>{
+  if(!S.deck.length){toast("牌組是空的，先加幾張卡");return}
+  const url=location.href;
+  try{await navigator.clipboard.writeText(url);toast("已複製分享連結")}
+  catch{window.prompt("複製這個連結分享牌組：",url)}
+});
+const deckEl=$("#deck");
+deckEl.addEventListener("dragover",e=>{e.preventDefault();deckEl.classList.add("drop")});
+deckEl.addEventListener("dragleave",e=>{if(!deckEl.contains(e.relatedTarget))deckEl.classList.remove("drop")});
+deckEl.addEventListener("drop",e=>{e.preventDefault();deckEl.classList.remove("drop");const id=e.dataTransfer.getData("text/plain");if(byId[id]&&!S.deck.includes(id))toggleDeck(id);else if(S.deck.includes(id))toast("這張已經在牌組裡")});
+$("#deckToggle").addEventListener("click",()=>{const o=deckEl.classList.toggle("open");$("#deckToggle").setAttribute("aria-expanded",o);$("#deckToggle small").textContent=o?"點我收起":"點我展開"});
+
+/* saved decks */
+function renderSaved(){
+  $("#saved").innerHTML=S.saved.length?S.saved.map((d,i)=>`<li><span title="${esc(d.ids.map(id=>byId[id]?.name).join("、"))}">${esc(d.name)}</span><small>${d.ids.length} 張</small><button type="button" class="btn" data-load="${i}">讀取</button><button type="button" class="cx" data-del="${i}" aria-label="刪除 ${esc(d.name)}">✕</button></li>`).join("")
+    :`<li><small>還沒有存檔。</small></li>`;
+}
+$("#saveBtn").addEventListener("click",()=>{
+  if(!S.deck.length){toast("牌組是空的，無法儲存");return}
+  const name=$("#saveName").value.trim()||`牌組 ${S.saved.length+1}`;
+  const i=S.saved.findIndex(d=>d.name===name);
+  if(i>=0)S.saved[i].ids=[...S.deck];
+  else{if(S.saved.length>=10){toast("最多存 10 副，請先刪除舊的");return}S.saved.push({name,ids:[...S.deck]})}
+  store.set("tk.saved",S.saved);$("#saveName").value="";renderSaved();toast(i>=0?`已覆蓋「${name}」`:`已儲存「${name}」`);
+});
+$("#saveName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#saveBtn").click()});
+$("#saved").addEventListener("click",e=>{
+  const l=e.target.closest("[data-load]"),d=e.target.closest("[data-del]");
+  if(l){const s=S.saved[+l.dataset.load];S.deck=s.ids.filter(id=>byId[id]).slice(0,8);deckChanged();toast(`已讀取「${s.name}」`)}
+  if(d){const s=S.saved.splice(+d.dataset.del,1)[0];store.set("tk.saved",S.saved);renderSaved();toast(`已刪除「${s.name}」`)}
+});
+
+/* compare */
+function toggleCmp(id){
+  if(S.cmp.includes(id))S.cmp=S.cmp.filter(x=>x!==id);
+  else{S.cmp.push(id);if(S.cmp.length>3){const out=S.cmp.shift();toast(`比較最多 3 張，已換掉「${byId[out].name}」`)}else toast(`已加入比較（${S.cmp.length}/3）`)}
+  store.set("tk.cmp",S.cmp);renderCmp();
+}
+function renderCmp(){
+  const cs=S.cmp.map(id=>byId[id]);
+  $("#compare").hidden=!cs.length;if(!cs.length)return;
+  const head=`<thead><tr><th>數值</th>${cs.map(c=>`<th>${esc(c.name)}<br><button class="cx" type="button" data-cx="${c.id}" aria-label="移出比較 ${esc(c.name)}">移除</button></th>`).join("")}</tr></thead>`;
+  const rows=[`<tr><td>類型</td>${cs.map(c=>`<td>${KIND[c.kind]}</td>`).join("")}</tr>`,`<tr><td>對空</td>${cs.map(c=>`<td>${c.fly?"飛行":c.aa?"可以":"不行"}</td>`).join("")}</tr>`];
+  for(const s of STATS){
+    const vs=cs.map(c=>val(c,s.k));if(vs.every(v=>!v))continue;
+    const real=vs.filter(v=>v>0),best=cs.length>1&&real.length>1?(s.low?Math.min(...real):Math.max(...real)):null;
+    rows.push(`<tr><td>${s.l}</td>${vs.map(v=>`<td class="${v>0&&v===best?"best":""}">${fmt(v,s.k)}${v&&s.u?s.u:""}</td>`).join("")}</tr>`);
+  }
+  rows.push(`<tr><td>形態數</td>${cs.map(c=>`<td>${c.forms.length}</td>`).join("")}</tr>`);
+  $("#ctable").innerHTML=head+`<tbody>${rows.join("")}</tbody>`;
+}
+$("#ctable").addEventListener("click",e=>{const b=e.target.closest("[data-cx]");if(b)toggleCmp(b.dataset.cx)});
+$("#cmpClear").addEventListener("click",()=>{S.cmp=[];store.set("tk.cmp",S.cmp);renderCmp()});
+
+/* theme, toast, keys */
+function applyTheme(t){if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme}
+applyTheme(store.get("tk.theme",null));
+$("#themeBtn").addEventListener("click",()=>{
+  const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const next=cur==="dark"?"light":"dark";applyTheme(next);store.set("tk.theme",next);toast(next==="dark"?"已切換深色主題":"已切換淺色主題");
+});
+let toastTimer;
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),1800)}
+document.addEventListener("keydown",e=>{if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&!dlg.open){e.preventDefault();$("#q").focus()}});
+window.addEventListener("hashchange",()=>{const m=location.hash.match(/deck=([\w,]+)/);if(m){S.deck=[...new Set(m[1].split(",").filter(id=>byId[id]))].slice(0,8);store.set("tk.deck",S.deck);renderDeck();renderGrid()}});
+
+$("#subtitle").textContent=`${CARDS.length} 張卡 · ${CARDS.reduce((a,c)=>a+c.forms.length,0)} 種形態 · 圖鑑、比較與牌組分析`;
+renderGrid();renderDeck();renderSaved();renderCmp();
+</script>
+</body>
+</html>
