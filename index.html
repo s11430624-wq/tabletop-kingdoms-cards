@@ -3,541 +3,537 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tabletop Kingdoms 卡牌工坊</title>
-<meta name="description" content="Tabletop Kingdoms 的卡牌圖鑑、形態數值、卡牌比較與牌組工坊。">
+<title>Tabletop Kingdoms</title>
+<meta name="description" content="Tabletop Kingdoms：在桌上沙盤指揮方塊軍隊的卡牌即時對戰，單人遠征或雙人合作。">
+<meta property="og:title" content="Tabletop Kingdoms">
+<meta property="og:description" content="在桌上沙盤指揮方塊軍隊的卡牌即時對戰，單人遠征或雙人合作。">
+<meta property="og:image" content="images/battle-ch1-a.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#efe4cf;--bg2:#e6d6b8;--panel:#fbf5e8;--panel2:#f4ead6;--ink:#2d241a;--muted:#7a6a55;--line:#d6c4a2;
-  --wood:#6e4626;--wood2:#8a5a33;--accent:#b5651d;--gem:#7b3fbf;--gem2:#b07be8;--good:#2e7d4f;--bad:#b23a2a;
-  --shadow:0 1px 2px rgba(60,40,15,.12),0 4px 14px rgba(60,40,15,.10);--radius:12px;
-  color-scheme:light;
+  --bg:#1b2838;--bg-deep:#171a21;--panel:#16202d;--panel2:#1f2c3b;--line:#2a3f5a;
+  --text:#c7d5e0;--muted:#8f98a0;--bright:#ffffff;--blue:#66c0f4;
+  --green1:#75b022;--green2:#588a1b;--tag:#2a475e;--gold:#e5c068;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1c1712;--bg2:#241d16;--panel:#2a231c;--panel2:#332a21;--ink:#f1e6d2;--muted:#b3a38a;--line:#4a3d2f;
-  --wood:#3a2716;--wood2:#5a3c22;--accent:#e0954a;--gem:#9b5fe0;--gem2:#c9a0f5;--good:#5fbf86;--bad:#e8806e;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);color-scheme:dark;}}
-:root[data-theme="dark"]{
-  --bg:#1c1712;--bg2:#241d16;--panel:#2a231c;--panel2:#332a21;--ink:#f1e6d2;--muted:#b3a38a;--line:#4a3d2f;
-  --wood:#3a2716;--wood2:#5a3c22;--accent:#e0954a;--gem:#9b5fe0;--gem2:#c9a0f5;--good:#5fbf86;--bad:#e8806e;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);color-scheme:dark;}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:15px/1.55 "Noto Sans TC",system-ui,-apple-system,"Microsoft JhengHei",sans-serif;
-  background-image:radial-gradient(circle at 20% 0%,rgba(255,255,255,.18),transparent 40%),repeating-linear-gradient(0deg,transparent 0 22px,rgba(120,90,50,.035) 22px 23px)}
-h1,h2,h3{font-family:"Noto Serif TC",serif;margin:0;line-height:1.25}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 "Noto Sans TC",system-ui,-apple-system,"Microsoft JhengHei",sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% -10%,rgba(102,192,244,.16),transparent 55%),linear-gradient(180deg,#1b2838 0%,#16202d 100%)}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--bright)}
+button{font:inherit;color:inherit;cursor:pointer}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+h1,h2,h3{margin:0;line-height:1.25;color:var(--bright)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
-/* header */
-header{background:linear-gradient(180deg,var(--wood2),var(--wood));color:#f7ead2;border-bottom:4px solid #3b2512;box-shadow:var(--shadow)}
-.hwrap{max-width:1360px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px}
-.logo{width:42px;height:42px;flex:none}
-header h1{font-size:clamp(17px,3vw,26px);font-weight:900;letter-spacing:.02em}
-header p{margin:0;font-size:13px;opacity:.82}
-.hspacer{flex:1}
-.iconbtn{border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.15);color:#f7ead2;border-radius:999px;padding:6px 12px;font-size:13px;white-space:nowrap}
-.iconbtn:hover{background:rgba(0,0,0,.28)}
-
-/* layout */
-.app{max-width:1360px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-@media (min-width:960px){.app{grid-template-columns:minmax(0,1fr) 340px}}
-
-/* toolbar */
-.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:grid;gap:10px}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:0 10px}
-.search input{flex:1;border:0;background:transparent;padding:9px 0;outline:none;min-width:0}
-.search kbd{font-size:12px;border:1px solid var(--line);border-radius:5px;padding:0 6px;color:var(--muted)}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
-.seg button{border:0;background:transparent;padding:7px 12px;border-right:1px solid var(--line)}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
-.chip{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:5px 11px;font-size:14px}
-.chip[aria-pressed="true"]{background:var(--gem);border-color:var(--gem);color:#fff}
-.chip.cost{min-width:36px;font-weight:700}
-.label{font-size:13px;color:var(--muted)}
-select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
-.count{font-size:13px;color:var(--muted);margin-left:auto}
-
-/* grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;margin-top:16px}
-@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
-.tile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
-.tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(60,40,15,.2)}
-.tile.indeck{outline:2px solid var(--good);outline-offset:-2px}
-.band{height:74px;position:relative;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));display:flex;align-items:flex-end;justify-content:flex-end;padding:8px}
-.band::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 6px,transparent 6px 12px)}
-.band svg{width:38px;height:38px;color:rgba(255,255,255,.88);filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));position:relative;z-index:1}
-.gem{position:absolute;left:8px;top:8px;z-index:2;width:32px;height:36px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;
-  background:radial-gradient(circle at 35% 30%,var(--gem2),var(--gem) 60%);clip-path:path("M16 0 C16 0 32 16 32 24 A16 12 0 0 1 0 24 C0 16 16 0 16 0Z");text-shadow:0 1px 2px rgba(0,0,0,.5)}
-.badges{position:absolute;left:46px;right:44px;top:9px;z-index:2;display:flex;gap:4px;flex-wrap:wrap}
-.badge{font-size:11px;padding:1px 6px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;white-space:nowrap}
-.tbody{padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px;flex:1}
-.tile h3{font-size:16px}
-.tile .sub{margin:0;font-size:12.5px;color:var(--muted)}
-.mini{margin-top:auto;padding-top:6px;display:flex;gap:10px;font-size:12.5px;color:var(--muted)}
-.mini b{color:var(--ink);font-weight:700}
-.add{position:absolute;right:8px;top:8px;z-index:3;width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.35);color:#fff;font-size:18px;line-height:1;display:grid;place-items:center}
-.add:hover{background:var(--good)}
-.tile.indeck .add{background:var(--good)}
-.empty{grid-column:1/-1;text-align:center;padding:40px 10px;color:var(--muted)}
-.btn{border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 12px}
-.btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.danger{color:var(--bad)}
-
-/* compare */
-.compare{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
-.compare h2{font-size:18px}
-.ctable{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
-.ctable th,.ctable td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
-.ctable th:first-child,.ctable td:first-child{text-align:left;color:var(--muted);font-weight:500;white-space:nowrap}
-.ctable thead th{font-family:"Noto Serif TC",serif;font-size:15px;color:var(--ink)}
-.ctable td.best{color:var(--good);font-weight:700;background:color-mix(in srgb,var(--good) 10%,transparent)}
-.cx{border:0;background:none;color:var(--muted);font-size:13px;padding:0 4px}
-.cwrap{overflow-x:auto}
-
-/* deck panel */
-.deck{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:12px}
-@media (min-width:960px){.deck{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto}}
-.deck.drop{outline:3px dashed var(--accent);outline-offset:-6px}
-.deck h2{font-size:19px;display:flex;align-items:center;gap:8px}
-.deck h2 small{font-family:"Noto Sans TC",sans-serif;font-size:13px;color:var(--muted);font-weight:500}
-.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.slot{aspect-ratio:3/4;border:2px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--muted);font-size:12px;background:var(--panel2);position:relative;overflow:hidden;padding:0}
-.slot.filled{border:0;background:linear-gradient(160deg,var(--c),color-mix(in srgb,var(--c) 50%,#000));color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.2)}
-.slot .sgem{position:absolute;left:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--gem);font-size:12px;font-weight:900;display:grid;place-items:center}
-.slot .sname{position:absolute;left:0;right:0;bottom:0;padding:3px 2px;font-size:11.5px;background:rgba(0,0,0,.45);text-align:center;line-height:1.25}
-.slot svg{width:26px;height:26px;opacity:.85;margin-top:-10px}
-.slot.filled:hover::after{content:"移除";position:absolute;inset:0;background:rgba(178,58,42,.75);display:grid;place-items:center;font-weight:700;font-size:13px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.stat{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
-.stat span{display:block;font-size:11.5px;color:var(--muted)}
-.stat b{font-size:18px;font-family:"Noto Serif TC",serif}
-.curve{display:flex;align-items:flex-end;gap:5px;height:70px;padding:0 2px}
-.curve div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--muted)}
-.curve i{display:block;flex:none;width:100%;background:linear-gradient(180deg,var(--gem2),var(--gem));border-radius:4px 4px 0 0;min-height:2px;transition:height .25s}
-.curve em{font-style:normal;font-size:11px;color:var(--ink);font-weight:700}
-.hints{margin:0;padding:0;list-style:none;display:grid;gap:6px}
-.hints li{font-size:13.5px;padding:7px 10px;border-radius:8px;border-left:4px solid var(--bad);background:color-mix(in srgb,var(--bad) 9%,transparent)}
-.hints li.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,transparent)}
-.hints li.info{border-color:var(--muted);background:var(--panel2)}
-.sect{font-size:13px;color:var(--muted);font-weight:700;margin:2px 0 -4px}
-.saverow{display:flex;gap:6px}
-.saverow input{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
-.saved{list-style:none;margin:0;padding:0;display:grid;gap:5px}
-.saved li{display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:13.5px}
-.saved li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.saved li small{color:var(--muted)}
-.deck-toggle{display:none}
-@media (max-width:600px){.hwrap{gap:10px}.logo{width:34px;height:34px}header p{font-size:12px}}
-@media (max-width:959px){
-  .deck{position:fixed;left:0;right:0;bottom:0;z-index:20;border-radius:16px 16px 0 0;max-height:82vh;overflow:auto;transform:translateY(calc(100% - 58px));transition:transform .25s;padding-top:0}
-  .deck.open{transform:none}
-  .deck-toggle{display:flex;flex:none;position:sticky;top:0;z-index:2;margin:0 -14px;padding:0 14px;height:58px;align-items:center;gap:10px;border:0;background:var(--panel);border-bottom:1px solid var(--line);width:calc(100% + 28px);text-align:left;font-weight:700}
-  .deck-toggle::before{content:"";width:36px;height:4px;border-radius:2px;background:var(--line);position:absolute;top:6px;left:50%;margin-left:-18px}
-  .deck-toggle span{flex:1}
-  body{padding-bottom:70px}
+/* nav */
+.nav{position:sticky;top:0;z-index:40;background:rgba(23,26,33,.94);backdrop-filter:blur(8px);border-bottom:1px solid #000}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:56px;position:relative}
+.brand{display:flex;align-items:center;gap:10px;color:var(--bright);font-weight:900;letter-spacing:.04em;white-space:nowrap}
+.brand svg{width:30px;height:30px}
+.links{display:flex;gap:4px;margin-left:auto}
+.links a{color:var(--text);font-size:14px;padding:6px 10px;border-radius:3px;letter-spacing:.04em}
+.links a:hover,.links a.active{color:var(--bright);background:rgba(102,192,244,.15)}
+.links a.active{box-shadow:inset 0 -2px 0 var(--blue)}
+.menu-btn{display:none;margin-left:auto;background:var(--tag);border:0;border-radius:3px;padding:6px 12px}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  .links{display:none;position:absolute;top:56px;left:0;right:0;flex-direction:column;background:var(--bg-deep);padding:8px 16px 14px;border-bottom:1px solid #000}
+  .links.open{display:flex}
+  .links a{padding:10px}
 }
 
-/* dialog */
-dialog{border:0;padding:0;border-radius:16px;background:var(--panel);color:var(--ink);width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 40px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
-dialog::backdrop{background:rgba(20,12,4,.55);backdrop-filter:blur(2px)}
-.dhead{padding:18px 20px 14px;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 45%,#000));color:#fff;position:relative}
-.dhead h2{font-size:26px;text-shadow:0 2px 4px rgba(0,0,0,.4)}
-.dhead p{margin:2px 0 0;opacity:.9;font-size:14px}
-.dhead .gem{position:static;margin-bottom:6px}
-.dclose{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.35);color:#fff;font-size:20px}
-.dbody{padding:16px 20px 20px;display:grid;gap:14px}
-.desc{margin:0}
-.air{margin:0;font-size:13.5px;color:var(--muted)}
-.tabs{display:flex;flex-wrap:wrap;gap:6px}
-.tabs button{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:5px 12px;font-size:14px}
-.tabs button[aria-selected="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
-.srows{display:grid;gap:8px}
-.srow{display:grid;grid-template-columns:78px 1fr 92px;align-items:center;gap:10px;font-size:14px}
-.srow .bar{height:10px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
-.srow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#fff));transition:width .3s}
-.srow .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
-.up{color:var(--good);font-size:12px;margin-left:3px}.down{color:var(--bad);font-size:12px;margin-left:3px}
-.kv{display:flex;flex-wrap:wrap;gap:6px}
-.kv span{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:13.5px}
-.dact{display:flex;gap:8px;flex-wrap:wrap}
-.ftable summary{cursor:pointer;font-weight:700;font-size:14px}
-.ftable .ctable{font-size:13px}
-.ftable .ctable thead th{font-family:inherit;font-size:12.5px;color:var(--muted)}
-.ftable tr.cur td{background:color-mix(in srgb,var(--accent) 14%,transparent);font-weight:700}
+/* hero */
+.crumbs{font-size:12px;color:var(--muted);padding:18px 0 4px}
+.title-row{margin-bottom:14px}
+.title-row h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:.02em}
+.title-row .zh{color:var(--muted);font-size:15px;margin-left:8px;font-weight:500}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 324px;gap:16px}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}}
 
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50;font-size:14px;max-width:calc(100vw - 32px)}
+/* gallery */
+.stage{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:zoom-in;touch-action:pan-y}
+.stage>img{width:100%;height:100%;object-fit:cover;transition:opacity .35s}
+.stage>img.fade{opacity:0}
+.stage .cap{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 10px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:var(--bright);font-size:14px;pointer-events:none}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:26px;opacity:0;transition:opacity .2s}
+.stage:hover .arrow,.arrow:focus-visible{opacity:1}
+@media (hover:none){.arrow{opacity:.85}}
+.arrow:hover{background:rgba(102,192,244,.55)}
+.arrow.prev{left:0;border-radius:0 4px 4px 0}.arrow.next{right:0;border-radius:4px 0 0 4px}
+.play{position:absolute;right:10px;top:10px;border:0;background:rgba(0,0,0,.5);color:#fff;border-radius:3px;font-size:12px;padding:4px 9px}
+.progress{position:absolute;left:0;top:0;height:3px;background:var(--blue);width:0;z-index:2}
+.progress.run{animation:prog 5s linear forwards}
+@keyframes prog{to{width:100%}}
+.thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:thin;scrollbar-color:var(--tag) transparent}
+.thumbs button{flex:none;width:116px;aspect-ratio:16/9;padding:0;border:2px solid transparent;background:#000;opacity:.55;transition:opacity .15s,border-color .15s}
+.thumbs button:hover{opacity:.9}
+.thumbs button[aria-current="true"]{opacity:1;border-color:var(--blue)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+
+/* side */
+.side{display:flex;flex-direction:column;gap:12px;font-size:13px}
+.capsule{aspect-ratio:460/215;position:relative;overflow:hidden;background:#000}
+.capsule img{width:100%;height:100%;object-fit:cover}
+.capsule .logo{position:absolute;inset:auto 0 0 0;padding:28px 14px 10px;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-weight:900;font-size:24px;letter-spacing:.03em;text-shadow:0 2px 6px #000}
+.capsule .logo small{display:block;font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--gold)}
+.blurb{margin:0;font-size:14px}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:0}
+.meta dt{color:var(--muted);font-size:11px;padding-top:2px}
+.meta dd{margin:0}
+.meta dd.hl{color:var(--blue)}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tags button{border:0;background:var(--tag);color:var(--blue);border-radius:2px;padding:2px 8px;font-size:12px}
+.tags button:hover{background:var(--blue);color:#fff}
+
+/* action bar */
+.actions{margin:16px 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:linear-gradient(90deg,rgba(102,192,244,.18),rgba(102,192,244,.04));padding:12px 14px;border-radius:3px}
+.actions .label{color:var(--bright);font-size:15px;margin-right:auto}
+.actions .label small{display:block;color:var(--muted);font-size:12px}
+.btn{border:0;border-radius:2px;padding:8px 14px;background:rgba(103,193,245,.2);color:var(--blue);font-size:14px}
+.btn:hover,.btn[aria-pressed="true"]{background:var(--blue);color:#fff}
+.btn.green{background:linear-gradient(90deg,var(--green1),var(--green2));color:#d2efa9}
+.btn.green:hover{filter:brightness(1.15);color:#fff}
+.btn.green[aria-pressed="true"]{background:var(--tag);color:var(--blue)}
+
+/* sections */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;margin-top:24px}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
+section{margin-bottom:38px}
+.sh{font-size:14px;font-weight:500;color:var(--bright);letter-spacing:.06em;padding-bottom:6px;margin-bottom:14px;border-bottom:1px solid;border-image:linear-gradient(90deg,var(--blue),transparent) 1}
+.about p{margin:0 0 12px}
+.about h3{font-size:17px;color:var(--blue);margin:20px 0 8px}
+.about figure{margin:14px 0}
+.about figcaption{font-size:12px;color:var(--muted);margin-top:4px}
+.flow{list-style:none;margin:10px 0 14px;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;counter-reset:f}
+.flow li{background:var(--panel2);border-top:2px solid var(--blue);padding:10px 8px;font-size:13px;text-align:center;counter-increment:f}
+.flow li::before{content:counter(f);display:block;font-size:20px;font-weight:900;color:var(--blue)}
+@media (max-width:600px){.flow{grid-template-columns:repeat(2,1fr)}.flow li:last-child{grid-column:1/-1}}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);padding:12px;text-align:center}
+.stat b{display:block;font-size:30px;font-weight:900;color:var(--bright);line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:600px){.features{grid-template-columns:1fr}}
+.feat{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:border-color .2s,transform .2s}
+.feat:hover{border-color:var(--blue);transform:translateY(-2px)}
+.feat.flash{animation:flash 1.4s}
+@keyframes flash{0%,60%{box-shadow:0 0 0 3px var(--blue),0 0 24px rgba(102,192,244,.6)}100%{box-shadow:none}}
+.feat img{width:100%;aspect-ratio:16/8;object-fit:cover}
+.feat div{padding:12px 14px}
+.feat h3{font-size:16px;margin-bottom:4px}
+.feat p{margin:0;font-size:13.5px}
+
+/* chapters */
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs button{flex:none;border:0;background:var(--panel2);color:var(--muted);padding:9px 14px;font-size:14px;border-top:2px solid transparent}
+.tabs button[aria-selected="true"]{background:var(--panel);color:var(--bright);border-top-color:var(--blue)}
+.tabs button:hover{color:var(--bright)}
+.chapter{background:var(--panel);display:grid;grid-template-columns:1.25fr 1fr;min-height:300px}
+@media (max-width:700px){.chapter{grid-template-columns:1fr}}
+.chapter img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10;animation:fadein .35s}
+.chapter .info{padding:16px 18px;animation:fadein .35s}
+.chapter .info h3{font-size:20px}
+.chapter .info .sub{color:var(--gold);font-size:12px;letter-spacing:.12em;margin-bottom:6px}
+.chapter .info p{margin:6px 0 10px;font-size:14px}
+.chapter ul{margin:0;padding-left:18px;font-size:13.5px}
+.chapter li{margin:3px 0}
+.chapter li b{color:var(--blue);font-weight:500}
+.badge-dev{display:inline-block;background:#a34c25;color:#fff;font-size:11px;padding:1px 7px;border-radius:2px;margin-left:6px;vertical-align:middle}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}}
+
+/* cards */
+.filters{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filters button{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:4px 12px;border-radius:2px;font-size:13px}
+.filters button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.filters span{margin-left:auto;font-size:12px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:10px}
+.card{perspective:800px;aspect-ratio:3/4;border:0;padding:0;background:none;text-align:left}
+.card .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.card .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12)}
+.card .front{background:linear-gradient(160deg,var(--c),color-mix(in srgb,var(--c) 40%,#000));display:flex;flex-direction:column;justify-content:flex-end;padding:8px}
+.card .front::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 6px,transparent 6px 12px)}
+.card .cost{position:absolute;left:7px;top:7px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c9a0f5,#7b3fbf 65%);color:#fff;font-weight:900;display:grid;place-items:center;font-size:14px;z-index:1;box-shadow:0 1px 3px #000}
+.card .kind{position:absolute;right:7px;top:8px;font-size:11px;background:rgba(0,0,0,.45);color:#fff;padding:0 6px;border-radius:8px;z-index:1}
+.card .front b{position:relative;z-index:1;color:#fff;font-size:15px;text-shadow:0 1px 3px #000}
+.card .front small{position:relative;z-index:1;color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 2px #000;line-height:1.35}
+.card .back{transform:rotateY(180deg);background:var(--panel2);padding:9px;font-size:12px;display:flex;flex-direction:column;gap:2px}
+.card .back b{color:var(--bright);font-size:13px;margin-bottom:2px}
+.card .back .row{display:flex;justify-content:space-between;color:var(--muted)}
+.card .back .row i{font-style:normal;color:var(--bright)}
+.card .back .fm{margin-top:auto;color:var(--gold);font-size:11px;line-height:1.35}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* accordions */
+.acc{border:1px solid var(--line);background:var(--panel);margin-bottom:6px}
+.acc>button{width:100%;text-align:left;border:0;background:none;padding:11px 14px;display:flex;gap:10px;align-items:center;color:var(--bright);font-size:14.5px}
+.acc>button::after{content:"＋";margin-left:auto;color:var(--blue);transition:transform .2s}
+.acc>button[aria-expanded="true"]::after{transform:rotate(45deg)}
+.acc .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s}
+.acc .body>div{overflow:hidden}
+.acc>button[aria-expanded="true"]+.body{grid-template-rows:1fr}
+.acc .body ul{margin:0;padding:0 14px 12px 32px;font-size:13.5px}
+.acc .body p{margin:0;padding:0 14px 12px;font-size:13.5px}
+.ver{background:var(--blue);color:#fff;font-size:11px;padding:1px 7px;border-radius:2px;white-space:nowrap}
+.ver.dev{background:#a34c25}
+
+/* requirements */
+.req{display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px}
+@media (max-width:600px){.req{grid-template-columns:1fr}}
+.req h3{font-size:13px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.req ul{list-style:none;margin:0;padding:0}
+.req li{padding:3px 0}
+.req li strong{color:var(--muted);font-weight:500;margin-right:6px}
+.note{font-size:12px;color:var(--muted);margin-top:10px}
+
+/* right column */
+.box{background:rgba(0,0,0,.2);padding:14px;margin-bottom:14px;font-size:13px}
+.box h3{font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:8px;font-weight:500}
+.box ul{list-style:none;margin:0;padding:0}
+.box li{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.lang{width:100%;border-collapse:collapse;font-size:12.5px}
+.lang th{color:var(--muted);font-weight:500;text-align:center;padding:4px}
+.lang th:first-child,.lang td:first-child{text-align:left}
+.lang td{padding:4px;text-align:center;border-top:1px solid rgba(255,255,255,.05)}
+.lang .y{color:var(--blue)}
+.sticky{position:sticky;top:72px}
+@media (max-width:900px){.sticky{position:static}}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;margin:0}
+dialog::backdrop{background:rgba(0,0,0,.92)}
+.lb{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
+.lb img{max-width:min(1600px,100%);max-height:calc(100vh - 110px);object-fit:contain;box-shadow:0 10px 40px #000}
+.lb .lcap{color:var(--text);font-size:14px;text-align:center}
+.lb .lcap span{color:var(--muted);margin-left:10px}
+.lb .x{position:absolute;right:16px;top:12px;border:0;background:none;color:#fff;font-size:34px;line-height:1;z-index:2}
+.lb .arrow{opacity:1;position:fixed}
+
+.totop{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--blue);color:#fff;font-size:20px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.totop.show{opacity:1;pointer-events:auto}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,24px);background:#e5e5e5;color:#111;padding:8px 16px;border-radius:3px;opacity:0;transition:.25s;pointer-events:none;z-index:60;font-size:14px;max-width:calc(100vw - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-@media (max-width:959px){.toast{bottom:80px}}
-footer{max-width:1360px;margin:10px auto 30px;padding:0 16px;font-size:12.5px;color:var(--muted)}
-footer a{color:inherit}
+footer{background:var(--bg-deep);padding:26px 0;margin-top:20px;font-size:12px;color:var(--muted)}
+footer p{margin:4px 0}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-unit" viewBox="0 0 24 24"><path fill="currentColor" d="M14.5 2l7.5 0 0 7.5-9.2 9.2 1.6 1.6-1.4 1.4-2.3-2.3-3.2 3.2a1.5 1.5 0 0 1-2.1-2.1l3.2-3.2-2.3-2.3 1.4-1.4 1.6 1.6zm1 2-8.5 8.5 1.5 1.5L17 5.5V4z"/></symbol>
-  <symbol id="i-ranged" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 3c9 3 13 7 16 16M5 3 4 9M5 3l6 1M3 21 17 7M17 7h-4M17 7v4"/></symbol>
-  <symbol id="i-fly" viewBox="0 0 24 24"><path fill="currentColor" d="M12 7c-2-3-6-4-10-3 1 3 3 5 6 6-2 1-3 3-3 5 3-1 5-2 7-5 2 3 4 4 7 5 0-2-1-4-3-5 3-1 5-3 6-6-4-1-8 0-10 3z"/></symbol>
-  <symbol id="i-spell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.9L22 9l-5.6 4.7L18 21l-6-3.9L6 21l1.6-7.3L2 9l7.4-1.1z"/></symbol>
-  <symbol id="i-building" viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h3v2h2V3h2v2h2V3h2v2h2V3h3v6l-2 2v9h2v2H3v-2h2v-9L3 9V3h1zm6 11v6h4v-6a2 2 0 0 0-4 0z"/></symbol>
-</svg>
-
-<header>
-  <div class="hwrap">
-    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="40" height="30" rx="5" fill="#c58a4a" stroke="#3b2512" stroke-width="2.5"/><path d="M10 26h28" stroke="#3b2512" stroke-width="2" stroke-dasharray="3 3"/><path d="M12 22v-8l3 2 3-2v8z M30 22v-8l3 2 3-2v8z" fill="#f7ead2" stroke="#3b2512" stroke-width="1.5"/><circle cx="24" cy="33" r="3.5" fill="#7b3fbf"/></svg>
-    <div>
-      <h1>Tabletop Kingdoms 卡牌工坊</h1>
-      <p id="subtitle">卡牌圖鑑 · 形態數值 · 卡牌比較 · 牌組分析</p>
+<nav class="nav" aria-label="主要導覽">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="40" height="30" rx="5" fill="#c58a4a" stroke="#3b2512" stroke-width="2.5"/><path d="M10 26h28" stroke="#3b2512" stroke-width="2" stroke-dasharray="3 3"/><path d="M12 22v-8l3 2 3-2v8z M30 22v-8l3 2 3-2v8z" fill="#f7ead2" stroke="#3b2512" stroke-width="1.5"/><circle cx="24" cy="33" r="3.5" fill="#66c0f4"/></svg>TABLETOP KINGDOMS</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="links">選單 ☰</button>
+    <div class="links" id="links">
+      <a href="#about">介紹</a><a href="#features">特色</a><a href="#chapters">章節</a><a href="#cards">卡牌</a><a href="#updates">更新</a><a href="#reqs">需求</a><a href="#faq">問答</a>
     </div>
-    <div class="hspacer"></div>
-    <button class="iconbtn" id="themeBtn" type="button" aria-label="切換淺色或深色主題">切換主題</button>
   </div>
-</header>
+</nav>
 
-<div class="app">
-  <main>
-    <section class="toolbar" aria-label="搜尋與篩選">
-      <div class="row">
-        <label class="search"><span class="sr">搜尋卡牌</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="q" type="search" placeholder="搜尋名稱、形態或定位，例如「騎」「對空」「攻城」" autocomplete="off">
-          <kbd>/</kbd>
-        </label>
-        <div class="seg" role="group" aria-label="類型" id="kindSeg">
-          <button type="button" data-kind="all" aria-pressed="true">全部</button>
-          <button type="button" data-kind="unit" aria-pressed="false">單位</button>
-          <button type="button" data-kind="spell" aria-pressed="false">法術</button>
-          <button type="button" data-kind="building" aria-pressed="false">建築</button>
+<main class="wrap" id="top">
+  <div class="crumbs">所有遊戲 › 策略 › 卡牌對戰 › Tabletop Kingdoms</div>
+  <div class="title-row"><h1>Tabletop Kingdoms<span class="zh">桌上王國</span></h1></div>
+
+  <div class="hero">
+    <div>
+      <div class="stage" id="stage" role="region" aria-roledescription="輪播" aria-label="遊戲截圖">
+        <div class="progress" id="progress"></div>
+        <img id="stageImg" alt="">
+        <div class="cap" id="stageCap"></div>
+        <button class="arrow prev" id="prevBtn" type="button" aria-label="上一張">‹</button>
+        <button class="arrow next" id="nextBtn" type="button" aria-label="下一張">›</button>
+        <button class="play" id="playBtn" type="button" aria-pressed="true">❚❚ 自動播放</button>
+      </div>
+      <div class="thumbs" id="thumbs" aria-label="選擇截圖"></div>
+    </div>
+    <aside class="side">
+      <div class="capsule"><img src="images/home.jpg" alt="遊戲首頁：桌上的方塊沙盤"><div class="logo"><small>CARD BATTLES · CO-OP EXPEDITIONS</small>Tabletop Kingdoms</div></div>
+      <p class="blurb">把王國擺上桌！出牌召喚方塊士兵、法術與建築，在沙盤上即時推進、拆掉對手的城塔。單人遠征闖過四個世界，或找朋友雙人合作。</p>
+      <dl class="meta">
+        <dt>狀態</dt><dd>Steam 測試版（v0.3.9）</dd>
+        <dt>開發者</dt><dd class="hl">個人開發</dd>
+        <dt>引擎</dt><dd>Godot 4</dd>
+        <dt>模式</dt><dd>單人遠征・雙人合作</dd>
+      </dl>
+      <div>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:4px">熱門標籤（點擊看對應特色）</div>
+        <div class="tags" id="tags">
+          <button type="button" data-feat="f-cards">卡牌對戰</button>
+          <button type="button" data-feat="f-cards">即時戰略</button>
+          <button type="button" data-feat="f-banner">Roguelike</button>
+          <button type="button" data-feat="f-coop">雙人合作</button>
+          <button type="button" data-feat="f-commander">指揮官</button>
+          <button type="button" data-feat="f-skin">方塊風</button>
+          <button type="button" data-feat="f-diff">高難度挑戰</button>
         </div>
       </div>
-      <div class="row">
-        <span class="label">費用</span>
-        <div class="row" id="costChips" role="group" aria-label="費用篩選"></div>
-        <button type="button" class="chip" id="flyChip" aria-pressed="false">只看飛行</button>
-        <button type="button" class="chip" id="aaChip" aria-pressed="false">只看可對空</button>
-      </div>
-      <div class="row">
-        <label class="label" for="sortSel">排序</label>
-        <select id="sortSel">
-          <option value="cost">費用</option><option value="name">名稱</option><option value="hp">生命</option>
-          <option value="damage">傷害</option><option value="dps">每秒傷害</option><option value="range">射程</option>
-        </select>
-        <button type="button" class="btn" id="dirBtn" aria-label="切換升冪或降冪">↑ 由低到高</button>
-        <button type="button" class="btn" id="resetBtn">清除篩選</button>
-        <span class="count" id="count" aria-live="polite"></span>
-      </div>
-    </section>
+    </aside>
+  </div>
 
-    <section class="grid" id="grid" aria-label="卡牌列表"></section>
+  <div class="actions">
+    <div class="label">喜歡這款遊戲嗎？<small id="wishText">加入願望清單，正式上架時就不會錯過。</small></div>
+    <button class="btn green" id="wishBtn" type="button" aria-pressed="false">＋ 加入願望清單</button>
+    <button class="btn" id="followBtn" type="button" aria-pressed="false">追蹤</button>
+    <button class="btn" id="shareBtn" type="button">分享 ↗</button>
+  </div>
 
-    <section class="compare" id="compare" hidden aria-label="卡牌比較">
-      <div class="row"><h2>卡牌比較</h2><span class="label">最多 3 張，綠色為該列最佳</span><span class="hspacer" style="flex:1"></span><button class="btn" type="button" id="cmpClear">清空比較</button></div>
-      <div class="cwrap"><table class="ctable" id="ctable"></table></div>
-    </section>
-  </main>
+  <div class="layout">
+    <div>
+      <section id="about" class="about">
+        <h2 class="sh">關於這款遊戲</h2>
+        <p>《Tabletop Kingdoms》是一款在<strong>桌上沙盤</strong>進行的卡牌即時對戰。每位玩家帶 8 張牌上場，金幣隨時間累積，出牌就能把騎士、弓手、巨魔、飛龍或法術放上戰場。部隊會自己前進、找目標開打，你要判斷的是<strong>什麼時候出、出在哪裡</strong>：用便宜的骷髏牽制重兵、用箭雨清掉成群小兵，再趁對手沒錢時派野豬直衝城塔。</p>
+        <figure><img src="images/battle-ch1-b.jpg" alt="第一章戰鬥：方塊士兵在草地沙盤上交戰" loading="lazy"><figcaption>第一章：王國酒館裡的草地沙盤，雙方部隊在河道兩側交鋒。</figcaption></figure>
+        <h3>一趟遠征怎麼玩</h3>
+        <ol class="flow">
+          <li>選一位指揮官</li><li>組出 8 張牌組</li><li>在地圖上選路線</li><li>戰鬥、商店、營地、事件</li><li>打倒章末首領</li>
+        </ol>
+        <p>每一章是一張 10 層的地圖，路上有普通戰、菁英戰、商店、營地和隨機事件。打贏可以拿新卡、讓卡牌升級成新形態，或替整趟旅程舉起一面軍旗。每趟的地圖、獎勵和敵人都不一樣，失敗了就從頭再來，換一套組合再挑戰。</p>
+        <figure><img src="images/map-ch1.jpg" alt="第一章行軍地圖" loading="lazy"><figcaption>行軍地圖：從第 1 層一路往上推進到第 10 層的首領。</figcaption></figure>
+      </section>
 
-  <aside class="deck" id="deck" aria-label="牌組工坊">
-    <button type="button" class="deck-toggle" id="deckToggle" aria-expanded="false"><span id="deckToggleText">牌組 0/8</span><small>點我展開</small></button>
-    <h2>牌組工坊 <small id="deckCount">0 / 8</small></h2>
-    <div class="slots" id="slots"></div>
-    <div class="row">
-      <button type="button" class="btn" id="randBtn">隨機牌組</button>
-      <button type="button" class="btn" id="shareBtn">複製分享連結</button>
-      <button type="button" class="btn danger" id="clearBtn">清空</button>
+      <section id="features">
+        <h2 class="sh">遊戲特色</h2>
+        <div class="stats" id="statsBox">
+          <div class="stat"><b data-to="40">40</b><span>張卡牌</span></div>
+          <div class="stat"><b data-to="148">148</b><span>種卡牌形態</span></div>
+          <div class="stat"><b data-to="5">5</b><span>個世界</span></div>
+          <div class="stat"><b data-to="5">5</b><span>種介面語言</span></div>
+        </div>
+        <div class="features">
+          <article class="feat" id="f-cards"><img src="images/draft.jpg" alt="出征準備：組牌畫面" loading="lazy"><div><h3>40 張卡牌，每張都能升級</h3><p>單位、法術、建築三大類。多數卡牌能升級成 3～4 種形態，例如騎士可以變成盾衛騎士、雙刃劍士或獅心騎士，打法完全不同。</p></div></article>
+          <article class="feat" id="f-commander"><img src="images/commander.jpg" alt="選擇指揮官" loading="lazy"><div><h3>三位指揮官</h3><p>三種職業各有被動與主動技能，出發前選一位帶上戰場。旅途中還能替指揮官解鎖新特性，一路變強。</p></div></article>
+          <article class="feat" id="f-banner"><img src="images/banner.jpg" alt="舉起軍旗" loading="lazy"><div><h3>軍旗：用代價換優勢</h3><p>每章開始可以舉起一面軍旗，例如「背水旗」銀幣收入 +30%，但勝利後不再自動修塔。好處和代價一起考慮，決定這趟要怎麼打。</p></div></article>
+          <article class="feat" id="f-coop"><img src="images/clockwork-2.jpg" alt="合作戰鬥畫面" loading="lazy"><div><h3>雙人合作遠征</h3><p>透過 Steam 邀請朋友一起出征，共用三座城塔、各自出牌。找不到人時，也可以帶 AI 隊友，對它下指令、聊天。</p></div></article>
+          <article class="feat" id="f-diff"><img src="images/battle-ch1-a.jpg" alt="戰鬥畫面" loading="lazy"><div><h3>九項可調的進階難度</h3><p>敵方金幣速度、出牌節奏、城塔血量等九項規則可以自由調整。越難，拿到的軍功越多，最高兩倍。</p></div></article>
+          <article class="feat" id="f-skin"><img src="images/clockwork-3.jpg" alt="方塊風格的戰場" loading="lazy"><div><h3>方塊風桌遊世界</h3><p>角色和場景都用方塊打造，像擺在桌上的玩具軍團。商店裡有各種卡牌外觀可以收藏，只改外觀、不影響平衡。</p></div></article>
+        </div>
+      </section>
+
+      <section id="chapters">
+        <h2 class="sh">章節巡禮</h2>
+        <div class="tabs" role="tablist" aria-label="章節" id="chTabs"></div>
+        <div class="chapter" id="chBody" role="tabpanel"></div>
+      </section>
+
+      <section id="cards">
+        <h2 class="sh">卡牌一覽</h2>
+        <div class="filters" id="cardFilters">
+          <button type="button" data-k="all" aria-pressed="true">全部</button>
+          <button type="button" data-k="unit" aria-pressed="false">單位</button>
+          <button type="button" data-k="spell" aria-pressed="false">法術</button>
+          <button type="button" data-k="building" aria-pressed="false">建築</button>
+          <span id="cardCount"></span>
+        </div>
+        <div class="cards" id="cardGrid"></div>
+        <p class="hint">點卡片翻面查看數值與升級形態。數值取自 2026-10-19 的開發版，仍在調整。</p>
+      </section>
+
+      <section id="updates">
+        <h2 class="sh">更新紀錄</h2>
+        <div id="logList"></div>
+      </section>
+
+      <section id="reqs">
+        <h2 class="sh">系統需求</h2>
+        <div class="req">
+          <div><h3>最低配備</h3><ul>
+            <li><strong>作業系統</strong>Windows 10 64 位元</li>
+            <li><strong>處理器</strong>4 核心 CPU</li>
+            <li><strong>記憶體</strong>8 GB RAM</li>
+            <li><strong>顯示卡</strong>支援 Vulkan 的獨立顯示卡（GTX 960 等級）</li>
+            <li><strong>儲存空間</strong>500 MB 可用空間</li>
+          </ul></div>
+          <div><h3>建議配備</h3><ul>
+            <li><strong>作業系統</strong>Windows 11 64 位元</li>
+            <li><strong>處理器</strong>6 核心以上 CPU</li>
+            <li><strong>記憶體</strong>16 GB RAM</li>
+            <li><strong>顯示卡</strong>GTX 1660／RTX 2060 以上</li>
+            <li><strong>網路</strong>合作模式需要寬頻網路</li>
+          </ul></div>
+        </div>
+        <p class="note">測試中的暫定值，正式版會依實測調整。</p>
+      </section>
+
+      <section id="faq">
+        <h2 class="sh">常見問題</h2>
+        <div id="faqList"></div>
+      </section>
     </div>
-    <div class="stats" id="stats"></div>
-    <p class="sect">費用分布</p>
-    <div class="curve" id="curve" aria-label="費用分布長條圖"></div>
-    <p class="sect">自動建議</p>
-    <ul class="hints" id="hints"></ul>
-    <p class="sect">我的牌組存檔</p>
-    <div class="saverow"><label class="sr" for="saveName">存檔名稱</label><input id="saveName" maxlength="20" placeholder="替牌組取個名字"><button type="button" class="btn primary" id="saveBtn">儲存</button></div>
-    <ul class="saved" id="saved"></ul>
-  </aside>
-</div>
 
-<footer>資料取自遊戲開發版卡牌設定（2026-10-19 快照），數值仍在調整。每秒傷害 = 傷害 × 數量 ÷ 攻擊間隔。</footer>
+    <aside>
+      <div class="sticky">
+        <div class="box"><h3>遊戲模式</h3><ul>
+          <li>⚔ 單人遠征（三個存檔欄位）</li><li>🤝 雙人線上合作</li><li>🤖 AI 隊友合作</li><li>🎚 九項進階難度</li>
+        </ul></div>
+        <div class="box"><h3>語言</h3>
+          <table class="lang"><thead><tr><th></th><th>介面</th><th>字幕</th><th>語音</th></tr></thead><tbody>
+            <tr><td>繁體中文</td><td class="y">✔</td><td class="y">✔</td><td>—</td></tr>
+            <tr><td>English</td><td class="y">✔</td><td class="y">✔</td><td>—</td></tr>
+            <tr><td>简体中文</td><td class="y">✔</td><td class="y">✔</td><td>—</td></tr>
+            <tr><td>日本語</td><td class="y">✔</td><td class="y">✔</td><td>—</td></tr>
+            <tr><td>한국어</td><td class="y">✔</td><td class="y">✔</td><td>—</td></tr>
+          </tbody></table>
+        </div>
+        <div class="box"><h3>連結</h3><ul>
+          <li><a href="https://github.com/s11430624-wq/tabletop-kingdoms-cards" target="_blank" rel="noopener">本頁原始碼與規格書 ↗</a></li>
+          <li><a href="#chapters">章節巡禮</a></li>
+          <li><a href="#cards">卡牌一覽</a></li>
+        </ul></div>
+      </div>
+    </aside>
+  </div>
+</main>
 
-<dialog id="dlg" aria-labelledby="dTitle"></dialog>
+<footer><div class="wrap">
+  <p>© 2026 Tabletop Kingdoms。所有截圖皆為遊戲開發版實機畫面。</p>
+  <p>本頁為課堂作業「用 Vibe Coding 做出一個互動網頁」的作品，版面參考 Steam 商店頁，與 Valve／Steam 無關。</p>
+</div></footer>
+
+<dialog id="lightbox" aria-label="截圖放大檢視">
+  <div class="lb">
+    <button class="x" type="button" id="lbClose" aria-label="關閉">×</button>
+    <button class="arrow prev" type="button" id="lbPrev" aria-label="上一張">‹</button>
+    <img id="lbImg" alt="">
+    <div class="lcap" id="lbCap"></div>
+    <button class="arrow next" type="button" id="lbNext" aria-label="下一張">›</button>
+  </div>
+</dialog>
+<button class="totop" id="toTop" type="button" aria-label="回到頂端">↑</button>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-const CARDS = [{"id":"knight","name":"騎士","kind":"unit","sub":"近戰 · 承傷","desc":"低費承傷前排，舉盾有 25% 機率格擋投射物；攔截單兵、替後排爭取輸出時間。","color":"#c1ccd0","style":"blade","forms":[{"n":"騎士","cost":3,"count":1,"hp":500,"damage":35,"interval":1,"range":1,"speed":1.5,"radius":0},{"n":"盾衛騎士","cost":3,"count":1,"hp":500,"damage":35,"interval":1.2,"range":1,"speed":1.5,"radius":0,"d":"3 費，生命 500，普攻 35／1.2 秒，移速 1.5。25% 機率格擋近戰與投射物。出生護盾 25% 最大生命，不限時間、不會恢復。盾擊：前方 120 度、2.5 格、35 傷害，敵方地面部隊暈眩 1.5 秒（建築只受傷），冷卻 6 秒，登場就緒。無法攻擊空中目標。"},{"n":"雙刃劍士","cost":3,"count":1,"hp":450,"damage":35,"interval":0.75,"range":1,"speed":1.5,"radius":0,"d":"3 費，生命 450，普攻 35／0.75 秒，移速 1.5。雙持短劍；旋風斬：周圍 2.5 格、42 傷害，冷卻 6 秒，出手獲得 20% 最大生命護盾（刷新、不疊加），登場就緒。無法攻擊空中目標。"},{"n":"獅心騎士","cost":3,"count":1,"hp":500,"damage":38,"interval":1,"range":1,"speed":1.5,"radius":0,"d":"3 費，生命 500，普攻 38／1 秒，移速 1.5。35% 機率格擋近戰與投射物。每秒回復 1% 最大生命。半徑 4 格內自身與友方部隊減傷 10%（不疊加、不含建築）。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"archer","name":"弓手","kind":"unit","sub":"遠程 · 持續火力","desc":"在友軍後方持續射擊；小隊同時輸出，須留意範圍攻擊。","color":"#78a263","style":"arrow","forms":[{"n":"弓手","cost":3,"count":2,"hp":100,"damage":25,"interval":0.83,"range":5.5,"speed":1.25,"radius":0},{"n":"烈焰弓箭手","cost":3,"count":2,"hp":100,"damage":25,"interval":1.2,"range":5.5,"speed":1.25,"radius":0,"d":"3費，每次2名；每名生命100、普攻25／1.2秒、射程5.5格。命中附燃燒：每層每秒10傷害（普攻40%），3秒，全隊同目標共用5層；滿層刷新最短層。各層傷害歸施加者，對空／建築／主堡有效。可攻擊空中目標。"},{"n":"精靈弓箭手","cost":3,"count":2,"hp":100,"damage":32.5,"interval":1.35,"range":7,"speed":1.25,"radius":0,"d":"3費，每次2名；每名生命100、普攻32.5／1.35秒、射程7格。遠射增傷，以降低出手頻率為代價。可攻擊空中目標。"},{"n":"皇家神射手","cost":3,"count":1,"hp":200,"damage":25,"interval":1.2,"range":6,"speed":1.25,"radius":0,"d":"3費，每次1名；每名生命200、普攻25／1.2秒、射程6格。連射：每第4次普攻快速連發3箭，每箭都是完整普攻傷害，間隔0.3秒。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"goblin","name":"哥布林","kind":"unit","sub":"近戰 · 圍攻","desc":"快速接近被前排纏住的敵人，圍攻並補上輸出。","color":"#9fb958","style":"blade","forms":[{"n":"哥布林","cost":2,"count":2,"hp":110,"damage":45,"interval":1.25,"range":1.04,"speed":2.5,"radius":0},{"n":"毒刃哥布林","cost":2,"count":2,"hp":110,"damage":48,"interval":0.8,"range":1.04,"speed":2.5,"radius":0,"d":"2 費，每次 2 名，生命 110，普攻 48／0.8 秒，移速 2.5。近戰命中敵方部隊附加中毒：每層每秒 19.2（40% 普攻），持續 4 秒，同目標最多 3 層、各層獨立計時；建築與城塔不中毒。無法攻擊空中目標。"},{"n":"投矛哥布林","cost":2,"count":2,"hp":100,"damage":65,"interval":1.35,"range":5,"speed":2.5,"radius":0,"d":"2 費，每次 2 名，生命 100，普攻 65／1.35 秒，移速 2.5。投擲短矛，射程 5 格，可打空中。可攻擊空中目標。"},{"n":"哥布林首領","cost":3,"count":1,"hp":460,"damage":64,"interval":1,"range":1.5,"speed":2.5,"radius":0,"d":"3 費，每次 1 名，生命 460，普攻 64／1 秒，移速 2.5。彎刀近戰。戰吼：發現敵人自動施放，半徑 6 格內自身與友方部隊移速 +30%、攻擊頻率 +30%，持續 5 秒；效果結束後冷卻 8 秒。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"skeleton","name":"骷髏","kind":"unit","sub":"近戰 · 牽制","desc":"以數量牽制單體攻擊，替防禦塔與後排爭取時間。","color":"#e2d8b5","style":"blade","forms":[{"n":"骷髏","cost":1,"count":3,"hp":55,"damage":18,"interval":1,"range":1,"speed":1.5,"radius":0},{"n":"骷髏盾兵","cost":1,"count":3,"hp":55,"damage":17,"interval":1,"range":1,"speed":1.5,"radius":0,"d":"1費／3名，生命55、傷害17／1秒、射程1格。每名出生帶55護盾（最大生命100%），無期限、不恢復，無額外格擋。無法攻擊空中目標。"},{"n":"骷髏弓手","cost":1,"count":3,"hp":52,"damage":16,"interval":1,"range":5,"speed":1.5,"radius":0,"d":"1費／3名，生命52、傷害16／1秒、射程5格。骨弓單體射擊，可對空，不帶出生護盾。可攻擊空中目標。"},{"n":"骸骨將軍","cost":4,"count":1,"hp":650,"damage":56,"interval":1.2,"range":2.1,"speed":1,"radius":0,"d":"4費／1名，生命650、傷害56／1.2秒、射程2.1格。大劍前方120度／半徑2.1格橫掃。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"musket","name":"火槍手","kind":"unit","sub":"遠程 · 重擊","desc":"從遠處集中重擊單一目標，靠射程與單發傷害支援前排。","color":"#7183a5","style":"bullet","forms":[{"n":"火槍手","cost":4,"count":1,"hp":200,"damage":90,"interval":1.33,"range":7,"speed":1,"radius":0},{"n":"狙擊手","cost":4,"count":1,"hp":200,"damage":130,"interval":2,"range":8,"speed":1,"radius":0,"d":"4費／1名，生命200、傷害130／2秒、射程8格。遠距單體狙擊；增傷與降低頻率已計入上述數值。可攻擊空中目標。"},{"n":"霰彈槍手","cost":4,"count":1,"hp":240,"damage":85,"interval":1.11,"range":4,"speed":1.3,"radius":0,"d":"4費／1名，生命240、傷害85／1.111秒、射程4格。前方30度均勻射出5顆直線散彈，單顆51傷害；每顆只中一個目標，多顆可打同一敵人，可對空。可攻擊空中目標。"},{"n":"槍械師","cost":4,"count":1,"hp":230,"damage":90,"interval":1.33,"range":7,"speed":1,"radius":0,"d":"4費／1名，生命230、傷害90／1.333秒、射程7格。架設0.3秒後原地射擊4秒，每秒5發、每發45傷害；沒有目標仍計時，不補發。射擊結束或暈眩中斷後冷卻8秒，收槍0.3秒；期間暫停普攻。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"pekka","name":"鐵衛","kind":"unit","sub":"近戰 · 重擊","desc":"重擊厚血前排或城塔；一次只攻擊一個目標，仍會被小兵牽制。","color":"#596275","style":"heavy","forms":[{"n":"鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0},{"n":"破甲鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0,"d":"6費、1名；生命750、普攻120／1.333秒、移速1.5、射程1.8。命中後破甲3秒，後續承傷+20%；含建築與主堡，友軍共享，刷新不疊加。無法攻擊空中目標。"},{"n":"處刑鐵衛","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0,"d":"6費、1名；生命750、普攻120／1.333秒、移速1.5、射程1.8。命中前生命低於40%時傷害+50%；擊殺部隊後下一擊等待×0.5，不累積，拆建築不觸發。無法攻擊空中目標。"},{"n":"鋼鐵霸主","cost":6,"count":1,"hp":750,"damage":120,"interval":1.33,"range":1.8,"speed":1.5,"radius":0,"d":"6費、1名；生命750、普攻120／1.333秒、移速1.5、射程1.8。體型更大。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"hog","name":"野豬","kind":"unit","sub":"攻城 · 突襲","desc":"趁防線空缺快速攻塔；優先攻擊警戒範圍內的敵方建築，仍忽略敵兵。","color":"#a27b56","style":"ram","forms":[{"n":"野豬","cost":3,"count":1,"hp":450,"damage":60,"interval":1.25,"range":1,"speed":1.8,"radius":0},{"n":"披甲戰豬","cost":3,"count":1,"hp":500,"damage":60,"interval":1.25,"range":1,"speed":1.5,"radius":0,"d":"3費、1隻；生命500、普攻60／1.25秒、移速1.5。只攻建築。投射物減傷30%，不減免近戰或持續傷害。無法攻擊空中目標。"},{"n":"狂暴戰豬","cost":3,"count":1,"hp":450,"damage":60,"interval":1.25,"range":1,"speed":2,"radius":0,"d":"3費、1隻；生命450、普攻60／1.25秒、移速2。只攻建築。每完整失血10%，攻頻+10%，上限+80%；治療後隨生命重算，與其他加速乘算。無法攻擊空中目標。"},{"n":"攻城巨豬","cost":4,"count":1,"hp":480,"damage":60,"interval":1.25,"range":1,"speed":1.6,"radius":0,"d":"4費、1隻；生命480、普攻60／1.25秒、移速1.6。只攻建築。破城裂痕：普攻或衝撞命中建築／城塔後，該建築4秒內受到所有來源傷害+25%；這一擊本身不加成，再命中刷新、不疊加。體型更大。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"wizard","name":"法師","kind":"unit","sub":"群傷 · 緩速","desc":"魔法命中周圍 2 格敵人，造成 44 傷害；敵兵移速與攻速減半 1.5 秒。","color":"#878eb0","style":"magic","forms":[{"n":"法師","cost":4,"count":1,"hp":210,"damage":48,"interval":1.18,"range":6,"speed":1.25,"radius":0},{"n":"冰霜法師","cost":4,"count":1,"hp":220,"damage":52,"interval":1.18,"range":6,"speed":1.25,"radius":0,"d":"4費／1名，生命220、傷害52／1.176秒、射程6格。冰彈半徑1.5，每次冰霜降低移速／攻頻20%／20%，持續1.5秒；共用3次命中凍結1.5秒，凍結期間不疊層不延長；建築只受傷。暴風雪：6.5格鎖定，施法0.6秒；固定半徑3持續4秒，每0.5秒對圈內敵人造成26傷害並加一層冰霜，共8次；沿用冰彈凍結規則，建築只受傷、出生保護免控。圈內移速降低50%，離圈解除。風暴期間站定引導、不移動不普攻；施法者死亡或被控制時風暴立即結束；效果結束後冷卻10秒，不產生護盾。可攻擊空中目標。"},{"n":"雷霆法師","cost":4,"count":1,"hp":210,"damage":46,"interval":1.25,"range":6,"speed":1.25,"radius":0,"d":"4費／1名，生命210、傷害46／1.25秒、射程6格。連鎖首擊後再跳4次，半徑5格，每0.1秒找最近的另一敵人，可往返；每跳扣初始30%、最低30%，含空地與建築。閃電風暴：6.5格鎖定，施法0.6秒；固定半徑3持續4秒，每0.5秒最多落下3道雷，分別命中圈內不同敵人，每道造成34.5傷害，共8次；敵人不足時減少落雷，單一敵人每次只受一道。風暴期間站定引導、不移動不普攻；施法者死亡或被控制時風暴立即結束；效果結束後冷卻10秒，不減速、不產生護盾。可攻擊空中目標。"},{"n":"奧術大法師","cost":4,"count":1,"hp":250,"damage":52,"interval":1.11,"range":6,"speed":1.25,"radius":0,"d":"4費／1名，生命250、傷害52／1.111秒、射程6格。符石充能：每次普攻點亮一顆符石，3顆都亮後下一擊三顆符石各射一支魔法箭，各造成31.2傷害。奧術風暴：6.5格鎖定，施法0.6秒；固定半徑3持續4秒，每0.25秒造成23.4傷害，共16次；圈內移速降低50%，離圈解除。自身最大生命40%護盾隨風暴到期；風暴期間站定引導、不移動不普攻；施法者死亡或被控制時引導中斷，風暴與護盾立即結束；效果結束後冷卻10秒。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"healer","name":"治療師","kind":"unit","sub":"支援 · 治療","desc":"每秒為射程內最需治療的友軍恢復 50 HP；不治療自己或城塔。","color":"#e2d2a5","style":"blade","forms":[{"n":"治療師","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0},{"n":"守護祭司","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0,"d":"3費／1名，生命125，每2秒治療50，射程6格。名義治療130%轉護盾，每層6秒；共用上限最大生命60%，滿額只刷新最早到期層；目標滿血時不上盾。可治療空中友軍。"},{"n":"生命德魯伊","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0,"d":"3費／1名，生命125，每2秒治療45，射程6格。主目標×0.85，周圍2.5格其他友軍×0.5；不重複治療主目標。可治療空中友軍。"},{"n":"聖光大祭司","cost":3,"count":1,"hp":125,"damage":0,"interval":0,"range":6,"speed":1.2,"radius":0,"d":"3費／1名，生命125，每2秒治療50，射程6格。普療另加目標最大生命2%（再套治療增益×1）。聖光救援：生命低於70%或有可淨化狀態時，施法1秒，周圍3格回復20%最大生命並淨化毒、燃燒、移速與攻頻降低；冷卻8秒，不解除暈眩／凍結／定身。可治療空中友軍。"}],"fly":false,"aa":false},{"id":"valkyrie","name":"女武神","kind":"unit","sub":"近戰 · 旋斧","desc":"以自身為中心揮斧一圈，清除包圍自己的敵兵。","color":"#c98049","style":"spin","forms":[{"n":"女武神","cost":5,"count":1,"hp":600,"damage":55,"interval":0.8,"range":1.8,"speed":1.5,"radius":0},{"n":"血斧女武神","cost":5,"count":1,"hp":580,"damage":55,"interval":0.8,"range":2.3,"speed":1.5,"radius":0,"d":"5費／1名，生命580、傷害55／0.8秒、射程2.3格。吸血30%，只計敵兵實際生命傷害，護盾與溢傷不計；旋風突進也會吸血。無法攻擊空中目標。"},{"n":"裂甲女武神","cost":5,"count":1,"hp":620,"damage":55,"interval":0.8,"range":2.3,"speed":1.5,"radius":0,"d":"5費／1名，生命620、傷害55／0.8秒、射程2.3格。旋斧命中敵兵使其受到的傷害增加40%，3秒；不疊強度，旋風突進也會觸發。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"arrows","name":"箭雨","kind":"spell","sub":"法術 · 連射","desc":"主堡向指令圈內的敵兵持續拋射箭矢。","color":"#d5bc7d","style":"blade","forms":[{"n":"箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3},{"n":"烈焰箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3,"d":"3費，每波7箭、每箭50傷害，指令半徑3格、延遲0.45秒；只傷敵方空地部隊。每箭燃燒每秒20、持續3秒，共用最多3層；每層獨立、滿層刷新最短層，與其他兵種燃燒分開。可攻擊空中目標。"},{"n":"冰霜箭雨","cost":3,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":3,"d":"3費，每波7箭、每箭50傷害，指令半徑3格、延遲0.45秒；只傷敵方空地部隊。命中降低移速30%、攻頻30%，持續3.5秒，不疊強度；每支箭疊一層冰霜（與冰霜法師共用），3層凍結2秒，冰霜層保留3秒，凍結中不疊。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"meteor","name":"流星","kind":"spell","sub":"法術 · 爆破","desc":"流星落下，傷害範圍內的敵人。","color":"#e78647","style":"blade","forms":[{"n":"流星","cost":6,"count":1,"hp":0,"damage":450,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"熔岩流星","cost":6,"count":1,"hp":0,"damage":500,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"6費，爆炸500傷害／半徑2.5格，落下延遲0.8秒；對城塔沿用法術倍率。留下4秒熔岩，每0.5秒50傷害，只傷敵方地面部隊；不同區域獨立。可攻擊空中目標。"},{"n":"引力流星","cost":6,"count":1,"hp":0,"damage":550,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"6費，爆炸550傷害／半徑2.5格，落下延遲0.8秒；對城塔沿用法術倍率。先牽引1秒，半徑3格、速度2格／秒，再開始落下；只移動敵方地面兵，重疊取最強，不穿地形。可攻擊空中目標。"},{"n":"天穹崩落","cost":6,"count":1,"hp":0,"damage":600,"interval":1,"range":0,"speed":0,"radius":3.5,"d":"6費，爆炸600傷害／半徑3.5格，落下延遲2秒；對城塔沿用法術倍率。巨型隕石落地時向外擊退地面敵兵2格，並使範圍內空地敵兵暈眩1秒；建築與城塔只受傷害。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"arrowtwr","name":"箭塔","kind":"building","sub":"建築 · 攔截","desc":"射程很長的守路箭塔，地空都打，攔截接近的敵兵。","color":"#ab9774","style":"arrow","forms":[{"n":"箭塔","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0},{"n":"獵首長弓","cost":4,"count":1,"hp":750,"damage":42,"interval":1.2,"range":10,"speed":0,"radius":0,"d":"4費，生命750、傷害42／1.2秒、射程10格，施工2秒、壽命35秒。居高臨下：命中時依距離加傷，最大射程處 +40%。優先射擊射程內目前生命最低的敵兵；目標生命低於50%時傷害×1.5，這一箭擊殺就立刻重置攻擊冷卻。只攻擊敵方空地部隊。可攻擊空中目標。"},{"n":"標記箭","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0,"d":"4費，生命750、傷害42／0.9秒、射程9格，施工2秒、壽命35秒。居高臨下：命中時依距離加傷，最大射程處 +40%。命中的目標被標記3秒，受到所有來源的傷害 +20%；不疊加，重複命中刷新時間。只攻擊敵方空地部隊。可攻擊空中目標。"},{"n":"高低雙哨","cost":4,"count":1,"hp":750,"damage":42,"interval":0.9,"range":9,"speed":0,"radius":0,"d":"4費，生命750、傷害42／0.9秒、射程9格，施工2秒、壽命35秒。居高臨下：命中時依距離加傷，最大射程處 +40%。每次攻擊同時射最近與最遠的敵兵各一箭；射程內只有一個目標時兩箭都射它，合計160%傷害。只攻擊敵方空地部隊。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"bombtwr","name":"炸彈塔","kind":"building","sub":"建築 · 清群","desc":"拋出炸彈造成範圍傷害，擅長清除成群的小兵。","color":"#ab9774","style":"bomb","forms":[{"n":"炸彈塔","cost":4,"count":1,"hp":800,"damage":90,"interval":2,"range":7,"speed":0,"radius":0},{"n":"燃油炸彈塔","cost":4,"count":1,"hp":800,"damage":90,"interval":1.5,"range":7,"speed":0,"radius":0,"d":"4費，生命800、傷害90／1.5秒、射程7格，施工2秒、壽命35秒。每次爆炸留下半徑2.5格燃油3秒，每0.5秒45傷害；重疊只取最高傷害，來源共用目標跳傷節奏。只傷敵方地面部隊。可攻擊空中目標。"},{"n":"震盪炸彈塔","cost":4,"count":1,"hp":800,"damage":100,"interval":1.5,"range":7,"speed":0,"radius":0,"d":"4費，生命800、傷害100／1.5秒、射程7格，施工2秒、壽命35秒。爆炸暈眩0.75秒，重複刷新不累加。只傷敵方地面部隊。可攻擊空中目標。"},{"n":"皇家迫擊砲","cost":4,"count":1,"hp":800,"damage":150,"interval":3,"range":12,"speed":0,"radius":0,"d":"4費，生命800、傷害150／3秒、射程12格，施工2秒、壽命35秒。超遠預警砲擊取代普攻：近身死角2格；每3秒選射程內地面敵兵最密集處，固定落點半徑2格，預警1.5秒後造成330傷害。離圈或進入死角不受傷，不傷飛行、建築與城塔。搭配集束轟炸時，集束從建築發射，另計冷卻，選擇射程內、死角外的地面敵兵。只傷敵方地面部隊。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"catapult","name":"投石車","kind":"building","sub":"建築 · 攻城","desc":"射程超長的攻城建築，落點爆炸，從遠處砸敵方城塔。","color":"#ab9774","style":"boulder","forms":[{"n":"投石車","cost":6,"count":1,"hp":210,"damage":200,"interval":4,"range":16,"speed":0,"radius":0},{"n":"破城投石車","cost":6,"count":1,"hp":210,"damage":180,"interval":5,"range":16,"speed":0,"radius":0,"d":"6費，生命210、傷害180／5秒、射程16格，施工5秒、壽命35秒。近身死角4格；對前塔倍率0.5。合法建築／城塔命中傷害+30%，不增加對兵傷害或選敵權限。無法攻擊空中目標。"},{"n":"碎石投石車","cost":6,"count":1,"hp":210,"damage":190,"interval":4,"range":16,"speed":0,"radius":0,"d":"6費，生命210、傷害190／4秒、射程16格，施工5秒、壽命35秒。近身死角4格；對前塔倍率0.5。主彈落地散出6碎石，每顆47.5傷害，最遠3格；每顆只命中一名地面敵兵，可多顆命中同人。無法攻擊空中目標。"},{"n":"皇家攻城砲","cost":6,"count":1,"hp":210,"damage":200,"interval":4,"range":16,"speed":0,"radius":0,"d":"6費，生命210、傷害200／4秒、射程16格，施工5秒、壽命35秒。近身死角4格；對前塔倍率0.5。破甲砲：普攻維持每次一發與原有選敵規則；命中敵方建築或城塔後破甲3秒，受到所有來源傷害+30%。再次命中刷新、不疊加；部隊不受破甲影響。搭配攻城齊射時，每顆齊射砲彈也附加破甲；齊射期間暫停普攻。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"cavalry","name":"輕騎兵","kind":"unit","sub":"騎兵 · 單體衝鋒","desc":"高速地面騎兵；可升級為重裝騎士、突擊騎兵或皇家騎士。","color":"#c1ccd0","style":"blade","forms":[{"n":"輕騎兵","cost":4,"count":1,"hp":480,"damage":55,"interval":1.2,"range":1.05,"speed":2.5,"radius":0},{"n":"重裝騎士","cost":5,"count":1,"hp":650,"damage":55,"interval":1.2,"range":1.05,"speed":2,"radius":0,"d":"5 費，生命 650，普攻 55／1.2 秒，移速 2。每 6 秒衝鋒一次，衝鋒移速 3.2、每個目標總傷害 137.5。減傷 15%。擊退 2.5 格。撞到第一個敵人就停，並暈眩 1 秒。投射物額外減傷 30%，與一般減傷相乘。無法攻擊空中目標。"},{"n":"突擊騎兵","cost":5,"count":1,"hp":530,"damage":64,"interval":1.2,"range":1.05,"speed":2.5,"radius":0,"d":"5 費，生命 530，普攻 64／1.2 秒，移速 2.5。每 3 秒衝鋒一次，衝鋒移速 4.5、每個目標總傷害 140.8。突擊：優先衝向遠程兵，穿過沿路友軍與敵軍，撞到後再衝出 4 格。無法攻擊空中目標。"},{"n":"皇家騎士","cost":5,"count":1,"hp":580,"damage":62,"interval":1.2,"range":1.05,"speed":2.5,"radius":0,"d":"5 費，生命 580，普攻 62／1.2 秒，移速 2.5。每 8 秒衝鋒一次，衝鋒移速 4、每個目標總傷害 155。減傷 10%。擊退 1 格。長驅直入：撞到後再衝 4 格，穿過沿路所有地面敵兵，到底折返衝回入陣處，去回各命中一次，遇建築停下。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"spearman","name":"長槍兵","kind":"unit","sub":"近戰支援 · 反騎兵","desc":"隔著前排友軍刺擊，對野豬及全部騎兵造成額外傷害。","color":"#c1ccd0","style":"spear","forms":[{"n":"長槍兵","cost":3,"count":1,"hp":450,"damage":45,"interval":0.91,"range":2.5,"speed":1.5,"radius":0},{"n":"長戟兵","cost":3,"count":1,"hp":450,"damage":55,"interval":0.91,"range":3,"speed":1.5,"radius":0,"d":"3 費，生命 450，普攻 55／0.91 秒，移速 1.5，射程 3 格，可隔著前排友軍刺擊。對野豬與全部騎兵傷害 99（＋80%），不限衝鋒狀態。穿陣：直線最多命中 5 名地面敵兵，後續目標承受 60% 普攻傷害，各自套用反騎加成；不穿建築。無法攻擊空中目標。"},{"n":"獵騎槍兵","cost":3,"count":1,"hp":450,"damage":48,"interval":0.83,"range":2.6,"speed":1.5,"radius":0,"d":"3 費，生命 450，普攻 48／0.83 秒，移速 1.5，射程 2.6 格，可隔著前排友軍刺擊。對野豬與全部騎兵傷害 120（＋150%），不限衝鋒狀態。命中騎兵減速 50%、持續 2 秒，重複命中刷新不疊加。攔截刺：優先騎兵，單體普攻傷害、定身 1 秒並打斷衝鋒，冷卻 3 秒；可攔截一般地面敵兵。無法攻擊空中目標。"},{"n":"皇家戟衛","cost":3,"count":1,"hp":450,"damage":55,"interval":1,"range":2.8,"speed":1.5,"radius":0,"d":"3 費，生命 450，普攻 55／1 秒，移速 1.5，射程 2.8 格，可隔著前排友軍刺擊。對野豬與全部騎兵傷害 82.5（＋50%），不限衝鋒狀態。每次命中部隊擊退 1.5 格；不推動建築與主堡。皇家橫掃：前方 150 度、3.2 格，造成 99 傷害並擊退 3 格；騎兵另受反騎增傷與 50% 減速、持續 2 秒。冷卻 6 秒；建築與空中目標不受此技能影響。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"troll","name":"巨魔","kind":"unit","sub":"重型前排 · 扇形攻擊","desc":"肩扛巨棒的重型前排，前方扇形攻擊，對建築與城塔額外傷害。","color":"#c1ccd0","style":"heavy","forms":[{"n":"巨魔","cost":7,"count":1,"hp":800,"damage":65,"interval":2,"range":2.5,"speed":1,"radius":0},{"n":"碎骨巨魔","cost":7,"count":1,"hp":780,"damage":75,"interval":2,"range":2.5,"speed":1,"radius":0,"d":"7 費，生命 780，普攻 75／2 秒，移速 1。前方 150 度、半徑 2.5 格，每個目標完整傷害；對建築／城塔 97.5 傷害（＋30%）。普攻擊退部隊 2 格，不推建築／城塔。無法攻擊空中目標。"},{"n":"鐵皮巨魔","cost":7,"count":1,"hp":800,"damage":60,"interval":2,"range":2.5,"speed":1,"radius":0,"d":"7 費，生命 800，普攻 60／2 秒，移速 1。前方 150 度、半徑 2.5 格，每個目標完整傷害；對建築／城塔 78 傷害（＋30%）。一般減傷 10%，投射物再減傷 15%；投射物總減傷 23.5%，相乘計算。無法攻擊空中目標。"},{"n":"巨魔王","cost":7,"count":1,"hp":880,"damage":70,"interval":2,"range":2.5,"speed":1,"radius":0,"d":"7 費，生命 880，普攻 70／2 秒，移速 1。前方 150 度、半徑 2.5 格，每個目標完整傷害；對建築／城塔 91 傷害（＋30%）。體型＋20%；震地半徑 4 格、傷害 84（對建築／城塔 109.2），部隊擊飛 1.5 秒，無法移動與攻擊；冷卻 5 秒，登場就緒、有目標才施放。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"wyvern","name":"小飛龍","kind":"unit","sub":"空中 · 範圍火球","desc":"中等生命的空中範圍支援，飛越河流與部隊，吐出命中後爆炸的火球。","color":"#c96a3b","style":"fireball","forms":[{"n":"小飛龍","cost":4,"count":1,"hp":300,"damage":60,"interval":1.2,"range":5,"speed":2,"radius":0},{"n":"烈焰飛龍","cost":5,"count":1,"hp":350,"damage":55,"interval":1.2,"range":5.5,"speed":2,"radius":0,"d":"5 費，生命 350，普攻 55／1.2 秒，移速 2。攻擊距離 5.5 格；火球命中後爆炸，半徑 2.1 格內地面與空中敵人各受 55 傷害，建築與主堡同樣受傷，不傷友軍。爆炸附加燃燒：每層每秒 33（普攻 60%），持續 3 秒，最多 3 層，各層獨立計時；滿層再命中刷新最短的一層。建築與主堡也會燃燒。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"},{"n":"冰霜飛龍","cost":5,"count":1,"hp":350,"damage":65,"interval":1.2,"range":5.5,"speed":2,"radius":0,"d":"5 費，生命 350，普攻 65／1.2 秒，移速 2。攻擊距離 5.5 格；冰球命中後爆炸，半徑 2 格內地面與空中敵人各受 65 傷害，建築與主堡同樣受傷，不傷友軍。冰霜：部隊移速 −25%、攻擊頻率 −25%，持續 3 秒，重複命中只刷新時間；建築與主堡不受冰霜影響。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"}],"fly":true,"aa":true},{"id":"griffin","name":"獅鷲騎士","kind":"unit","sub":"空中遠程 · 標槍","desc":"騎士在獅鷲背上投擲標槍，單體遠程，可攻擊地面、空中、建築與主堡。","color":"#b08a52","style":"javelin","forms":[{"n":"獅鷲騎士","cost":4,"count":1,"hp":340,"damage":75,"interval":1.35,"range":6,"speed":2,"radius":0},{"n":"獵手獅鷲騎士","cost":5,"count":1,"hp":340,"damage":75,"interval":1.2,"range":6,"speed":2,"radius":0,"d":"5 費，生命 340，標槍 75／1.2 秒，移速 2，射程 6 格。單體遠程，可攻擊地面、空中、建築與主堡。連續命中同一目標每次＋25%，上限＋100%（75～150），換目標重置。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"},{"n":"鐵翼獅鷲騎士","cost":5,"count":1,"hp":380,"damage":60,"interval":1.5,"range":6,"speed":2,"radius":0,"d":"5 費，生命 380，標槍 60／1.5 秒，移速 2，射程 6 格。單體遠程，可攻擊地面、空中、建築與主堡。受到的投射物傷害減少 30%，其他傷害不減免。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"}],"fly":true,"aa":true},{"id":"barracks","name":"兵營","kind":"building","sub":"建築 · 持續產兵","desc":"完工立即出兵，定時產出基礎部隊；本體不攻擊。","color":"#b38d55","style":"barracks","forms":[{"n":"兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"警戒兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 300，施工 3 秒，完工後存在 48 秒，每 13.4 秒出兵；完工立即出第一輪，到期不再出兵。每輪一名基礎騎士；不繼承持有卡牌的形態與特性。周圍 6 格內有敵方部隊時，產兵進度速度 1.5 倍；離開後保留進度。本體不攻擊，產出部隊各自判斷攻擊目標。"},{"n":"前線兵營","cost":6,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 300，施工 1.5 秒，完工後存在 32 秒，每 9.4 秒出兵；完工立即出第一輪，到期不再出兵。每輪一名基礎騎士；不繼承持有卡牌的形態與特性。本體不攻擊，產出部隊各自判斷攻擊目標。"},{"n":"聯軍兵營","cost":7,"count":1,"hp":300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 300，施工 5 秒，完工後存在 48 秒，每 15 秒出兵；完工立即出第一輪，到期不再出兵。每輪一名基礎騎士與一名基礎弓手，生命與攻擊減半，兩名有空位才一起出場。本體不攻擊，產出部隊各自判斷攻擊目標。"}],"fly":false,"aa":false},{"id":"spike_trap","name":"地刺陷阱","kind":"spell","sub":"法術 · 布置陷阱","desc":"只觸發敵方地面部隊，首次觸發後顯形，不阻擋移動。","color":"#b38d55","style":"spike","forms":[{"n":"地刺陷阱","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5},{"n":"機關地刺","cost":2,"count":1,"hp":0,"damage":50,"interval":0,"range":0,"speed":0,"radius":1.5,"d":"布置 2 秒後生效，存在 25 秒，半徑 1.5 格；只傷敵方地面部隊，首次觸發後顯形，不阻擋移動且不可拆除。有敵人時每 0.5 秒造成 50 傷害，另消耗 1 秒壽命；移速降低 30%，持續 2 秒。不觸發飛行單位、建築與城塔。"},{"n":"連鎖地刺","cost":2,"count":1,"hp":0,"damage":150,"interval":0,"range":0,"speed":0,"radius":1.5,"d":"布置 2 秒後生效，存在 25 秒，半徑 1.5 格；只傷敵方地面部隊，首次觸發後顯形，不阻擋移動且不可拆除。最多觸發 5 次，每次冷卻 2 秒，造成 150 傷害。觸發後地刺從陷阱一路竄出，追向附近還沒刺過的敵方地面部隊，連同陷阱共 3 段（每段最遠 2 格、間隔 0.3 秒；附近沒人就沿踩中者的前進方向）；每名敵軍每組只受傷一次，遇河流或空洞停止。不觸發飛行單位、建築與城塔。"},{"n":"震地刺陣","cost":2,"count":1,"hp":0,"damage":400,"interval":0,"range":0,"speed":0,"radius":1.5,"d":"布置 2 秒後生效，存在 25 秒，半徑 1.5 格；只傷敵方地面部隊，首次觸發後顯形，不阻擋移動且不可拆除。最多觸發 3 次，每次冷卻 2 秒，造成 400 傷害。不觸發飛行單位、建築與城塔。"}],"fly":false,"aa":false},{"id":"siege_ram","name":"攻城衝車","kind":"unit","sub":"攻城 · 衝車","desc":"地面攻城衝車，只攻擊建築、前塔與主堡；車體沉重，免疫擊飛，頂棚減免投射物傷害。","color":"#8a6a47","style":"ram","forms":[{"n":"攻城衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2.5,"range":1.5,"speed":0.8,"radius":0},{"n":"鐵甲衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2.5,"range":1.5,"speed":0.7,"radius":0,"d":"6 費，生命 900，撞擊 150／2.5 秒，移速 0.7，撞擊距離 1.5 格。只攻擊建築、前塔與主堡，免疫擊飛，投射物減傷 25%。厚重鐵板取代頂棚減傷，但移速降為基礎的 75%。無法攻擊空中目標。"},{"n":"破城衝車","cost":6,"count":1,"hp":900,"damage":150,"interval":2,"range":1.5,"speed":0.9,"radius":0,"d":"6 費，生命 900，撞擊 150／2 秒，移速 0.9，撞擊距離 1.5 格。只攻擊建築、前塔與主堡，免疫擊飛，投射物減傷 30%。連撞同一建築每次＋10%，上限＋50%（150～225），換目標重置；暈眩與擊退不清除層數。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"thunder","name":"震雷","kind":"spell","sub":"低費打斷","desc":"固定落點的雷擊，傷害並短暫暈眩地空部隊。","color":"#8acfff","style":"thunder","forms":[{"n":"震雷","cost":2,"count":1,"hp":0,"damage":80,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"連鎖震雷","cost":2,"count":1,"hp":0,"damage":75,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"0.3 秒後在固定位置落雷，半徑 2.5 格，造成 75 傷害；部隊、建築與城塔都暈眩 1.5 秒，城塔承受 50% 傷害。從最近受擊部隊額外跳電 2 次，每次距離 3 格、間隔 0.2 秒，造成 60 傷害與 1 秒暈眩；不重複命中，不跳建築。可攻擊空中目標。"},{"n":"蓄能震雷","cost":2,"count":1,"hp":0,"damage":150,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"1 秒後在固定位置落雷，半徑 2.5 格，造成 150 傷害；部隊、建築與城塔都暈眩 3 秒，城塔承受 50% 傷害。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"tombstone","name":"亡骨墓碑","kind":"building","sub":"建築 · 收割產兵","desc":"定時爬出骷髏，附近敵我部隊死亡時收割出兵；本體不攻擊。","color":"#777d79","style":"tombstone","forms":[{"n":"亡骨墓碑","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"瘟疫墓碑","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 350，施工 1.5 秒，完工後存在 30 秒，每 4 秒產出一隻骷髏；本體不攻擊。周圍 7 格內敵我部隊死亡時收割一隻；每座同時最多 6 隻，被摧毀時再出 3 隻，仍受上限限制。召喚物不吃星級與特性，自然到期不出兵。詛咒光環令周圍 6 格敵人攻速降低 40%；多座光環取最強值。本體不攻擊，產出部隊各自判斷攻擊目標。"},{"n":"骸骨祭壇","cost":2,"count":1,"hp":350,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 350，施工 1.5 秒，完工後存在 30 秒，每 4 秒產出一隻骷髏；本體不攻擊。周圍 7 格內敵我部隊死亡時收割一隻；每座同時最多 6 隻，被摧毀時再出 3 隻，仍受上限限制。召喚物不吃星級與特性，自然到期不出兵。每次出兵 50%為骷髏弓手，其餘為骷髏盾兵；沿用各形態能力。本體不攻擊，產出部隊各自判斷攻擊目標。"}],"fly":false,"aa":false},{"id":"night_bats","name":"夜翼蝙蝠","kind":"unit","sub":"飛行 · 吸血蝠群","desc":"成群飛行的近戰蝙蝠，可攻擊地面與空中，命中吸取實際生命傷害。","color":"#39234d","style":"bite","forms":[{"n":"夜翼蝙蝠","cost":3,"count":3,"hp":60,"damage":24,"interval":1.25,"range":0.8,"speed":2.6,"radius":0},{"n":"吸血蝠群","cost":3,"count":3,"hp":60,"damage":26,"interval":1.2,"range":0.8,"speed":2.6,"radius":0,"d":"3 費，每次 3 隻，生命 60、傷害 26／1.2 秒；吸取實際生命傷害的 30%。近戰可打地面與空中；攻擊時低空俯衝，判定始終飛行。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"},{"n":"瘟疫蝠","cost":3,"count":3,"hp":60,"damage":24,"interval":1.15,"range":0.8,"speed":2.6,"radius":0,"d":"3 費，每次 3 隻，生命 60、傷害 24／1.15 秒；吸取實際生命傷害的 10%。近戰可打地面與空中；攻擊時低空俯衝，判定始終飛行。命中敵方部隊附毒：每層每秒 4、持續 5 秒，同目標最多 3 層，各層獨立計時。飛行單位：越過河流、部隊與建築，只有對空攻擊能命中。"}],"fly":true,"aa":true},{"id":"red_captain","name":"赤帆船長","kind":"unit","sub":"槍刀 · 適應","desc":"槍刀依敵人距離切換，對空一律用槍。","color":"#a94145","style":"bullet","forms":[{"n":"赤帆船長","cost":4,"count":1,"hp":450,"damage":50,"interval":1.11,"range":5,"speed":1.6,"radius":0},{"n":"神射•赤帆船長","cost":4,"count":1,"hp":450,"damage":60,"interval":1.11,"range":6,"speed":1.6,"radius":0,"d":"4 費，生命 450；1.5 格內對地用刀（45 傷害／0.8 秒），其餘用槍（60 傷害／1.11 秒，射程 6）；空中敵人一律用槍。槍在拔刀距離內不加成，之後每格增傷 20%，最多 80%；刀不受此加成。遠程槍可打地空；近身刀只打地面。"},{"n":"決鬥•赤帆船長","cost":4,"count":1,"hp":550,"damage":50,"interval":1.11,"range":5,"speed":1.6,"radius":0,"d":"4 費，生命 550；1.7 格內對地用刀（60 傷害／0.7 秒），其餘用槍（50 傷害／1.11 秒，射程 5）；空中敵人一律用槍。刀越近傷害越高，拔刀距離處不加成，貼身最多增傷 50%；槍不受此加成。遠程槍可打地空；近身刀只打地面。"}],"fly":false,"aa":true},{"id":"fishing_net","name":"漁網","kind":"spell","sub":"拉下飛行 · 定身","desc":"主堡投出漁網，定身敵方部隊並把飛行單位暫時拉到地面。","color":"#94754b","style":"net","forms":[{"n":"漁網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"鉤刺網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"主堡投網，1.5 秒後落地；半徑 2.5 格內敵方部隊承受 30 傷害並定身 3 秒。不能移動但可攻擊；飛行單位期間視為地面。對建築、城塔及石像狀態的石像守衛無效。網住期間攻擊速度 -50%。網住期間每秒造成 20 傷害。飛行部隊被拉下後視為地面；不影響建築、城塔與石像。"},{"n":"拖網","cost":2,"count":1,"hp":0,"damage":30,"interval":1,"range":0,"speed":0,"radius":3.5,"d":"主堡投網，1.8 秒後落地；半徑 3.5 格內敵方部隊承受 30 傷害並定身 4 秒。不能移動但可攻擊；飛行單位期間視為地面。對建築、城塔及石像狀態的石像守衛無效。網住期間攻擊速度 -50%。落地後 0.5 秒內安全拉向中心，最多 1.5 格。飛行部隊被拉下後視為地面；不影響建築、城塔與石像。"}],"fly":false,"aa":true},{"id":"gargoyle","name":"石像守衛","kind":"unit","sub":"地面 · 石像守望","desc":"石像減傷與回血，敵人靠近甦醒並以巨劍近戰；無敵人時走回原部署位置。","color":"#75787d","style":"heavy","forms":[{"n":"石像守衛","cost":4,"count":1,"hp":650,"damage":55,"interval":1,"range":0.8,"speed":2,"radius":0},{"n":"苔蘚古守衛","cost":4,"count":1,"hp":800,"damage":50,"interval":1,"range":0.8,"speed":2,"radius":0,"d":"4 費，生命 800；石像不動不攻擊、受傷減少 85%、每秒回 1% 生命。敵人進入 3 格或被嘲諷即甦醒，沿地面行走、用巨劍近戰，傷害 50／1 秒、移速 2；周圍 3 格連續 3 秒無敵人，走回原部署位置變回石像。活動範圍以部署原點為中心，半徑 3 格；不追擊圈外目標，越界立即停止攻擊並走回原點。石像與甦醒皆為地面部隊；巨劍近戰無法攻擊空中。"},{"n":"巨劍守衛","cost":4,"count":1,"hp":700,"damage":75,"interval":1,"range":0.8,"speed":2,"radius":0,"d":"4 費，生命 700；石像不動不攻擊、受傷減少 70%、每秒回 1% 生命。敵人進入 5 格或被嘲諷即甦醒，沿地面行走、用巨劍近戰，傷害 75／1 秒、移速 2；周圍 3 格連續 3 秒無敵人，走回原部署位置變回石像。活動範圍以部署原點為中心，半徑 5 格；不追擊圈外目標，越界立即停止攻擊並走回原點。每次甦醒首擊 2 倍傷害，並原地暈眩 1 秒。石像與甦醒皆為地面部隊；巨劍近戰無法攻擊空中。"}],"fly":false,"aa":false},{"id":"wind_barrier","name":"風之結界","kind":"spell","sub":"加速 · 吹偏投射物","desc":"直接建立風之結界，加速我方部隊並有機率吹偏飛入的敵方投射物。","color":"#8ccbd2","style":"wind","forms":[{"n":"風之結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":2.5},{"n":"順風結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":2.5,"d":"立即建立半徑 2.5 格、持續 6 秒的結界；範圍內我方部隊移速增加 35%。飛進範圍的敵方投射物有 35% 機率吹偏落空，包含漁網；每個投射物在同一結界只判定一次。我方部隊攻速再增加 40%。範圍內部隊加速；敵方投射物可能被吹偏落空。"},{"n":"逆風結界","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":3,"d":"立即建立半徑 3 格、持續 6 秒的結界；範圍內我方部隊移速增加 35%。飛進範圍的敵方投射物有 35% 機率吹偏落空，包含漁網；每個投射物在同一結界只判定一次。敵方部隊移速降低 70%。範圍內部隊加速；敵方投射物可能被吹偏落空。"}],"fly":false,"aa":false},{"id":"ink_taoist","name":"墨筆道士","kind":"unit","sub":"遠程支援 · 畫符","desc":"每第三次出手替最近友軍畫符，護盾與下一擊墨跡減速。","color":"#30343b","style":"magic","forms":[{"n":"墨筆道士","cost":4,"count":1,"hp":400,"damage":48,"interval":1.4,"range":5,"speed":1.3,"radius":0},{"n":"雷符道士","cost":4,"count":1,"hp":400,"damage":48,"interval":0.9,"range":5,"speed":1.3,"radius":0,"d":"傷害 48／0.9 秒、射程 5 格；每 3 次出手替 5 格內最近友軍畫符，護盾 150、持續 6 秒，下一擊附加移速降低 20%、1.5 秒。符破或到期放連鎖閃電，最多 3 名敵軍、每次 75 傷害、跳距 4 格。可攻擊空中目標。"},{"n":"封印道士","cost":4,"count":1,"hp":400,"damage":45,"interval":1,"range":5,"speed":1.3,"radius":0,"d":"每 3 次出手改封敵軍，沉默 4 秒；對被封目標傷害增加 50%。可攻擊空中目標。"},{"n":"畫龍道士","cost":4,"count":1,"hp":400,"damage":42,"interval":1.1,"range":5,"speed":1.3,"radius":0,"d":"傷害 42／1.1 秒、射程 5 格；每 3 次出手替 5 格內最近友軍畫符，護盾 150、持續 6 秒，下一擊附加移速降低 20%、1.5 秒。每 10 秒畫飛行小墨蛟，生命 180、傷害 45、存在 15 秒，每位道士最多 2 隻；跟隨道士繞 1.5 格盤旋，只攻擊道士 6 格警戒內可及的敵人，不沿路推進，道士死亡時一起消散。警戒內、盤旋咬不到的敵兵：每 2 秒加速衝過去，穿過時造成 72 傷害，再繞回盤旋。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"yin_yang_array","name":"陰陽法陣","kind":"spell","sub":"持續法術 · 陰陽輪替","desc":"先陽後陰，每秒交替治療友軍與傷害敵軍。","color":"#30343b","style":"yin_yang","forms":[{"n":"陰陽法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3},{"n":"太極法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3,"d":"半徑 3 格、持續 3 秒，每 0.5 秒一跳、先陽；陽跳友軍回 50，陰跳敵軍受 50 傷害，城塔傷害乘 0.5。有陰陽兩路時，施放瞬間中心在陽路使本次陽跳治療增加 50%，在陰路使本次陰跳傷害增加 50%；整個法陣期間固定。太極跳得更快、持續較短，治療與傷害集中在短時間內打完。可攻擊空中目標。"},{"n":"兩儀法陣","cost":3,"count":1,"hp":0,"damage":50,"interval":1,"range":0,"speed":0,"radius":3,"d":"半徑 3 格、持續 6 秒，每 1 秒一跳、先陽；陽跳友軍回 50，陰跳敵軍受 50 傷害，城塔傷害乘 0.5。有陰陽兩路時，施放瞬間中心在陽路使本次陽跳治療增加 50%，在陰路使本次陰跳傷害增加 50%；整個法陣期間固定。陽跳友軍受到傷害降低 15%，陰跳敵軍受到傷害增加 15%，持續至下一跳。可攻擊空中目標。"},{"n":"八卦法陣","cost":3,"count":1,"hp":0,"damage":35,"interval":1,"range":0,"speed":0,"radius":4,"d":"半徑 4 格、持續 9 秒，每 1 秒一跳、先陽；陽跳友軍回 35，陰跳敵軍受 35 傷害，城塔傷害乘 0.5。有陰陽兩路時，施放瞬間中心在陽路使本次陽跳治療增加 50%，在陰路使本次陰跳傷害增加 50%；整個法陣期間固定。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"ink_assassin","name":"墨影刺客","kind":"unit","sub":"地面刺客 · 隱身","desc":"部署後隱身至第一擊，優先遠程與支援；現身第一擊雙倍，受範圍傷害會現身。","color":"#30343b","style":"blade","forms":[{"n":"墨影刺客","cost":4,"count":1,"hp":350,"damage":85,"interval":1.1,"range":1,"speed":1.8,"radius":0},{"n":"雙刃影","cost":4,"count":1,"hp":350,"damage":60,"interval":0.83,"range":1,"speed":1.3,"radius":0,"d":"部署後隱身至第一擊，隱身時優先遠程／支援單位；現身第一擊 2 倍。範圍傷害命中即現身。有雲霧時，在霧內連續 1.5 秒未出手會重新隱身，下一擊同樣為 2 倍現身一擊。擊殺後隱身 2 秒，冷卻 1 秒。無法攻擊空中目標。"},{"n":"毒墨影","cost":4,"count":1,"hp":400,"damage":74.3,"interval":1.1,"range":1,"speed":1.8,"radius":0,"d":"部署後隱身至第一擊，隱身時優先遠程／支援單位；現身第一擊 2 倍。範圍傷害命中即現身。有雲霧時，在霧內連續 1.5 秒未出手會重新隱身，下一擊同樣為 2 倍現身一擊。命中附墨毒，每秒 12 傷害、持續 4 秒，受治療降低 40%。無法攻擊空中目標。"},{"n":"分身影","cost":4,"count":1,"hp":350,"damage":71.1,"interval":1.1,"range":1,"speed":1.8,"radius":0,"d":"部署後隱身至第一擊，隱身時優先遠程／支援單位；現身第一擊 2 倍。範圍傷害命中即現身。有雲霧時，在霧內連續 1.5 秒未出手會重新隱身，下一擊同樣為 2 倍現身一擊。另放隱身分身，生命 180、攻擊為本體 30%。無法攻擊空中目標。"}],"fly":false,"aa":false},{"id":"repeating_ballista","name":"連弩車","kind":"building","sub":"建築 · 貫穿連射","desc":"一般守路建築，地空都打；每輪連射弩箭，沿直線貫穿多名地面敵人。","color":"#30343b","style":"bolt","forms":[{"n":"連弩車","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0},{"n":"蓄能裝填","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0,"d":"一般守路建築，射程 6.5 格、存在 25 秒，空地都打。每 1.8 秒一輪 3 連射，每發 28 傷害，沿直線貫穿最多 4 名地面敵人，每穿過一人傷害 −20%。射程內沒有敵人時每 1.8 秒存 1 輪（最多 3 輪）；有敵人進射程就連續射出存的輪數，輪與輪間隔 0.3 秒，之後恢復正常節奏。可攻擊空中目標。"},{"n":"裂陣重床弩","cost":3,"count":1,"hp":750,"damage":115.2,"interval":2.2,"range":7.5,"speed":0,"radius":0,"d":"一般守路建築，射程 7.5 格、存在 25 秒，空地都打。每 2.2 秒單發重矛（115.2 傷害），貫穿直線上所有地面敵人並往後推 1 格；每多穿過一人，對後面的人傷害 +25%（最多 +100%）。可攻擊空中目標。"},{"n":"爆釘連弩","cost":3,"count":1,"hp":750,"damage":28,"interval":1.8,"range":6.5,"speed":0,"radius":0,"d":"一般守路建築，射程 6.5 格、存在 25 秒，空地都打。每 1.8 秒一輪 3 連射，每發 28 傷害，沿直線貫穿最多 4 名地面敵人，每穿過一人傷害 −20%。弩箭釘在被射中的敵人身上，每輪最後一發射出後 0.4 秒一起引爆，每支釘子 15 傷害；同一輪吃滿 3 支的敵人另受最大生命 8% 傷害（首領上限 150）。可攻擊空中目標。"}],"fly":false,"aa":true},{"id":"wall","name":"木柵牆","kind":"building","sub":"建築 · 阻擋","desc":"每方最多一道長方形牆；敵方地面兵被擋時打牆，我方繞行，飛行忽略。","color":"#ac8752","style":"none","forms":[{"n":"木柵牆","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"拒馬","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 1000，施工 1 秒，完工後存在 25 秒；沿 z 長 3.6、沿 x 厚 0.6 格。每方最多一道，含施工中，算入四棟建築上限。可貼建築但不能重疊；可放橋頭到達區，不能放橋面。敵方地面兵被擋時打牆，我方沿現有導航繞行，飛行忽略。近戰攻擊者受到該次傷害 30% 反彈，移速降低 25%、持續 1 秒。阻擋地面部隊；飛行忽略牆，也不選牆為目標。"},{"n":"石垣","cost":4,"count":1,"hp":1300,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 1300，施工 2.5 秒，完工後存在 40 秒；沿 z 長 3.6、沿 x 厚 0.6 格。每方最多一道，含施工中，算入四棟建築上限。可貼建築但不能重疊；可放橋頭到達區，不能放橋面。敵方地面兵被擋時打牆，我方沿現有導航繞行，飛行忽略。阻擋地面部隊；飛行忽略牆，也不選牆為目標。"},{"n":"盾牆","cost":3,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"生命 1000，施工 1 秒，完工後存在 25 秒；沿 z 長 3.6、沿 x 厚 0.6 格。每方最多一道，含施工中，算入四棟建築上限。可貼建築但不能重疊；可放橋頭到達區，不能放橋面。敵方地面兵被擋時打牆，我方沿現有導航繞行，飛行忽略。攔下穿過牆線的敵方直線投射物；拋物線與法術不擋。阻擋地面部隊；飛行忽略牆，也不選牆為目標。"}],"fly":false,"aa":false},{"id":"empower","name":"強化術","kind":"spell","sub":"法術 · 單體強化","desc":"吸附點擊處 1.5 格內最近的我方地空部隊，立即強化；同目標新效果取代舊效果。","color":"#ac8752","style":"none","forms":[{"n":"強化術","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0},{"n":"狂暴","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"立即強化點擊處 1.5 格內最近的我方地面或飛行部隊，持續 8 秒；建築、城塔、稻草人不行，同目標取代不疊加。攻速增加 50%、移速增加 50%，受到傷害增加 30%。可強化我方地面與飛行部隊，包含合作隊友。"},{"n":"鐵壁","cost":2,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"立即強化點擊處 1.5 格內最近的我方地面或飛行部隊，持續 8 秒；建築、城塔、稻草人不行，同目標取代不疊加。取得最大生命 75% 護盾，結束消失；期間免擊退與緩速。可強化我方地面與飛行部隊，包含合作隊友。"},{"n":"巨化","cost":3,"count":1,"hp":0,"damage":0,"interval":1,"range":0,"speed":0,"radius":0,"d":"立即強化點擊處 1.5 格內最近的我方地面或飛行部隊，持續 8 秒；建築、城塔、稻草人不行，同目標取代不疊加。畫面體型 1.3 倍，碰撞不變；最大生命增加 50% 並補上這部分，傷害增加 40%。可強化我方地面與飛行部隊，包含合作隊友。"}],"fly":false,"aa":false},{"id":"clockwork_drummer","name":"發條小鼓手","kind":"unit","sub":"地面近戰 · 鼓舞","desc":"邊走邊敲鼓，鼓點讓周圍友軍加攻速與移速；陣亡掉下發條鑰匙，第一個踩到的友軍得護盾。","color":"#c8352e","style":"blade","forms":[{"n":"發條小鼓手","cost":3,"count":1,"hp":430,"damage":40,"interval":1.1,"range":0.9,"speed":1.3,"radius":0},{"n":"疾行進軍鼓","cost":3,"count":1,"hp":430,"damage":40,"interval":1.1,"range":0.9,"speed":1.5,"radius":0,"d":"每 1.5 秒敲一次鼓，3.5 格內友軍攻速 +15%、移速 +30%，持續 2 秒。陣亡掉下發條鑰匙（留 8 秒），第一個踩到的友軍得到 120 護盾、6 秒。鼓點同時加速地面與飛行友軍；自己只打地面。"},{"n":"戰陣重音鼓","cost":3,"count":1,"hp":430,"damage":48,"interval":1.1,"range":0.9,"speed":1.3,"radius":0,"d":"每 1.5 秒敲一次鼓，3.5 格內友軍攻速 +25%、移速 +15%，持續 2 秒。自己的普攻附破甲，目標受到的傷害 +15%、3 秒。陣亡掉下發條鑰匙（留 8 秒），第一個踩到的友軍得到 120 護盾、6 秒。鼓點同時加速地面與飛行友軍；自己只打地面。"},{"n":"餘音共鳴鼓","cost":3,"count":1,"hp":480,"damage":40,"interval":1.1,"range":0.9,"speed":1.3,"radius":0,"d":"每 1.5 秒敲一次鼓，4.5 格內友軍攻速 +15%、移速 +15%，持續 2 秒。陣亡時周圍 4.5 格內友軍直接得到 120 護盾。鼓點同時加速地面與飛行友軍；自己只打地面。"}],"fly":false,"aa":false},{"id":"tin_duck","name":"誘敵鐵皮鴨","kind":"unit","sub":"地面誘餌 · 吸引","desc":"不攻擊的鐵皮鴨，定時把附近敵軍與城塔的仇恨拉到自己身上，時間到就自毀。","color":"#d9a41f","style":"none","forms":[{"n":"誘敵鐵皮鴨","cost":2,"count":1,"hp":1100,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0},{"n":"充氣耐撞鴨","cost":2,"count":1,"hp":1100,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0,"d":"不攻擊；每 1 秒讓 3.8 格內打得到牠的敵軍、建築與城塔改打牠 1.2 秒，7.5 秒後自毀。每下受到的傷害最多 25% 最大生命。不攻擊；地空部隊、建築與城塔都會被牠吸引。"},{"n":"火花短路鴨","cost":2,"count":1,"hp":1000,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0,"d":"不攻擊；每 1 秒讓 3.8 格內打得到牠的敵軍、建築與城塔改打牠 1.2 秒，6 秒後自毀。被吸引的敵軍攻速 −15%；自毀時放電弧打 3 名被吸引的敵軍，各 90 傷害。不攻擊；地空部隊、建築與城塔都會被牠吸引。"},{"n":"號角發條鴨","cost":2,"count":1,"hp":900,"damage":0,"interval":1,"range":0,"speed":1.5,"radius":0,"d":"不攻擊；每 1 秒讓 5.32 格內打得到牠的敵軍、建築與城塔改打牠 1.2 秒，4.5 秒後自毀。不攻擊；地空部隊、建築與城塔都會被牠吸引。"}],"fly":false,"aa":false},{"id":"tin_patrol","name":"錫皮巡邏小隊","kind":"unit","sub":"地面小隊 · 齊射","desc":"一名盾兵帶兩名火槍手；三人靠在一起時，火槍手定時合併齊射並讓目標減速。","color":"#2f62c4","style":"bullet","forms":[{"n":"錫皮巡邏小隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.1,"radius":0},{"n":"重裝壁壘隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.1,"radius":0,"d":"盾兵生命 620、出場護盾 400、近戰 50；兩名火槍手各 260 生命、70 傷害／1.4 秒、射程 4.8 格，可打地空。三人相距 3 格內時，火槍手每第 3 擊合併齊射，傷害 ×1.4 並讓目標移速 −30%、1.5 秒。盾兵在連動距離內時，火槍手受到的投射物傷害 −35%。火槍手可打地空；盾兵只打地面。"},{"n":"三聯發排隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":5.6,"speed":1.1,"radius":0,"d":"盾兵生命 620、出場護盾 220、近戰 50；兩名火槍手各 260 生命、70 傷害／1.4 秒、射程 5.6 格，可打地空。三人相距 3 格內時，火槍手每第 2 擊合併齊射，傷害 ×1.4 並讓目標移速 −30%、1.5 秒。火槍手可打地空；盾兵只打地面。"},{"n":"哨兵警備隊","cost":5,"count":3,"hp":260,"damage":70,"interval":1.4,"range":4.8,"speed":1.32,"radius":0,"d":"盾兵生命 620、出場護盾 220、近戰 50；兩名火槍手各 260 生命、70 傷害／1.4 秒、射程 4.8 格，可打地空。三人相距 3 格內時，火槍手每第 3 擊合併齊射，傷害 ×1.4 並讓目標移速 −30%、1.5 秒。盾兵陣亡後，火槍手攻速 +30%。火槍手可打地空；盾兵只打地面。"}],"fly":false,"aa":false},{"id":"clockwork_cuckoo","name":"發條布穀鳥","kind":"unit","sub":"飛行 · 自爆攻城","desc":"飛向建築與城塔，撞上就自爆並讓建築短暫癱瘓；半路被打下只有一半威力。","color":"#7a4a2c","style":"ram","forms":[{"n":"發條布穀鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0},{"n":"重錘布穀鳥","cost":3,"count":1,"hp":333,"damage":500,"interval":1,"range":0.6,"speed":1.7,"radius":0,"d":"飛向建築與城塔，撞上就自爆：1.5 格內建築與城塔受 500 傷害、部隊受 50%，被撞的建築癱瘓 2 秒（停火、停產兵）。半路被打下只爆 50%、不癱瘓。飛行單位：只撞建築與城塔，爆炸同時波及地面與空中部隊。"},{"n":"音叉共振鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0,"d":"飛向建築與城塔，撞上就自爆：1.5 格內建築與城塔受 340 傷害、部隊受 50%，被撞的建築癱瘓 2 秒（停火、停產兵）。半路被打下只爆 50%、不癱瘓。癱瘓擴散到 3 格內的其他建築，範圍內敵兵移速 −30%、2 秒。飛行單位：只撞建築與城塔，爆炸同時波及地面與空中部隊。"},{"n":"雙聯子母鳥","cost":3,"count":1,"hp":230,"damage":340,"interval":1,"range":0.6,"speed":2.2,"radius":0,"d":"飛向建築與城塔，撞上就自爆：1.5 格內建築與城塔受 340 傷害、部隊受 50%，被撞的建築癱瘓 2 秒（停火、停產兵）。半路被打下只爆 50%、不癱瘓。自爆後彈出一隻子鳥（生命 120、自爆 50%），飛向下一座建築。飛行單位：只撞建築與城塔，爆炸同時波及地面與空中部隊。"}],"fly":true,"aa":false}];
+const SHOTS = [{"f": "battle-ch1-a.jpg", "cap": "第一章 王國酒館沙盤：雙方部隊在河道兩側交戰"}, {"f": "close-ch1.jpg", "cap": "近看戰場：方塊士兵各自找目標開打（英文介面）"}, {"f": "battle-ch2.jpg", "cap": "第二章 潮汐群島：燈塔、港口與會漲退的淺灘"}, {"f": "battle-ch3.jpg", "cap": "第三章 天空遺城：浮在雲海上的戰場"}, {"f": "battle-ch4.jpg", "cap": "第四章 墨染山河：水墨風格的雪白沙盤"}, {"f": "clockwork-1.jpg", "cap": "發條世界（開發中）：擺在蒸汽城市中央的玩具戰場"}, {"f": "clockwork-3.jpg", "cap": "發條世界：環形軌道、齒輪與高樓圍著沙盤"}, {"f": "map-ch2.jpg", "cap": "行軍地圖：在群島之間挑選路線"}, {"f": "map-ch3.jpg", "cap": "行軍地圖：天空遺城的浮島航道"}, {"f": "map-ch4.jpg", "cap": "行軍地圖：墨染山河的山水棋盤"}, {"f": "banner.jpg", "cap": "每章開始舉起一面軍旗：好處與代價一起考慮"}, {"f": "draft.jpg", "cap": "出征準備：抽牌、自選一張、調整出牌順序（英文介面）"}, {"f": "home.jpg", "cap": "首頁：酒館長桌上的王國沙盤"}];
+const CHAPTERS = [{"tab": "第一章 王國沙盤", "sub": "CHAPTER 1", "name": "王國酒館沙盤", "img": "battle-ch1-a.jpg", "desc": "遠征的起點。酒館長桌上擺著草地大沙盤，戰場隨著樓層從田園、林野推進到荒原，最後在首領的骨門前決戰。", "mech": [["風車爭奪", "橋上的風車誰先佔下，誰的金幣回復就 +20%，雙方都能搶回"], ["村莊民兵", "我方前塔被拆時，原地衝出 3 名騎士幫忙守線"], ["首領 骨咒", "骨門讀條完成會把你一張手牌變成白板骷髏，拆掉骨門就能打斷"]]}, {"tab": "第二章 潮汐群島", "sub": "CHAPTER 2", "name": "潮汐群島", "img": "battle-ch2.jpg", "desc": "港口、棧橋、礁岩與燈塔組成的海島戰場。潮水每 30～60 秒漲退一次，退潮時兩座橋之間露出淺灘，地面部隊可以直接涉水過河。", "mech": [["潮汐", "退潮開出新路線，漲潮時還在淺灘上的部隊會被潮水推回岸上"], ["岸砲台", "雙方半場各一座，佔下後每 8 秒朝敵軍最密集處開砲"], ["退潮寶箱", "菁英戰與首領戰的淺灘會出現寶箱，搶到 +2 金幣"], ["首領 海港提督", "場外軍艦定期標記你的部隊集結處，3 秒後艦砲齊射"]]}, {"tab": "第三章 天空遺城", "sub": "CHAPTER 3", "name": "天空遺城", "img": "battle-ch3.jpg", "desc": "浮島、懸橋、斷壁與懸浮神殿。戰場飄在雲海上，風道會改變局勢，橋也不一定可靠。", "mech": [["雷暴雲", "每 25 秒一片雷雲飄到某一路，對部隊最密集處落雷，敵我都會被打"], ["避雷針", "雙方各一根，佔得越多，雷暴對你的傷害越低"], ["浮石橋", "菁英戰與首領戰中，橋上的浮石會預告後墜落，站在上面的地面部隊直接掉下去"], ["首領 遺城巨型守衛", "巨大的古代守衛親自下場"]]}, {"tab": "第四章 墨染山河", "sub": "CHAPTER 4", "name": "墨染山河", "img": "battle-ch4.jpg", "desc": "中式水墨山水的方塊沙盤：灰階山石、竹林、亭台石橋與雲海峰頂。這一章有四張專屬的墨染限定卡。", "mech": [["陰陽兩路", "兩條路輪流轉換陰陽，局勢跟著翻轉"], ["雲霧", "雲霧遮住部分戰場，看不清對手的部署"], ["首領 墨龍", "墨龍在場外盤旋，沿固定航線俯衝橫掃戰場"], ["墨染限定卡", "墨筆道士、陰陽法陣、墨影刺客、連弩車"]]}, {"tab": "發條世界", "sub": "NEW WORLD · v0.4.0", "name": "發條世界", "img": "clockwork-1.jpg", "dev": true, "desc": "一半玩具、一半蒸汽機械的地下城市。沙盤四周是高樓、環形軌道、高架單軌和纜車，玩具居民在街上走動。目前仍在製作中。", "mech": [["發條限定卡", "發條小鼓手、誘敵鐵皮鴨、錫皮巡邏小隊、發條布穀鳥"], ["蒸汽城市", "軌道、齒輪與蒸汽工廠組成會動的佈景"], ["製作中", "戰場規則與音樂陸續加入"]]}];
+const CARDS = [{"id":"knight","n":"騎士","k":"unit","s":"近戰 · 承傷","c":"#c1ccd0","fly":false,"aa":false,"cost":3,"cnt":1,"hp":500,"dmg":35,"rng":1,"rad":0,"fm":["盾衛騎士","雙刃劍士","獅心騎士"]},{"id":"archer","n":"弓手","k":"unit","s":"遠程 · 持續火力","c":"#78a263","fly":false,"aa":true,"cost":3,"cnt":2,"hp":100,"dmg":25,"rng":5.5,"rad":0,"fm":["烈焰弓箭手","精靈弓箭手","皇家神射手"]},{"id":"goblin","n":"哥布林","k":"unit","s":"近戰 · 圍攻","c":"#9fb958","fly":false,"aa":false,"cost":2,"cnt":2,"hp":110,"dmg":45,"rng":1.04,"rad":0,"fm":["毒刃哥布林","投矛哥布林","哥布林首領"]},{"id":"skeleton","n":"骷髏","k":"unit","s":"近戰 · 牽制","c":"#e2d8b5","fly":false,"aa":false,"cost":1,"cnt":3,"hp":55,"dmg":18,"rng":1,"rad":0,"fm":["骷髏盾兵","骷髏弓手","骸骨將軍"]},{"id":"musket","n":"火槍手","k":"unit","s":"遠程 · 重擊","c":"#7183a5","fly":false,"aa":true,"cost":4,"cnt":1,"hp":200,"dmg":90,"rng":7,"rad":0,"fm":["狙擊手","霰彈槍手","槍械師"]},{"id":"pekka","n":"鐵衛","k":"unit","s":"近戰 · 重擊","c":"#596275","fly":false,"aa":false,"cost":6,"cnt":1,"hp":750,"dmg":120,"rng":1.8,"rad":0,"fm":["破甲鐵衛","處刑鐵衛","鋼鐵霸主"]},{"id":"hog","n":"野豬","k":"unit","s":"攻城 · 突襲","c":"#a27b56","fly":false,"aa":false,"cost":3,"cnt":1,"hp":450,"dmg":60,"rng":1,"rad":0,"fm":["披甲戰豬","狂暴戰豬","攻城巨豬"]},{"id":"wizard","n":"法師","k":"unit","s":"群傷 · 緩速","c":"#878eb0","fly":false,"aa":true,"cost":4,"cnt":1,"hp":210,"dmg":48,"rng":6,"rad":0,"fm":["冰霜法師","雷霆法師","奧術大法師"]},{"id":"healer","n":"治療師","k":"unit","s":"支援 · 治療","c":"#e2d2a5","fly":false,"aa":false,"cost":3,"cnt":1,"hp":125,"dmg":0,"rng":6,"rad":0,"fm":["守護祭司","生命德魯伊","聖光大祭司"]},{"id":"valkyrie","n":"女武神","k":"unit","s":"近戰 · 旋斧","c":"#c98049","fly":false,"aa":false,"cost":5,"cnt":1,"hp":600,"dmg":55,"rng":1.8,"rad":0,"fm":["血斧女武神","裂甲女武神"]},{"id":"arrows","n":"箭雨","k":"spell","s":"法術 · 連射","c":"#d5bc7d","fly":false,"aa":true,"cost":3,"cnt":1,"hp":0,"dmg":50,"rng":0,"rad":3,"fm":["烈焰箭雨","冰霜箭雨"]},{"id":"meteor","n":"流星","k":"spell","s":"法術 · 爆破","c":"#e78647","fly":false,"aa":true,"cost":6,"cnt":1,"hp":0,"dmg":450,"rng":0,"rad":2.5,"fm":["熔岩流星","引力流星","天穹崩落"]},{"id":"arrowtwr","n":"箭塔","k":"building","s":"建築 · 攔截","c":"#ab9774","fly":false,"aa":true,"cost":4,"cnt":1,"hp":750,"dmg":42,"rng":9,"rad":0,"fm":["獵首長弓","標記箭","高低雙哨"]},{"id":"bombtwr","n":"炸彈塔","k":"building","s":"建築 · 清群","c":"#ab9774","fly":false,"aa":true,"cost":4,"cnt":1,"hp":800,"dmg":90,"rng":7,"rad":0,"fm":["燃油炸彈塔","震盪炸彈塔","皇家迫擊砲"]},{"id":"catapult","n":"投石車","k":"building","s":"建築 · 攻城","c":"#ab9774","fly":false,"aa":false,"cost":6,"cnt":1,"hp":210,"dmg":200,"rng":16,"rad":0,"fm":["破城投石車","碎石投石車","皇家攻城砲"]},{"id":"cavalry","n":"輕騎兵","k":"unit","s":"騎兵 · 單體衝鋒","c":"#c1ccd0","fly":false,"aa":false,"cost":4,"cnt":1,"hp":480,"dmg":55,"rng":1.05,"rad":0,"fm":["重裝騎士","突擊騎兵","皇家騎士"]},{"id":"spearman","n":"長槍兵","k":"unit","s":"近戰支援 · 反騎兵","c":"#c1ccd0","fly":false,"aa":false,"cost":3,"cnt":1,"hp":450,"dmg":45,"rng":2.5,"rad":0,"fm":["長戟兵","獵騎槍兵","皇家戟衛"]},{"id":"troll","n":"巨魔","k":"unit","s":"重型前排 · 扇形攻擊","c":"#c1ccd0","fly":false,"aa":false,"cost":7,"cnt":1,"hp":800,"dmg":65,"rng":2.5,"rad":0,"fm":["碎骨巨魔","鐵皮巨魔","巨魔王"]},{"id":"wyvern","n":"小飛龍","k":"unit","s":"空中 · 範圍火球","c":"#c96a3b","fly":true,"aa":true,"cost":4,"cnt":1,"hp":300,"dmg":60,"rng":5,"rad":0,"fm":["烈焰飛龍","冰霜飛龍"]},{"id":"griffin","n":"獅鷲騎士","k":"unit","s":"空中遠程 · 標槍","c":"#b08a52","fly":true,"aa":true,"cost":4,"cnt":1,"hp":340,"dmg":75,"rng":6,"rad":0,"fm":["獵手獅鷲騎士","鐵翼獅鷲騎士"]},{"id":"barracks","n":"兵營","k":"building","s":"建築 · 持續產兵","c":"#b38d55","fly":false,"aa":false,"cost":6,"cnt":1,"hp":300,"dmg":0,"rng":0,"rad":0,"fm":["警戒兵營","前線兵營","聯軍兵營"]},{"id":"spike_trap","n":"地刺陷阱","k":"spell","s":"法術 · 布置陷阱","c":"#b38d55","fly":false,"aa":false,"cost":2,"cnt":1,"hp":0,"dmg":150,"rng":0,"rad":1.5,"fm":["機關地刺","連鎖地刺","震地刺陣"]},{"id":"siege_ram","n":"攻城衝車","k":"unit","s":"攻城 · 衝車","c":"#8a6a47","fly":false,"aa":false,"cost":6,"cnt":1,"hp":900,"dmg":150,"rng":1.5,"rad":0,"fm":["鐵甲衝車","破城衝車"]},{"id":"thunder","n":"震雷","k":"spell","s":"低費打斷","c":"#8acfff","fly":false,"aa":true,"cost":2,"cnt":1,"hp":0,"dmg":80,"rng":0,"rad":2.5,"fm":["連鎖震雷","蓄能震雷"]},{"id":"tombstone","n":"亡骨墓碑","k":"building","s":"建築 · 收割產兵","c":"#777d79","fly":false,"aa":false,"cost":2,"cnt":1,"hp":350,"dmg":0,"rng":0,"rad":0,"fm":["瘟疫墓碑","骸骨祭壇"]},{"id":"night_bats","n":"夜翼蝙蝠","k":"unit","s":"飛行 · 吸血蝠群","c":"#39234d","fly":true,"aa":true,"cost":3,"cnt":3,"hp":60,"dmg":24,"rng":0.8,"rad":0,"fm":["吸血蝠群","瘟疫蝠"]},{"id":"red_captain","n":"赤帆船長","k":"unit","s":"槍刀 · 適應","c":"#a94145","fly":false,"aa":true,"cost":4,"cnt":1,"hp":450,"dmg":50,"rng":5,"rad":0,"fm":["神射•赤帆船長","決鬥•赤帆船長"]},{"id":"fishing_net","n":"漁網","k":"spell","s":"拉下飛行 · 定身","c":"#94754b","fly":false,"aa":true,"cost":2,"cnt":1,"hp":0,"dmg":30,"rng":0,"rad":2.5,"fm":["鉤刺網","拖網"]},{"id":"gargoyle","n":"石像守衛","k":"unit","s":"地面 · 石像守望","c":"#75787d","fly":false,"aa":false,"cost":4,"cnt":1,"hp":650,"dmg":55,"rng":0.8,"rad":0,"fm":["苔蘚古守衛","巨劍守衛"]},{"id":"wind_barrier","n":"風之結界","k":"spell","s":"加速 · 吹偏投射物","c":"#8ccbd2","fly":false,"aa":false,"cost":2,"cnt":1,"hp":0,"dmg":0,"rng":0,"rad":2.5,"fm":["順風結界","逆風結界"]},{"id":"ink_taoist","n":"墨筆道士","k":"unit","s":"遠程支援 · 畫符","c":"#30343b","fly":false,"aa":true,"cost":4,"cnt":1,"hp":400,"dmg":48,"rng":5,"rad":0,"fm":["雷符道士","封印道士","畫龍道士"]},{"id":"yin_yang_array","n":"陰陽法陣","k":"spell","s":"持續法術 · 陰陽輪替","c":"#30343b","fly":false,"aa":true,"cost":3,"cnt":1,"hp":0,"dmg":50,"rng":0,"rad":3,"fm":["太極法陣","兩儀法陣","八卦法陣"]},{"id":"ink_assassin","n":"墨影刺客","k":"unit","s":"地面刺客 · 隱身","c":"#30343b","fly":false,"aa":false,"cost":4,"cnt":1,"hp":350,"dmg":85,"rng":1,"rad":0,"fm":["雙刃影","毒墨影","分身影"]},{"id":"repeating_ballista","n":"連弩車","k":"building","s":"建築 · 貫穿連射","c":"#30343b","fly":false,"aa":true,"cost":3,"cnt":1,"hp":750,"dmg":28,"rng":6.5,"rad":0,"fm":["蓄能裝填","裂陣重床弩","爆釘連弩"]},{"id":"wall","n":"木柵牆","k":"building","s":"建築 · 阻擋","c":"#ac8752","fly":false,"aa":false,"cost":3,"cnt":1,"hp":1000,"dmg":0,"rng":0,"rad":0,"fm":["拒馬","石垣","盾牆"]},{"id":"empower","n":"強化術","k":"spell","s":"法術 · 單體強化","c":"#ac8752","fly":false,"aa":false,"cost":2,"cnt":1,"hp":0,"dmg":0,"rng":0,"rad":0,"fm":["狂暴","鐵壁","巨化"]},{"id":"clockwork_drummer","n":"發條小鼓手","k":"unit","s":"地面近戰 · 鼓舞","c":"#c8352e","fly":false,"aa":false,"cost":3,"cnt":1,"hp":430,"dmg":40,"rng":0.9,"rad":0,"fm":["疾行進軍鼓","戰陣重音鼓","餘音共鳴鼓"]},{"id":"tin_duck","n":"誘敵鐵皮鴨","k":"unit","s":"地面誘餌 · 吸引","c":"#d9a41f","fly":false,"aa":false,"cost":2,"cnt":1,"hp":1100,"dmg":0,"rng":0,"rad":0,"fm":["充氣耐撞鴨","火花短路鴨","號角發條鴨"]},{"id":"tin_patrol","n":"錫皮巡邏小隊","k":"unit","s":"地面小隊 · 齊射","c":"#2f62c4","fly":false,"aa":false,"cost":5,"cnt":3,"hp":260,"dmg":70,"rng":4.8,"rad":0,"fm":["重裝壁壘隊","三聯發排隊","哨兵警備隊"]},{"id":"clockwork_cuckoo","n":"發條布穀鳥","k":"unit","s":"飛行 · 自爆攻城","c":"#7a4a2c","fly":true,"aa":false,"cost":3,"cnt":1,"hp":230,"dmg":340,"rng":0.6,"rad":0,"fm":["重錘布穀鳥","音叉共振鳥","雙聯子母鳥"]}];
+const LOG = [
+  {v:"開發中",dev:true,t:"v0.4.0：發條世界",items:["全新世界「發條世界」：一半玩具、一半蒸汽機械的城市，有環形軌道、高架單軌和走來走去的玩具居民","四張發條限定卡：發條小鼓手、誘敵鐵皮鴨、錫皮巡邏小隊、發條布穀鳥","戰場佈景與音樂製作中"]},
+  {v:"v0.3.9",t:"合作與 AI 隊友",items:["AI 隊友重新設計：三種模式，可以下指令、聊天","第三章打完可以選擇第四站要去的地區","合作連線穩定性改善"]},
+  {v:"v0.3.5",t:"軍旗與營地",items:["新增八面軍旗與軍旗骰子，可以重擲一次選項","營地與祭壇改版：獻祭、血契、精煉與重新訓練","每張卡改成 3 個通用特性 + 2 個專屬特性"]},
+  {v:"v0.3.0",t:"第四章 墨染山河",items:["新章節：水墨山水風格的方塊沙盤，陰陽兩路與雲霧規則","場外首領墨龍，以及四張墨染限定卡","九項進階難度與內容解鎖：打贏菁英與首領解鎖新卡"]},
+];
+const FAQ = [
+  ["要怎麼玩到這款遊戲？","目前是 Steam 測試版，還沒有公開販售。正式上架前會開放更多測試，加入願望清單就能收到通知。"],
+  ["一定要找朋友才能玩嗎？","不用。單人遠征是主要玩法，合作模式也可以帶 AI 隊友。"],
+  ["會不會很難上手？","第一章的敵人刻意設計得比較溫和，前幾層就是讓你熟悉出牌節奏。想要挑戰，可以在出發前調高難度。"],
+  ["卡牌外觀會影響強度嗎？","不會。外觀只改模型和特效，數值完全相同。"],
+  ["支援手把或 Mac 嗎？","目前只支援 Windows 與滑鼠鍵盤，其他平台還在評估。"],
+];
 
-const KIND = {unit:"單位",spell:"法術",building:"建築"};
-const SIEGE = ["hog","siege_ram","clockwork_cuckoo","catapult","troll","pekka"];
-const STATS = [
-  {k:"cost",l:"費用",low:true},{k:"count",l:"數量"},{k:"hp",l:"生命"},{k:"damage",l:"傷害"},
-  {k:"dps",l:"每秒傷害"},{k:"interval",l:"攻擊間隔",low:true,u:" 秒"},{k:"range",l:"射程",u:" 格"},
-  {k:"speed",l:"移速"},{k:"radius",l:"範圍",u:" 格"}];
-const BARS = ["hp","damage","dps","range","speed"];
-const byId = Object.fromEntries(CARDS.map(c=>[c.id,c]));
-const $ = s=>document.querySelector(s);
-const esc = s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),1800)}
 
-/* storage that never throws (private mode, blocked storage) */
-const store = {
-  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},
-  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
-};
-
-function dps(c,f){f=f||c.forms[0];return c.kind!=="spell"&&f.damage>0&&f.interval>0?f.damage*f.count/f.interval:0}
-function val(c,k,f){f=f||c.forms[0];if(k==="dps")return dps(c,f);if(c.kind==="spell"&&(k==="interval"||k==="speed"))return 0;return f[k]||0}
-function fmt(v,k){if(!v)return "—";if(k==="dps")return Math.round(v).toString();return (Math.round(v*100)/100).toString()}
-function subLine(c){return esc(c.sub.startsWith(KIND[c.kind])?c.sub:`${KIND[c.kind]} · ${c.sub}`)}
-function icon(c){const id=c.kind==="spell"?"i-spell":c.kind==="building"?"i-building":c.fly?"i-fly":c.forms[0].range>=3?"i-ranged":"i-unit";return `<svg aria-hidden="true"><use href="#${id}"/></svg>`}
-const MAX = {};
-for(const k of BARS) MAX[k]=Math.max(...CARDS.flatMap(c=>c.forms.map(f=>val(c,k,f))));
-
-/* state */
-const S = {
-  q:"",kind:"all",costs:new Set(),fly:false,aa:false,sort:"cost",asc:true,
-  deck:[],cmp:store.get("tk.cmp",[]).filter(id=>byId[id]),saved:store.get("tk.saved",[])
-};
-(function initDeck(){
-  const m=location.hash.match(/deck=([\w,]+)/);
-  const ids=m?m[1].split(","):store.get("tk.deck",[]);
-  S.deck=[...new Set(ids.filter(id=>byId[id]))].slice(0,8);
-  if(S.deck.length&&!m)history.replaceState(null,"",`#deck=${S.deck.join(",")}`);
-})();
-
-/* toolbar */
-const costChips=$("#costChips");
-for(let i=1;i<=7;i++){const b=document.createElement("button");b.type="button";b.className="chip cost";b.textContent=i;b.dataset.cost=i;b.setAttribute("aria-pressed","false");b.setAttribute("aria-label",i+" 費");costChips.append(b)}
-costChips.addEventListener("click",e=>{const b=e.target.closest("[data-cost]");if(!b)return;const n=+b.dataset.cost;S.costs.has(n)?S.costs.delete(n):S.costs.add(n);b.setAttribute("aria-pressed",S.costs.has(n));renderGrid()});
-$("#kindSeg").addEventListener("click",e=>{const b=e.target.closest("[data-kind]");if(!b)return;S.kind=b.dataset.kind;document.querySelectorAll("#kindSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderGrid()});
-$("#q").addEventListener("input",e=>{S.q=e.target.value.trim();renderGrid()});
-$("#flyChip").addEventListener("click",e=>{S.fly=!S.fly;e.currentTarget.setAttribute("aria-pressed",S.fly);renderGrid()});
-$("#aaChip").addEventListener("click",e=>{S.aa=!S.aa;e.currentTarget.setAttribute("aria-pressed",S.aa);renderGrid()});
-$("#sortSel").addEventListener("change",e=>{S.sort=e.target.value;S.asc=S.sort==="cost"||S.sort==="name";syncDir();renderGrid()});
-$("#dirBtn").addEventListener("click",()=>{S.asc=!S.asc;syncDir();renderGrid()});
-function syncDir(){$("#dirBtn").textContent=S.asc?"↑ 由低到高":"↓ 由高到低"}
-function resetFilters(){
-  S.q="";S.kind="all";S.costs.clear();S.fly=false;S.aa=false;$("#q").value="";
-  document.querySelectorAll("#kindSeg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.kind==="all"));
-  document.querySelectorAll("#costChips button,#flyChip,#aaChip").forEach(x=>x.setAttribute("aria-pressed","false"));
-  renderGrid();
+/* ---------- gallery ---------- */
+let cur=0,auto=true,timer=null,hovering=false;
+const stage=$("#stage"),stageImg=$("#stageImg"),thumbs=$("#thumbs");
+thumbs.innerHTML=SHOTS.map((s,i)=>`<button type="button" aria-label="第 ${i+1} 張：${esc(s.cap)}" aria-current="${i===0}" data-i="${i}"><img src="images/${s.f}" alt="" loading="lazy"></button>`).join("");
+function show(i,user){
+  cur=(i+SHOTS.length)%SHOTS.length;const s=SHOTS[cur];
+  stageImg.classList.add("fade");
+  const img=new Image();img.onload=img.onerror=()=>{if(SHOTS[cur]!==s)return;stageImg.src=img.src;stageImg.alt=s.cap;stageImg.classList.remove("fade")};img.src="images/"+s.f;
+  $("#stageCap").textContent=s.cap;
+  thumbs.querySelectorAll("button").forEach((b,j)=>b.setAttribute("aria-current",j===cur));
+  const tb=thumbs.children[cur];thumbs.scrollTo({left:tb.offsetLeft-thumbs.clientWidth/2+tb.clientWidth/2,behavior:"smooth"});
+  if(user)setAuto(false);else restart();
 }
-$("#resetBtn").addEventListener("click",resetFilters);
+function restart(){clearTimeout(timer);const p=$("#progress");p.classList.remove("run");void p.offsetWidth;if(auto&&!hovering&&!lb.open){p.classList.add("run");timer=setTimeout(()=>show(cur+1),5000)}}
+function setAuto(on){auto=on;const b=$("#playBtn");b.setAttribute("aria-pressed",on);b.textContent=on?"❚❚ 自動播放":"▶ 自動播放";restart()}
+thumbs.addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(b)show(+b.dataset.i,true)});
+$("#prevBtn").addEventListener("click",e=>{e.stopPropagation();show(cur-1,true)});
+$("#nextBtn").addEventListener("click",e=>{e.stopPropagation();show(cur+1,true)});
+$("#playBtn").addEventListener("click",e=>{e.stopPropagation();setAuto(!auto)});
+stage.addEventListener("mouseenter",()=>{hovering=true;restart()});
+stage.addEventListener("mouseleave",()=>{hovering=false;restart()});
+let tx=null,swiped=false;
+stage.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;swiped=false},{passive:true});
+stage.addEventListener("touchend",e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40){swiped=true;show(cur+(dx<0?1:-1),true)}tx=null});
+stage.addEventListener("click",()=>{if(swiped){swiped=false;return}openLb(cur)});
 
-function matches(c){
-  if(S.kind!=="all"&&c.kind!==S.kind)return false;
-  if(S.costs.size&&!S.costs.has(c.forms[0].cost))return false;
-  if(S.fly&&!c.fly)return false;
-  if(S.aa&&!c.aa)return false;
-  if(S.q){
-    const q=S.q.toLowerCase();
-    const hay=[c.name,c.sub,c.id,KIND[c.kind],...c.forms.map(f=>f.n),c.fly?"飛行 空中":"",c.aa?"對空":""].join(" ").toLowerCase();
-    if(!hay.includes(q))return false;
-  }
-  return true;
-}
-function sorted(list){
-  const k=S.sort,dir=S.asc?1:-1;
-  return list.sort((a,b)=>{
-    const d=k==="name"?a.name.localeCompare(b.name,"zh-Hant"):val(a,k)-val(b,k);
-    return d*dir||a.forms[0].cost-b.forms[0].cost||a.name.localeCompare(b.name,"zh-Hant");
-  });
-}
-
-/* grid */
-function tileHTML(c){
-  const f=c.forms[0],inDeck=S.deck.includes(c.id);
-  const badges=[c.fly?"飛行":"",c.aa?"對空":"",c.forms.length>1?`${c.forms.length} 形態`:""].filter(Boolean).map(b=>`<span class="badge">${b}</span>`).join("");
-  const hp=`<span>生命 <b>${fmt(f.hp)}</b>${f.count>1?`×${f.count}`:""}</span>`;
-  const mini=c.kind==="spell"
-    ?(f.damage?`<span>傷害 <b>${fmt(f.damage)}</b></span>${f.radius?`<span>範圍 <b>${fmt(f.radius)}</b></span>`:""}`:`<span>輔助，不造成傷害</span>`)
-    :hp+(dps(c)?`<span>秒傷 <b>${fmt(dps(c),"dps")}</b></span>`:`<span>${f.damage?`傷害 <b>${fmt(f.damage)}</b>`:"不攻擊"}</span>`);
-  return `<article class="tile${inDeck?" indeck":""}" style="--c:${c.color}" draggable="true" tabindex="0" data-id="${c.id}" aria-label="${esc(c.name)}，${f.cost} 費，${KIND[c.kind]}">
-    <div class="band"><span class="gem">${f.cost}</span><span class="badges">${badges}</span>${icon(c)}</div>
-    <button type="button" class="add" data-add="${c.id}" aria-label="${inDeck?"從牌組移除":"加入牌組"}：${esc(c.name)}">${inDeck?"✓":"＋"}</button>
-    <div class="tbody"><h3>${esc(c.name)}</h3><p class="sub">${subLine(c)}</p><div class="mini">${mini}</div></div>
-  </article>`;
-}
-function renderGrid(){
-  const list=sorted(CARDS.filter(matches));
-  $("#grid").innerHTML=list.length?list.map(tileHTML).join(""):`<div class="empty"><p>找不到符合的卡牌。</p><button class="btn" type="button" onclick="resetFilters()">清除篩選</button></div>`;
-  $("#count").textContent=`顯示 ${list.length} / ${CARDS.length} 張`;
-}
-$("#grid").addEventListener("click",e=>{
-  const add=e.target.closest("[data-add]");
-  if(add){e.stopPropagation();toggleDeck(add.dataset.add);return}
-  const t=e.target.closest(".tile");if(t)openDetail(t.dataset.id);
-});
-$("#grid").addEventListener("keydown",e=>{const t=e.target.closest(".tile");if(t&&e.target===t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openDetail(t.dataset.id)}});
-$("#grid").addEventListener("dragstart",e=>{const t=e.target.closest(".tile");if(t){e.dataTransfer.setData("text/plain",t.dataset.id);e.dataTransfer.effectAllowed="copy"}});
-
-/* detail dialog */
-const dlg=$("#dlg");
-function openDetail(id,formIdx=0){
-  const c=byId[id],f=c.forms[formIdx],base=c.forms[0];
-  const diff=k=>{if(formIdx===0)return "";const a=val(c,k,f),b=val(c,k,base);if(Math.abs(a-b)<1e-6)return "";const better=(STATS.find(s=>s.k===k)||{}).low?a<b:a>b;return `<span class="${better?"up":"down"}">${a>b?"▲":"▼"}</span>`};
-  const bars=BARS.filter(k=>val(c,k,f)>0).map(k=>{const s=STATS.find(x=>x.k===k);const v=val(c,k,f);
-    return `<div class="srow"><span>${s.l}</span><div class="bar"><i style="width:${Math.max(3,v/MAX[k]*100)}%"></i></div><span class="v">${fmt(v,k)}${s.u||""}${diff(k)}</span></div>`}).join("");
-  const kv=STATS.filter(s=>!BARS.includes(s.k)&&val(c,s.k,f)>0).map(s=>`<span>${s.l} <b>${fmt(val(c,s.k,f),s.k)}${s.u||""}</b>${diff(s.k)}</span>`).join("");
-  const air=c.fly?"飛行單位：越過河流與部隊，只有對空攻擊能打到。":c.aa?"可以攻擊空中目標。":c.kind==="spell"&&!f.damage?"輔助法術，不造成傷害。":"無法攻擊空中目標。";
-  const inDeck=S.deck.includes(id),inCmp=S.cmp.includes(id);
-  const ftOpen=dlg.open&&dlg.dataset.card===id&&dlg.querySelector(".ftable")?.open;
-  dlg.innerHTML=`<div class="dhead" style="--c:${c.color}"><span class="gem">${f.cost}</span><h2 id="dTitle">${esc(f.n)}</h2><p>${subLine(c)}${formIdx?` · 由「${esc(c.name)}」升級`:""}</p><button class="dclose" type="button" aria-label="關閉">×</button></div>
-  <div class="dbody">
-    ${c.forms.length>1?`<div class="tabs" role="tablist" aria-label="形態">${c.forms.map((x,i)=>`<button type="button" role="tab" aria-selected="${i===formIdx}" data-form="${i}">${i?"":"基礎・"}${esc(x.n)}</button>`).join("")}</div>`:""}
-    ${f.d?`<p class="desc">${esc(f.d)}</p>`:`<p class="desc">${esc(c.desc)}</p><p class="air">${air}</p>`}
-    ${bars?`<div class="srows">${bars}</div>`:""}
-    ${kv?`<div class="kv">${kv}</div>`:""}
-    ${formIdx?`<p class="air">▲▼ 為相對基礎形態的升降；綠色代表較好、紅色代表較差（費用與攻擊間隔越低越好）。</p>`:""}
-    ${c.forms.length>1?formTable(c,formIdx):""}
-    <div class="dact">
-      <button type="button" class="btn primary" data-act="deck">${inDeck?"從牌組移除":"加入牌組"}</button>
-      <button type="button" class="btn" data-act="cmp">${inCmp?"移出比較":"加入比較"}</button>
-    </div>
-  </div>`;
-  dlg.dataset.card=id;dlg.dataset.cur=formIdx;
-  if(ftOpen)dlg.querySelector(".ftable").open=true;
-  if(!dlg.open)dlg.showModal();
-  const sel=dlg.querySelector(`[data-form="${formIdx}"]`);(sel||dlg.querySelector(".dclose")).focus();
-}
-function formTable(c,cur){
-  const cols=STATS.filter(s=>c.forms.some(f=>val(c,s.k,f)>0));
-  return `<details class="ftable"><summary>所有形態數值一覽</summary><div class="cwrap"><table class="ctable"><thead><tr><th>形態</th>${cols.map(s=>`<th>${s.l}</th>`).join("")}</tr></thead><tbody>${
-    c.forms.map((f,i)=>`<tr class="${i===cur?"cur":""}"><td>${esc(f.n)}</td>${cols.map(s=>`<td>${fmt(val(c,s.k,f),s.k)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`;
-}
-dlg.addEventListener("click",e=>{
-  if(e.target===dlg||e.target.closest(".dclose")){dlg.close();return}
-  const t=e.target.closest("button[data-form]");if(t){openDetail(dlg.dataset.card,+t.dataset.form);return}
-  const a=e.target.closest("[data-act]");if(!a)return;
-  const id=dlg.dataset.card;
-  if(a.dataset.act==="deck")toggleDeck(id);else toggleCmp(id);
-  openDetail(id,+dlg.dataset.cur);
+/* ---------- lightbox ---------- */
+const lb=$("#lightbox");let lbi=0;
+function lbShow(i){lbi=(i+SHOTS.length)%SHOTS.length;const s=SHOTS[lbi];$("#lbImg").src="images/"+s.f;$("#lbImg").alt=s.cap;$("#lbCap").innerHTML=`${esc(s.cap)}<span>${lbi+1} / ${SHOTS.length}</span>`;if(cur!==lbi)show(lbi,true)}
+function openLb(i){lbShow(i);lb.showModal();restart()}
+lb.addEventListener("close",()=>restart());
+$("#lbClose").addEventListener("click",()=>lb.close());
+$("#lbPrev").addEventListener("click",()=>lbShow(lbi-1));
+$("#lbNext").addEventListener("click",()=>lbShow(lbi+1));
+lb.addEventListener("click",e=>{if(e.target.classList.contains("lb"))lb.close()});
+document.addEventListener("keydown",e=>{
+  if(lb.open){if(e.key==="ArrowLeft")lbShow(lbi-1);if(e.key==="ArrowRight")lbShow(lbi+1);return}
+  if(e.target.closest&&e.target.closest("[role=tablist]"))return;
+  const r=stage.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+  if(e.key==="ArrowLeft")show(cur-1,true);if(e.key==="ArrowRight")show(cur+1,true);
 });
 
-/* deck */
-function toggleDeck(id){
-  if(S.deck.includes(id)){S.deck=S.deck.filter(x=>x!==id);toast(`已移除「${byId[id].name}」`)}
-  else if(S.deck.length>=8){toast("牌組已滿（8 張），先移除一張再加入");return}
-  else{S.deck.push(id);toast(`已加入「${byId[id].name}」（${S.deck.length}/8）`)}
-  deckChanged();
-}
-function deckChanged(){
-  store.set("tk.deck",S.deck);
-  history.replaceState(null,"",S.deck.length?`#deck=${S.deck.join(",")}`:location.pathname+location.search);
-  renderDeck();renderGrid();
-}
-function renderDeck(){
-  const cards=S.deck.map(id=>byId[id]);
-  $("#slots").innerHTML=Array.from({length:8},(_,i)=>{const c=cards[i];
-    return c?`<button type="button" class="slot filled" style="--c:${c.color}" data-rm="${c.id}" aria-label="移除 ${esc(c.name)}"><span class="sgem">${c.forms[0].cost}</span>${icon(c)}<span class="sname">${esc(c.name)}</span></button>`
-            :`<div class="slot">空位</div>`}).join("");
-  const n=cards.length,costs=cards.map(c=>c.forms[0].cost);
-  const avg=n?costs.reduce((a,b)=>a+b,0)/n:0;
-  const cycle=n>=4?[...costs].sort((a,b)=>a-b).slice(0,4).reduce((a,b)=>a+b,0):0;
-  const cnt=k=>cards.filter(c=>c.kind===k).length;
-  const aa=cards.filter(c=>c.aa).length,fly=cards.filter(c=>c.fly).length;
-  const tdps=cards.reduce((a,c)=>a+dps(c),0);
-  $("#stats").innerHTML=[["平均費用",n?avg.toFixed(1):"—"],["最快循環",cycle||"—"],["總秒傷",n?Math.round(tdps):"—"],
-    ["單位",cnt("unit")],["法術",cnt("spell")],["建築",cnt("building")],["可對空",aa],["飛行",fly],["總生命",n?Math.round(cards.reduce((a,c)=>a+(c.kind==="spell"?0:c.forms[0].hp*c.forms[0].count),0)):"—"]]
-    .map(([l,v])=>`<div class="stat"><span>${l}</span><b>${v}</b></div>`).join("");
-  const bins=[1,2,3,4,5,6,7].map(i=>costs.filter(c=>i===7?c>=7:c===i).length),mx=Math.max(1,...bins);
-  $("#curve").innerHTML=bins.map((b,i)=>`<div><em>${b||""}</em><i style="height:${b/mx*44}px"></i>${i===6?"7+":i+1}</div>`).join("");
-  const h=[];
-  if(!n)h.push(["info","從左邊點「＋」或把卡片拖到這裡開始組牌。"]);
-  else{
-    if(!aa)h.push(["bad","缺少對空，飛行單位會長驅直入。"]);
-    else if(aa===1&&n>=6)h.push(["bad","只有 1 張能對空，被針對時很吃緊。"]);
-    if(n>=4&&avg>4.5)h.push(["bad",`平均 ${avg.toFixed(1)} 費偏重，前期容易被搶攻。`]);
-    if(n>=4&&avg<2.8)h.push(["bad",`平均 ${avg.toFixed(1)} 費偏輕，後期打不過厚血前排。`]);
-    if(n>=6&&!cnt("spell"))h.push(["bad","沒有法術，難處理成群小兵。"]);
-    if(n>=6&&!cards.some(c=>SIEGE.includes(c.id)))h.push(["bad","缺少攻城主力（例如野豬、攻城衝車、巨魔）。"]);
-    if(n<8)h.push(["info",`還差 ${8-n} 張就能組滿。`]);
-    else if(!h.length)h.push(["ok","組合均衡：有對空、有法術、有攻城，費用適中。"]);
-  }
-  $("#hints").innerHTML=h.map(([t,s])=>`<li class="${t==="bad"?"":t}">${s}</li>`).join("");
-  $("#deckCount").textContent=`${n} / 8`;
-  $("#deckToggleText").textContent=`牌組 ${n}/8${n?` · 平均 ${avg.toFixed(1)} 費`:""}`;
-}
-$("#slots").addEventListener("click",e=>{const b=e.target.closest("[data-rm]");if(b)toggleDeck(b.dataset.rm)});
-$("#clearBtn").addEventListener("click",()=>{if(!S.deck.length)return;S.deck=[];deckChanged();toast("已清空牌組")});
-$("#randBtn").addEventListener("click",()=>{
-  for(let t=0;t<500;t++){
-    const pick=[...CARDS].sort(()=>Math.random()-.5).slice(0,8);
-    if(pick.some(c=>c.kind==="spell")&&pick.filter(c=>c.aa).length>=2){S.deck=pick.map(c=>c.id);break}
-  }
-  deckChanged();toast("已隨機組出一副牌組");
-});
-$("#shareBtn").addEventListener("click",async()=>{
-  if(!S.deck.length){toast("牌組是空的，先加幾張卡");return}
-  const url=location.href;
-  try{await navigator.clipboard.writeText(url);toast("已複製分享連結")}
-  catch{window.prompt("複製這個連結分享牌組：",url)}
-});
-const deckEl=$("#deck");
-deckEl.addEventListener("dragover",e=>{e.preventDefault();deckEl.classList.add("drop")});
-deckEl.addEventListener("dragleave",e=>{if(!deckEl.contains(e.relatedTarget))deckEl.classList.remove("drop")});
-deckEl.addEventListener("drop",e=>{e.preventDefault();deckEl.classList.remove("drop");const id=e.dataTransfer.getData("text/plain");if(byId[id]&&!S.deck.includes(id))toggleDeck(id);else if(S.deck.includes(id))toast("這張已經在牌組裡")});
-$("#deckToggle").addEventListener("click",()=>{const o=deckEl.classList.toggle("open");$("#deckToggle").setAttribute("aria-expanded",o);$("#deckToggle small").textContent=o?"點我收起":"點我展開"});
+/* ---------- actions ---------- */
+function syncToggle(id,key,on,off){const b=$(id),v=store.get(key,false);b.setAttribute("aria-pressed",v);b.textContent=v?on:off;return v}
+function syncWish(){const v=syncToggle("#wishBtn","tk.wish","✔ 已在願望清單","＋ 加入願望清單");$("#wishText").textContent=v?"已加入！正式上架時會通知你。":"加入願望清單，正式上架時就不會錯過。"}
+syncWish();syncToggle("#followBtn","tk.follow","✔ 追蹤中","追蹤");
+$("#wishBtn").addEventListener("click",()=>{const v=!store.get("tk.wish",false);store.set("tk.wish",v);syncWish();toast(v?"已加入願望清單":"已從願望清單移除")});
+$("#followBtn").addEventListener("click",()=>{const v=!store.get("tk.follow",false);store.set("tk.follow",v);syncToggle("#followBtn","tk.follow","✔ 追蹤中","追蹤");toast(v?"已追蹤，有新消息會通知你":"已取消追蹤")});
+$("#shareBtn").addEventListener("click",async()=>{const url=location.href.split("#")[0];try{await navigator.clipboard.writeText(url);toast("已複製網址，貼給朋友吧")}catch{window.prompt("複製這個網址：",url)}});
+$("#tags").addEventListener("click",e=>{const b=e.target.closest("[data-feat]");if(!b)return;const f=document.getElementById(b.dataset.feat);f.scrollIntoView({behavior:"smooth",block:"center"});f.classList.remove("flash");void f.offsetWidth;f.classList.add("flash")});
 
-/* saved decks */
-function renderSaved(){
-  $("#saved").innerHTML=S.saved.length?S.saved.map((d,i)=>`<li><span title="${esc(d.ids.map(id=>byId[id]?.name).join("、"))}">${esc(d.name)}</span><small>${d.ids.length} 張</small><button type="button" class="btn" data-load="${i}">讀取</button><button type="button" class="cx" data-del="${i}" aria-label="刪除 ${esc(d.name)}">✕</button></li>`).join("")
-    :`<li><small>還沒有存檔。</small></li>`;
+/* ---------- chapters ---------- */
+let chi=0;
+$("#chTabs").innerHTML=CHAPTERS.map((c,i)=>`<button type="button" role="tab" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-i="${i}">${esc(c.tab)}</button>`).join("");
+function showCh(i){
+  chi=i;const c=CHAPTERS[i];
+  $("#chTabs").querySelectorAll("button").forEach((b,j)=>{b.setAttribute("aria-selected",j===i);b.tabIndex=j===i?0:-1});
+  $("#chBody").innerHTML=`<img src="images/${c.img}" alt="${esc(c.name)}的畫面"><div class="info"><div class="sub">${esc(c.sub)}</div><h3>${esc(c.name)}${c.dev?'<span class="badge-dev">開發中</span>':""}</h3><p>${esc(c.desc)}</p><ul>${c.mech.map(m=>`<li><b>${esc(m[0])}</b>：${esc(m[1])}</li>`).join("")}</ul></div>`;
 }
-$("#saveBtn").addEventListener("click",()=>{
-  if(!S.deck.length){toast("牌組是空的，無法儲存");return}
-  const name=$("#saveName").value.trim()||`牌組 ${S.saved.length+1}`;
-  const i=S.saved.findIndex(d=>d.name===name);
-  if(i>=0)S.saved[i].ids=[...S.deck];
-  else{if(S.saved.length>=10){toast("最多存 10 副，請先刪除舊的");return}S.saved.push({name,ids:[...S.deck]})}
-  store.set("tk.saved",S.saved);$("#saveName").value="";renderSaved();toast(i>=0?`已覆蓋「${name}」`:`已儲存「${name}」`);
-});
-$("#saveName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#saveBtn").click()});
-$("#saved").addEventListener("click",e=>{
-  const l=e.target.closest("[data-load]"),d=e.target.closest("[data-del]");
-  if(l){const s=S.saved[+l.dataset.load];S.deck=s.ids.filter(id=>byId[id]).slice(0,8);deckChanged();toast(`已讀取「${s.name}」`)}
-  if(d){const s=S.saved.splice(+d.dataset.del,1)[0];store.set("tk.saved",S.saved);renderSaved();toast(`已刪除「${s.name}」`)}
-});
+$("#chTabs").addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(b)showCh(+b.dataset.i)});
+$("#chTabs").addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;e.preventDefault();const n=(chi+(e.key==="ArrowRight"?1:-1)+CHAPTERS.length)%CHAPTERS.length;showCh(n);$("#chTabs").children[n].focus()});
+CHAPTERS.forEach(c=>{const i=new Image();i.src="images/"+c.img});
 
-/* compare */
-function toggleCmp(id){
-  if(S.cmp.includes(id))S.cmp=S.cmp.filter(x=>x!==id);
-  else{S.cmp.push(id);if(S.cmp.length>3){const out=S.cmp.shift();toast(`比較最多 3 張，已換掉「${byId[out].name}」`)}else toast(`已加入比較（${S.cmp.length}/3）`)}
-  store.set("tk.cmp",S.cmp);renderCmp();
+/* ---------- cards ---------- */
+const KIND={unit:"單位",spell:"法術",building:"建築"};
+let ck="all";
+function renderCards(){
+  const list=CARDS.filter(c=>ck==="all"||c.k===ck).sort((a,b)=>a.cost-b.cost||a.n.localeCompare(b.n,"zh-Hant"));
+  $("#cardGrid").innerHTML=list.map(c=>{
+    const rows=c.k==="spell"
+      ?[["傷害",c.dmg||"—"],["範圍",c.rad?c.rad+" 格":"—"]]
+      :[["生命",c.hp+(c.cnt>1?" ×"+c.cnt:"")],["傷害",c.dmg||"—"],["射程",c.rng?c.rng+" 格":"—"]];
+    rows.push(["對空",c.fly?"飛行":c.aa?"可以":"不行"]);
+    return `<button type="button" class="card" style="--c:${c.c}" aria-label="${esc(c.n)}，點擊翻面">
+      <div class="in"><div class="face front"><span class="cost">${c.cost}</span><span class="kind">${KIND[c.k]}</span><b>${esc(c.n)}</b><small>${esc(c.s)}</small></div>
+      <div class="face back"><b>${esc(c.n)}</b>${rows.map(r=>`<div class="row">${r[0]}<i>${r[1]}</i></div>`).join("")}<div class="fm">${c.fm.length?"升級："+c.fm.map(esc).join("、"):""}</div></div></div></button>`}).join("");
+  $("#cardCount").textContent=`${list.length} 張`;
 }
-function renderCmp(){
-  const cs=S.cmp.map(id=>byId[id]);
-  $("#compare").hidden=!cs.length;if(!cs.length)return;
-  const head=`<thead><tr><th>數值</th>${cs.map(c=>`<th>${esc(c.name)}<br><button class="cx" type="button" data-cx="${c.id}" aria-label="移出比較 ${esc(c.name)}">移除</button></th>`).join("")}</tr></thead>`;
-  const rows=[`<tr><td>類型</td>${cs.map(c=>`<td>${KIND[c.kind]}</td>`).join("")}</tr>`,`<tr><td>飛行</td>${cs.map(c=>`<td>${c.fly?"是":"否"}</td>`).join("")}</tr>`,`<tr><td>可對空</td>${cs.map(c=>`<td>${c.aa?"可以":"不行"}</td>`).join("")}</tr>`];
-  for(const s of STATS){
-    const vs=cs.map(c=>val(c,s.k));if(vs.every(v=>!v))continue;
-    const real=vs.filter(v=>v>0),best=cs.length>1&&real.length>1?(s.low?Math.min(...real):Math.max(...real)):null;
-    rows.push(`<tr><td>${s.l}</td>${vs.map(v=>`<td class="${v>0&&v===best?"best":""}">${fmt(v,s.k)}${v&&s.u?s.u:""}</td>`).join("")}</tr>`);
-  }
-  rows.push(`<tr><td>形態數</td>${cs.map(c=>`<td>${c.forms.length}</td>`).join("")}</tr>`);
-  $("#ctable").innerHTML=head+`<tbody>${rows.join("")}</tbody>`;
+$("#cardFilters").addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;ck=b.dataset.k;$("#cardFilters").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderCards()});
+$("#cardGrid").addEventListener("click",e=>{const c=e.target.closest(".card");if(c)c.classList.toggle("flip")});
+
+/* ---------- accordions ---------- */
+function acc(el,items,single){
+  el.innerHTML=items.map((it,i)=>`<div class="acc"><button type="button" aria-expanded="${it.open?"true":"false"}" id="${el.id}-h${i}" aria-controls="${el.id}-b${i}">${it.head}</button><div class="body" id="${el.id}-b${i}" role="region" aria-labelledby="${el.id}-h${i}"><div>${it.body}</div></div></div>`).join("");
+  el.addEventListener("click",e=>{const b=e.target.closest("button[aria-expanded]");if(!b)return;const open=b.getAttribute("aria-expanded")!=="true";if(single)el.querySelectorAll("button[aria-expanded]").forEach(x=>x.setAttribute("aria-expanded","false"));b.setAttribute("aria-expanded",open)});
 }
-$("#ctable").addEventListener("click",e=>{const b=e.target.closest("[data-cx]");if(b)toggleCmp(b.dataset.cx)});
-$("#cmpClear").addEventListener("click",()=>{S.cmp=[];store.set("tk.cmp",S.cmp);renderCmp()});
+acc($("#logList"),LOG.map((l,i)=>({open:i===0,head:`<span class="ver${l.dev?" dev":""}">${esc(l.v)}</span>${esc(l.t)}`,body:`<ul>${l.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`})),false);
+acc($("#faqList"),FAQ.map(q=>({head:esc(q[0]),body:`<p>${esc(q[1])}</p>`})),true);
 
-/* theme, toast, keys */
-function applyTheme(t){if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme}
-applyTheme(store.get("tk.theme",null));
-$("#themeBtn").addEventListener("click",()=>{
-  const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-  const next=cur==="dark"?"light":"dark";applyTheme(next);store.set("tk.theme",next);toast(next==="dark"?"已切換深色主題":"已切換淺色主題");
-});
-let toastTimer;
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),1800)}
-document.addEventListener("keydown",e=>{if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&!dlg.open){e.preventDefault();$("#q").focus()}});
-window.addEventListener("hashchange",()=>{const m=location.hash.match(/deck=([\w,]+)/);if(m){S.deck=[...new Set(m[1].split(",").filter(id=>byId[id]))].slice(0,8);store.set("tk.deck",S.deck);renderDeck();renderGrid()}});
+/* ---------- nav, counters, to-top ---------- */
+$("#menuBtn").addEventListener("click",()=>{const o=$("#links").classList.toggle("open");$("#menuBtn").setAttribute("aria-expanded",o)});
+$("#links").addEventListener("click",e=>{if(e.target.tagName==="A"){$("#links").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false")}});
+const navLinks=[...document.querySelectorAll("#links a")];
+const spy=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+en.target.id))})},{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll("main section[id]").forEach(s=>spy.observe(s));
+const statNums=[...document.querySelectorAll("#statsBox [data-to]")];
+statNums.forEach(b=>b.textContent="0");
+const counted=new IntersectionObserver(es=>{if(!es.some(en=>en.isIntersecting))return;counted.disconnect();
+  const t0=performance.now();(function step(t){const k=Math.min(1,(t-t0)/1200),e=1-Math.pow(1-k,3);statNums.forEach(b=>b.textContent=Math.round(+b.dataset.to*e));if(k<1)requestAnimationFrame(step)})(t0)},{threshold:.4});
+counted.observe($("#statsBox"));
+addEventListener("scroll",()=>$("#toTop").classList.toggle("show",scrollY>innerHeight),{passive:true});
+$("#toTop").addEventListener("click",()=>scrollTo({top:0,behavior:"smooth"}));
 
-$("#subtitle").textContent=`${CARDS.length} 張卡 · ${CARDS.reduce((a,c)=>a+c.forms.length,0)} 種形態 · 圖鑑、比較與牌組分析`;
-renderGrid();renderDeck();renderSaved();renderCmp();
+show(0);showCh(0);renderCards();
 </script>
 </body>
 </html>
