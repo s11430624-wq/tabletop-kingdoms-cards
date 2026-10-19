@@ -99,7 +99,8 @@ h1,h2,h3{margin:0;line-height:1.25;color:var(--bright)}
 .btn:hover,.btn[aria-pressed="true"]{background:var(--blue);color:#fff}
 .btn.green{background:linear-gradient(90deg,var(--green1),var(--green2));color:#d2efa9}
 .btn.green:hover{filter:brightness(1.15);color:#fff}
-.btn.green[aria-pressed="true"]{background:var(--tag);color:var(--blue)}
+.btn.green{font-weight:700;padding:9px 18px}
+.wish-note{font-size:12px;color:var(--muted);margin:-2px 0 0}
 
 /* sections */
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;margin-top:24px}
@@ -264,6 +265,7 @@ footer p{margin:4px 0}
         <dt>開發者</dt><dd class="hl">個人開發</dd>
         <dt>引擎</dt><dd>Godot 4</dd>
         <dt>模式</dt><dd>單人遠征・雙人合作</dd>
+        <dt>下載</dt><dd><a href="https://github.com/s11430624-wq/Kingdom-Clash2-Releases/releases/tag/v0.3.9" target="_blank" rel="noopener">v0.3.9 測試版 ↗</a></dd>
       </dl>
       <div>
         <div style="color:var(--muted);font-size:11px;margin-bottom:4px">熱門標籤（點擊看對應特色）</div>
@@ -281,8 +283,9 @@ footer p{margin:4px 0}
   </div>
 
   <div class="actions">
-    <div class="label">喜歡這款遊戲嗎？<small id="wishText">加入願望清單，正式上架時就不會錯過。</small></div>
-    <button class="btn green" id="wishBtn" type="button" aria-pressed="false">＋ 加入願望清單</button>
+    <div class="label">下載測試版 v0.3.9<small>Windows 64 位元・ZIP 約 193 MB・解壓後執行 TabletopKingdoms.exe；線上合作需要開著 Steam</small></div>
+    <a class="btn green" id="dlBtn" href="https://github.com/s11430624-wq/Kingdom-Clash2-Releases/releases/download/v0.3.9/TabletopKingdoms-v0.3.9-steam480-test-windows-x64.zip" download>⬇ 免費下載</a>
+    <button class="btn" id="wishBtn" type="button" aria-pressed="false">＋ 加入願望清單</button>
     <button class="btn" id="followBtn" type="button" aria-pressed="false">追蹤</button>
     <button class="btn" id="shareBtn" type="button">分享 ↗</button>
   </div>
@@ -422,10 +425,11 @@ const LOG = [
   {v:"v0.3.0",t:"第四章 墨染山河",items:["新章節：水墨山水風格的方塊沙盤，陰陽兩路與雲霧規則","場外首領墨龍，以及四張墨染限定卡","九項進階難度與內容解鎖：打贏菁英與首領解鎖新卡"]},
 ];
 const FAQ = [
-  ["要怎麼玩到這款遊戲？","目前是 Steam 測試版，還沒有公開販售。正式上架前會開放更多測試，加入願望清單就能收到通知。"],
+  ["要怎麼玩到這款遊戲？","按上方的「免費下載」取得 v0.3.9 測試版（Windows）。解壓縮後執行 TabletopKingdoms.exe 就能玩單人遠征和 AI 隊友合作；找朋友線上合作時需要開著 Steam。之後的版本會透過遊戲內的更新程式下載。"],
   ["一定要找朋友才能玩嗎？","不用。單人遠征是主要玩法，合作模式也可以帶 AI 隊友。"],
   ["會不會很難上手？","第一章的敵人刻意設計得比較溫和，前幾層就是讓你熟悉出牌節奏。想要挑戰，可以在出發前調高難度。"],
   ["卡牌外觀會影響強度嗎？","不會。外觀只改模型和特效，數值完全相同。"],
+  ["下載後 Windows 跳出安全性警告？","測試版還沒有數位簽章，Windows SmartScreen 可能會提醒。按「其他資訊」→「仍要執行」即可。"],
   ["支援手把或 Mac 嗎？","目前只支援 Windows 與滑鼠鍵盤，其他平台還在評估。"],
 ];
 
@@ -478,7 +482,7 @@ document.addEventListener("keydown",e=>{
 
 /* ---------- actions ---------- */
 function syncToggle(id,key,on,off){const b=$(id),v=store.get(key,false);b.setAttribute("aria-pressed",v);b.textContent=v?on:off;return v}
-function syncWish(){const v=syncToggle("#wishBtn","tk.wish","✔ 已在願望清單","＋ 加入願望清單");$("#wishText").textContent=v?"已加入！正式上架時會通知你。":"加入願望清單，正式上架時就不會錯過。"}
+function syncWish(){const v=syncToggle("#wishBtn","tk.wish","✔ 已在願望清單","＋ 加入願望清單")}
 syncWish();syncToggle("#followBtn","tk.follow","✔ 追蹤中","追蹤");
 $("#wishBtn").addEventListener("click",()=>{const v=!store.get("tk.wish",false);store.set("tk.wish",v);syncWish();toast(v?"已加入願望清單":"已從願望清單移除")});
 $("#followBtn").addEventListener("click",()=>{const v=!store.get("tk.follow",false);store.set("tk.follow",v);syncToggle("#followBtn","tk.follow","✔ 追蹤中","追蹤");toast(v?"已追蹤，有新消息會通知你":"已取消追蹤")});
